@@ -18,13 +18,18 @@
  - chore: 자잘한 수정이나 빌드 업데이트
  - rename: 파일 혹은 폴더명을 수정만 한 경우
  - remove: 파일을 삭제만 한 경우
-> ex) [feat] 좋아요 버튼을 누를때 햅틱 피드백 추가
+> ex) [feat] 좋아요 버튼을 누를 때 햅틱 피드백 추가
 
 ## Git Branch Strategy
 [깃 플로우](https://techblog.woowahan.com/2553/)와 [깃허브 플로우](https://docs.github.com/ko/get-started/using-github/github-flow)를 적절히 사용합니다.
 
 ## Code Convention Management
  - 코드 컨벤션은 SwiftLint로 관리됩니다.
+
+## Major Dependency
+ - SwiftUI
+ - Combine
+ - [Swift Composable Architecture](https://github.com/pointfreeco/swift-composable-architecture)
  
 ## Collaboration Tools
  - Github
