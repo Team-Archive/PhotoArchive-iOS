@@ -9,7 +9,7 @@
  - fix: 버그 수정
  - docs: 문서 수정
  - style: 코드 스타일 변경 (코드 포매팅, 세미콜론 누락 등)
- - design: 사용자 UI 디자인 변경 (CSS 등)
+ - design: 사용자 UI 디자인 변경
  - test: 테스트 코드, 리팩토링 (Test Code)
  - refactor: 리팩토링 (Production Code)
  - build: 빌드 파일 수정
