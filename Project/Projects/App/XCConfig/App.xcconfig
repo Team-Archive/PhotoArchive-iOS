@@ -1,0 +1,13 @@
+#include "../../../Version.xcconfig"
+
+ASSETCATALOG_COMPILER_APPICON_NAME=AppIcon
+ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME=AccentColor
+CODE_SIGN_IDENTITY=iPhone Developer
+IPHONEOS_DEPLOYMENT_TARGET=17.0
+PRODUCT_NAME=$(TARGET_NAME)
+SUPPORTS_MACCATALYST=NO
+TARGETED_DEVICE_FAMILY=1
+OTHER_LDFLAGS = $(OTHER_LDFLAGS) -ObjC
+HEADER_SEARCH_PATHS = =$(inherited) $(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleSignIn/Sources/Public $(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/AppAuth-iOS/Source/AppAuth $(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/AppAuth-iOS/Source/AppAuthCore $(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/gtm-session-fetcher/Source/SwiftPackage $(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleSignIn/Sources/../../ $(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GTMAppAuth/GTMAppAuth/Sources/Public/GTMAppAuth
+DEVELOPMENT_TEAM = P4ZJYAK634
+CODE_SIGN_STYLE = Manual
