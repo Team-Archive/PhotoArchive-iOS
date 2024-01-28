@@ -65,6 +65,13 @@ extension Project {
       "CFBundleVersion": "1"
     ]
     
+    let targetScripts: [TargetScript] = {
+      var returnValue: [TargetScript] = []
+      returnValue.append(.pre(script: "${PROJECT_DIR}/../../Tools/swiftgen config run --config \"${PROJECT_DIR}/Resources/swiftgen.yml\"", name: "Gen"))
+      returnValue.append(.pre(script: "${PROJECT_DIR}/../../Tools/swiftlint --config \"${PROJECT_DIR}/Resources/swiftlint.yml\"", name: "Lint"))
+      return returnValue
+    }()
+    
 //    let sources: SourceFilesList = {
 //      let globs: [SourceFileGlob] = {
 //        var returnValue: [SourceFileGlob] = []
@@ -88,6 +95,7 @@ extension Project {
       infoPlist: .extendingDefault(with: infoPlist),
       sources: ["Sources/**"],
       resources: ["Resources/**"],
+      scripts: targetScripts,
       dependencies: dependencies
     )
     
