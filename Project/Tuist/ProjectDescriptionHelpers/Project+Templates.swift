@@ -92,7 +92,7 @@ extension Project {
       name: name,
       destinations: destinations,
       product: .app,
-      bundleId: "com.archive.networkSample\(name)",
+      bundleId: "com.archive.\(name)",
       deploymentTargets: .iOS("17.0"),
       infoPlist: .extendingDefault(with: infoPlist),
       sources: ["Sources/**"],
@@ -117,6 +117,7 @@ extension Project {
 }
 
 public extension TargetDependency {
+  
   static let firebaseAnalytics: TargetDependency = .external(name: "FirebaseAnalytics")
   static let firebaseMessaging: TargetDependency = .external(name: "FirebaseMessaging")
   static let firebaseCrashlytics: TargetDependency = .external(name: "FirebaseCrashlytics")

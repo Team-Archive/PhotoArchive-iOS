@@ -1,6 +1,5 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
-import MyPlugin
 
 // MARK: - Project
 
@@ -16,7 +15,15 @@ let project = Project.app(
     .swiftyJSON,
     .lottie,
     .network,
-    .imageLoader
+    .imageLoader,
+    .project(
+      target: "ArchiveFoundation",
+      path: "../ArchiveFoundation"
+    ),
+    .project(
+      target: "ArchiveUIComponents",
+      path: "../ArchiveUIComponents"
+    )
   ],
   additionalTargets: [],
   additionalSourcePaths: ["../Sources/**"],

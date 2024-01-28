@@ -6,9 +6,13 @@
 //
 
 import SwiftUI
+import ArchiveFoundation
 
 @main
 struct PhotoArchiveApp: App {
+  
+  let test = ArchiveFoundationTest(test: "")
+  
   var body: some Scene {
     WindowGroup {
       ContentView()
