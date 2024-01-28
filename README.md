@@ -26,6 +26,8 @@
 ## Code Convention Management
  - 코드 컨벤션은 SwiftLint로 관리됩니다.
 
+## Localization
+ - 다국어 처리는 [프로그램](https://github.com/HanweeeeLee/LocalizationGen)을 이용해 자동화하여 관리하고 있습니다. 
 ## Major Dependency
  - SwiftUI
  - Combine
