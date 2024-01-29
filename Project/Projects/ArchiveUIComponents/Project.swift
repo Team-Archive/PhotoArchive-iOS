@@ -5,7 +5,7 @@ import ProjectDescriptionHelpers
 
 let project = Project(
   name: "ArchiveUIComponents",
-  organizationName: "TeamArchive",
+  organizationName: Project.organizationName,
   packages: [],
   targets: Project.staticFrameworkTargets(
     name: "ArchiveUIComponents",

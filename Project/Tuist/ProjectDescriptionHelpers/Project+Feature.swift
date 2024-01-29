@@ -1,5 +1,5 @@
 //
-//  Project+Domain.swift
+//  Project+Feature.swift
 //  ProjectDescriptionHelpers
 //
 //  Created by Aaron Hanwe LEE on 1/29/24.
@@ -9,7 +9,7 @@ import ProjectDescription
 
 extension Project {
   
-  public static func makeDomain(
+  public static func makeFeature(
     name: String,
     frameworkDependencies: [TargetDependency],
     testDependencies: [TargetDependency]
@@ -19,6 +19,14 @@ extension Project {
       returnValue.append(.project(
         target: "ArchiveFoundation",
         path: "../../ArchiveFoundation"
+      ))
+      returnValue.append(.project(
+        target: "ArchiveUIComponents",
+        path: "../../ArchiveUIComponents"
+      ))
+      returnValue.append(.project(
+        target: "Domain",
+        path: "../../Domain"
       ))
       return returnValue
     }()

@@ -28,7 +28,7 @@ extension Project {
     
     return Project(
       name: name,
-      organizationName: "TeamArchive",
+      organizationName: Project.organizationName,
       settings: Settings.settings(
         base: [:],
         configurations: [

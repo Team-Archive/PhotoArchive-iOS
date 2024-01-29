@@ -10,7 +10,11 @@ import Foundation
 
 extension Project {
   
-  public static func currentDirectory() -> String {
+  public static var organizationName: String {
+    return "TeamArchive"
+  }
+  
+  public static func currentDirectoryPath() -> String {
     let fileManager = FileManager.default
     let currentPath = fileManager.currentDirectoryPath
     return currentPath
@@ -41,8 +45,15 @@ extension Project {
   }
   
   public static func domainSubDirectoryNameList() -> [String] {
-    let currentPath = Project.currentDirectory()
+    let currentPath = Project.currentDirectoryPath()
     return Project.subDirectoryNameList(path: currentPath + "/Projects/Domain")
+      .filter { !$0.contains("Derived") }
+      .filter { !$0.contains(".xcodeproj") }
+  }
+  
+  public static func featureSubDirectoryNameList() -> [String] {
+    let currentPath = Project.currentDirectoryPath()
+    return Project.subDirectoryNameList(path: currentPath + "/Projects/Feature")
       .filter { !$0.contains("Derived") }
       .filter { !$0.contains(".xcodeproj") }
   }

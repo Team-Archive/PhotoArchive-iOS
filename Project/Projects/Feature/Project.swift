@@ -10,13 +10,13 @@ import ProjectDescriptionHelpers
 import Foundation
 
 let project = Project(
-  name: "Domain",
+  name: "Feature",
   organizationName: Project.organizationName,
   packages: [],
   targets: Project.staticUmbrellaFrameworkTargets(
-    name: "Domain",
+    name: "Feature",
     destinations: .iOS,
-    frameworkDependencies: Project.domainSubDirectoryNameList().map { .project(
+    frameworkDependencies: Project.featureSubDirectoryNameList().map { .project(
       target: $0,
       path: "./\($0)"
     )}

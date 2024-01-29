@@ -7,20 +7,16 @@
 
 import SwiftUI
 import ArchiveFoundation
-import SignUp
+import Onboarding
 
 @main
 struct PhotoArchiveApp: App {
   
   let test = ArchiveFoundationTest(test: "")
-  let signUpTest: SignUpUsecaseInterface = SignUpUsecase.makeObject()
   
   var body: some Scene {
     WindowGroup {
-      ContentView()
-        .onAppear {
-          signUpTest.signUp()
-        }
+      OnboardingView()
     }
   }
 }
