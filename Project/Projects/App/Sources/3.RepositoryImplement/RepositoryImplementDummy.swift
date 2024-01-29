@@ -1,5 +1,5 @@
 //
-//  UsecaseDummy.swift
+//  RepositoryImplementDummy.swift
 //  App
 //
 //  Created by hanwe on 1/21/24.
@@ -8,6 +8,6 @@
 
 import Foundation
 
-class UsecaseDummy: NSObject {
+class RepositoryImplementDummy: NSObject {
 
 }

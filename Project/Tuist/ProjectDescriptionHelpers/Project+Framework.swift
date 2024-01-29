@@ -14,13 +14,12 @@ extension Project {
     destinations: Destinations,
     frameworkDependencies: [TargetDependency],
     testDependencies: [TargetDependency],
+    targetScripts: [TargetScript] = [
+      .pre(script: "${PROJECT_DIR}/../../Tools/swiftlint --config \"${PROJECT_DIR}/Resources/swiftlint.yml\"", name: "Lint")
+    ],
     coreDataModel: [CoreDataModel],
     sampleAppAdditionalDependencies: [TargetDependency] = []
   ) -> [Target] {
-    
-    let targetScripts: [TargetScript] = [
-      .pre(script: "${PROJECT_DIR}/../../Tools/swiftlint --config \"${PROJECT_DIR}/Resources/swiftlint.yml\"", name: "Lint")
-    ]
     
     let sources = Target(
       name: name,
@@ -69,6 +68,26 @@ extension Project {
     )
     
     return [sources, testHostApp, tests, sampleApp]
+  }
+  
+  public static func staticUmbrellaFrameworkTargets(
+    name: String,
+    destinations: Destinations,
+    frameworkDependencies: [TargetDependency]
+  ) -> [Target] {
+    
+    let sources = Target(
+      name: name,
+      destinations: destinations,
+      product: .staticFramework,
+      bundleId: "com.archive.\(name)",
+      infoPlist: .default,
+      sources: [],
+      resources: [],
+      dependencies: frameworkDependencies
+    )
+    
+    return [sources]
   }
   
 }

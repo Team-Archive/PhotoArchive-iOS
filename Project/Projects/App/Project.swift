@@ -23,6 +23,10 @@ let project = Project.app(
     .project(
       target: "ArchiveUIComponents",
       path: "../ArchiveUIComponents"
+    ),
+    .project(
+      target: "Domain",
+      path: "../Domain"
     )
   ],
   additionalTargets: [],
