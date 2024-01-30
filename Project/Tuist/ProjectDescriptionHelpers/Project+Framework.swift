@@ -15,7 +15,7 @@ extension Project {
     frameworkDependencies: [TargetDependency],
     testDependencies: [TargetDependency],
     targetScripts: [TargetScript] = [
-      .pre(script: "${PROJECT_DIR}/../../Tools/swiftlint --config \"${PROJECT_DIR}/Resources/swiftlint.yml\"", name: "Lint")
+      .pre(script: "${PROJECT_DIR}/../../Tools/swiftlint --config \"${PROJECT_DIR}/../../Tools/swiftlint.yml\"", name: "Lint")
     ],
     coreDataModel: [CoreDataModel],
     sampleAppAdditionalDependencies: [TargetDependency] = []

@@ -11,12 +11,10 @@ import Foundation
 // swiftlint:disable nesting type_body_length type_name vertical_whitespace_opening_braces
 internal enum L10n {
   internal enum InfoPlist {
-    /// 메시지1
-    internal static let msg1 = L10n.tr("InfoPlist", "msg_1")
-    /// 메시지2
-    internal static let msg2 = L10n.tr("InfoPlist", "msg_2")
-    /// 타이틀!
-    internal static let myTitle = L10n.tr("InfoPlist", "myTitle")
+    /// PhotoArchive(임시)
+    internal static let cfBundleDisplayName = L10n.tr("InfoPlist", "CFBundleDisplayName")
+    /// 위젯에 등록할 사진을 찍기위해 필요합니다.
+    internal static let nsCameraUsageDescription = L10n.tr("InfoPlist", "NSCameraUsageDescription")
   }
   internal enum Localizable {
     /// 메시지1
