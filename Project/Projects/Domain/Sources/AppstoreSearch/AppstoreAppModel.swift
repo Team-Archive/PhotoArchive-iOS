@@ -7,7 +7,19 @@
 //
 
 import Foundation
+import SwiftyJSON
 
-public struct AppstoreApp {
-  let name: String
+public struct AppstoreApp: Decodable {
+  
+  public let name: String
+  
+  public init?(rawJson: JSON) {
+    guard let name = rawJson["trackName"].string else { return nil }
+    self.init(name: name)
+  }
+  
+  init(name: String) {
+    self.name = name
+  }
+  
 }

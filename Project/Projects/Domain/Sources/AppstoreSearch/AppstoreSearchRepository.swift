@@ -8,7 +8,8 @@
 
 import Foundation
 import Combine
+import ArchiveFoundation
 
 public protocol AppstoreSearchRepository {
-  func search(keyword: String, offset: UInt, limit: UInt) -> AnyPublisher<Data, Error>
+  func search(keyword: String, offset: UInt, limit: UInt) -> AnyPublisher<[AppstoreApp], ArchiveError>
 }

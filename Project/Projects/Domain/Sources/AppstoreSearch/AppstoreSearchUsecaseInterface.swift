@@ -7,12 +7,14 @@
 //
 
 import Foundation
+import Combine
+import ArchiveFoundation
 
 public protocol AppstoreSearchUsecaseInterface {
   
   static func makeObject(repository: AppstoreSearchRepository) -> AppstoreSearchUsecaseInterface
   
-  func search(keyword: String)
+  func search(keyword: String) -> AnyPublisher<[AppstoreApp], ArchiveError>
   func morePage()
   
 }

@@ -8,15 +8,14 @@
 import SwiftUI
 import ArchiveFoundation
 import Onboarding
+import AppstoreSearch
 
 @main
 struct PhotoArchiveApp: App {
   
-  let test = ArchiveFoundationTest(test: "")
-  
   var body: some Scene {
     WindowGroup {
-      OnboardingView()
+      AppstoreSearch()
     }
   }
 }

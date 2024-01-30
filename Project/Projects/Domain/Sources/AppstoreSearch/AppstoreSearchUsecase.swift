@@ -7,12 +7,16 @@
 //
 
 import UIKit
+import Combine
+import ArchiveFoundation
 
 public class AppstoreSearchUsecase: AppstoreSearchUsecaseInterface {
   
   // MARK: - private properties
   
   private let repository: AppstoreSearchRepository
+  private let limit: UInt = 10
+  private var offset: UInt = 0
   
   // MARK: - internal properties
   
@@ -30,8 +34,13 @@ public class AppstoreSearchUsecase: AppstoreSearchUsecaseInterface {
     return AppstoreSearchUsecase(repository: repository)
   }
   
-  public func search(keyword: String) {
-    
+  public func search(keyword: String) -> AnyPublisher<[AppstoreApp], ArchiveError> {
+    self.offset = 0
+    return self.repository.search(
+      keyword: keyword,
+      offset: self.offset,
+      limit: self.limit
+    )
   }
   
   public func morePage() {
