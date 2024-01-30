@@ -8,8 +8,12 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-let project = Project.makeDomain(
-  name: "SignUp",
-  frameworkDependencies: [],
+let project = Project.makeFeature(
+  name: "AppstoreSearch",
+  frameworkDependencies: [
+    .swiftyJSON,
+    .lottie,
+    .imageLoader
+  ],
   testDependencies: []
 )

@@ -13,7 +13,9 @@ let workspace = Workspace(
     "Projects/App",
     "Projects/ArchiveFoundation",
     "Projects/ArchiveUIComponents",
+    "Projects/APIHub",
     "Projects/Domain",
-    "Projects/Feature"
+    "Projects/Data",
+    "Projects/Feature",
   ]
 )

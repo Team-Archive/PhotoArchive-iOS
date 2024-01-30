@@ -44,13 +44,6 @@ extension Project {
     }
   }
   
-  public static func domainSubDirectoryNameList() -> [String] {
-    let currentPath = Project.currentDirectoryPath()
-    return Project.subDirectoryNameList(path: currentPath + "/Projects/Domain")
-      .filter { !$0.contains("Derived") }
-      .filter { !$0.contains(".xcodeproj") }
-  }
-  
   public static func featureSubDirectoryNameList() -> [String] {
     let currentPath = Project.currentDirectoryPath()
     return Project.subDirectoryNameList(path: currentPath + "/Projects/Feature")

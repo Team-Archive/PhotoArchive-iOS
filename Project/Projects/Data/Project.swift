@@ -10,16 +10,24 @@ import ProjectDescriptionHelpers
 import Foundation
 
 let project = Project(
-  name: "Domain",
+  name: "Data",
   organizationName: Project.organizationName,
   packages: [],
   targets: Project.staticFrameworkTargets(
-    name: "Domain",
+    name: "Data",
     destinations: .iOS,
     frameworkDependencies: [
       .project(
         target: "ArchiveFoundation",
         path: "../ArchiveFoundation"
+      ),
+      .project(
+        target: "Domain",
+        path: "../Domain"
+      ),
+      .project(
+        target: "APIHub",
+        path: "../APIHub"
       )
     ],
     testDependencies: [

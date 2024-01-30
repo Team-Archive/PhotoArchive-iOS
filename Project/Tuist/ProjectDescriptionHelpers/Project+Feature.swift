@@ -28,6 +28,10 @@ extension Project {
         target: "Domain",
         path: "../../Domain"
       ))
+      returnValue.append(.project(
+        target: "Data",
+        path: "../../Data"
+      ))
       return returnValue
     }()
     return Project(
