@@ -48,9 +48,14 @@ class ViewModel: ObservableObject {
   func fetchData() {
     appstoreSearchUsecase.search(keyword: "game")
       .receive(on: DispatchQueue.main)
-      .map { list in
-        print("list")
-        return list[0].name
+      .map { result in
+        switch result {
+        case .success(let list):
+          print("list")
+          return list[0].name
+        case .failure(let err):
+          return "오류: \(err.localizedDescription)"
+        }
       }
       .replaceError(with: "--")
       .assign(to: \.responseText, on: self)

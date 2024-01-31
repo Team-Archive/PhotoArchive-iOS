@@ -19,7 +19,7 @@ public enum ArchiveErrorCode: Int, LocalizedError {
 
 public final class ArchiveError: Error {
   
-  public enum ErrorFrom: String {
+  public enum ErrorFrom: String, Codable {
     case own
     case server
     case network
@@ -55,20 +55,6 @@ public final class ArchiveError: Error {
   
   // MARK: - private method
   
-//  private static func messageFromArchiveErrorCode(_ code: ArchiveErrorCode) -> String {
-//    var returnValue: String = ""
-//    return returnValue
-//  }
-//  
-//  private static func titleMessageFromArchiveErrorCode(_ code: ArchiveErrorCode) -> String {
-//    var returnValue: String = ""
-//    return returnValue
-//  }
-  
   // MARK: - method
-  
-//  public func message() -> String {
-//    return "\(self.messageValue)\n[\(self.code)]"
-//  }
   
 }

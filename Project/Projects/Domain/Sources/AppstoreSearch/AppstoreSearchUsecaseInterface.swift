@@ -14,7 +14,7 @@ public protocol AppstoreSearchUsecaseInterface {
   
   static func makeObject(repository: AppstoreSearchRepository) -> AppstoreSearchUsecaseInterface
   
-  func search(keyword: String) -> AnyPublisher<[AppstoreApp], ArchiveError>
-  func morePage() -> AnyPublisher<[AppstoreApp], ArchiveError>
+  func search(keyword: String) -> AnyPublisher<Result<[AppstoreApp], ArchiveError>, Never>
+  func morePage() -> AnyPublisher<Result<[AppstoreApp], ArchiveError>, Never>
   
 }

@@ -26,26 +26,21 @@ public final class AppstoreSearchRepositoryImplement: AppstoreSearchRepository {
     print("\(self) deinit")
   }
   
-  public func search(keyword: String, offset: UInt, limit: UInt) -> AnyPublisher<[AppstoreApp], ArchiveError> {
+  public func search(keyword: String, offset: UInt, limit: UInt) -> AnyPublisher<Result<[AppstoreApp], ArchiveError>, Never> {
     return provider.request(target: .search(
       keyword: keyword,
       offset: offset,
       limit: limit
     ))
     .eraseToAnyPublisher()
-    .tryMap { data in
-      print("data: \(data)")
-      guard let tokenRawList = try? JSON.init(data: data)["results"].array else { throw ArchiveError(.dataToJsonFail) }
-      return tokenRawList.compactMap {
-        .init(rawJson: $0)
+    .map { result in
+      switch result {
+      case .success(let data):
+        guard let tokenRawList = try? JSON.init(data: data)["results"].array else { return .failure(.init(.dataToJsonFail)) }
+        return .success(tokenRawList.compactMap { .init(rawJson: $0) })
+      case .failure(let err):
+        return .failure(err.toArchiveError)
       }
-    }
-    .mapError { error -> ArchiveError in
-      return .init(
-        from: .server,
-        code: (error as NSError).code,
-        message: error.localizedDescription
-      )
     }
     .eraseToAnyPublisher()
   }

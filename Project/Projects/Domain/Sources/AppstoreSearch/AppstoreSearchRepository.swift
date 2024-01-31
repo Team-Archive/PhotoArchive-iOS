@@ -11,5 +11,5 @@ import Combine
 import ArchiveFoundation
 
 public protocol AppstoreSearchRepository {
-  func search(keyword: String, offset: UInt, limit: UInt) -> AnyPublisher<[AppstoreApp], ArchiveError>
+  func search(keyword: String, offset: UInt, limit: UInt) -> AnyPublisher<Result<[AppstoreApp], ArchiveError>, Never>
 }

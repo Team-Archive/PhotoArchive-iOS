@@ -32,24 +32,26 @@ public class AppstoreSearchUsecase: AppstoreSearchUsecaseInterface {
   
   // MARK: - private method
   
-  private func searchItem(keyword: String, page: UInt) -> AnyPublisher<[AppstoreApp], ArchiveError> {
+  private func searchItem(keyword: String, page: UInt) -> AnyPublisher<Result<[AppstoreApp], ArchiveError>, Never> {
     self.isQuerying = true
     return self.repository.search(
       keyword: keyword,
       offset: page,
       limit: self.limit
     )
-    .handleEvents(
-      receiveOutput: { [weak self] list in
+    .map { [weak self] result in
+      self?.isQuerying = false
+      switch result {
+      case .success(let list):
         if list.count < self?.limit ?? 10 {
           self?.isFinishPage = true
         }
         self?.currentPage += 1
-      },
-      receiveCompletion: { [weak self] result in
-        self?.isQuerying = false
+        return .success(list)
+      case .failure(let err):
+        return .failure(err)
       }
-    )
+    }
     .eraseToAnyPublisher()
   }
   
@@ -59,20 +61,15 @@ public class AppstoreSearchUsecase: AppstoreSearchUsecaseInterface {
     return AppstoreSearchUsecase(repository: repository)
   }
   
-  public func search(keyword: String) -> AnyPublisher<[AppstoreApp], ArchiveError> {
+  public func search(keyword: String) -> AnyPublisher<Result<[AppstoreApp], ArchiveError>, Never> {
     self.currentPage = 0
     self.isFinishPage = false
     self.searchKeyword = keyword
     return searchItem(keyword: keyword, page: self.currentPage)
   }
   
-  public func morePage() -> AnyPublisher<[AppstoreApp], ArchiveError> {
-    guard let searchKeyword else {
-      return Future<[AppstoreApp], ArchiveError> { promise in
-        promise(.success([]))
-      }
-      .eraseToAnyPublisher()
-    }
+  public func morePage() -> AnyPublisher<Result<[AppstoreApp], ArchiveError>, Never> {
+    guard let searchKeyword else { return Just(.success([])).eraseToAnyPublisher() }
     return self.searchItem(keyword: searchKeyword, page: self.currentPage)
   }
   
