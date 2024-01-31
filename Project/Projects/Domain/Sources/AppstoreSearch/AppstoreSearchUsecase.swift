@@ -21,6 +21,9 @@ public class AppstoreSearchUsecase: AppstoreSearchUsecaseInterface {
   
   // MARK: - internal properties
   
+  public var isQuerying: Bool = false
+  public var isFinishPage: Bool = false
+  
   // MARK: - life cycle
   
   private init(repository: AppstoreSearchRepository) {
@@ -28,6 +31,27 @@ public class AppstoreSearchUsecase: AppstoreSearchUsecaseInterface {
   }
   
   // MARK: - private method
+  
+  private func searchItem(keyword: String, page: UInt) -> AnyPublisher<[AppstoreApp], ArchiveError> {
+    self.isQuerying = true
+    return self.repository.search(
+      keyword: keyword,
+      offset: page,
+      limit: self.limit
+    )
+    .handleEvents(
+      receiveOutput: { [weak self] list in
+        if list.count < self?.limit ?? 10 {
+          self?.isFinishPage = true
+        }
+        self?.currentPage += 1
+      },
+      receiveCompletion: { [weak self] result in
+        self?.isQuerying = false
+      }
+    )
+    .eraseToAnyPublisher()
+  }
   
   // MARK: - public method
   
@@ -37,15 +61,19 @@ public class AppstoreSearchUsecase: AppstoreSearchUsecaseInterface {
   
   public func search(keyword: String) -> AnyPublisher<[AppstoreApp], ArchiveError> {
     self.currentPage = 0
-    return self.repository.search(
-      keyword: keyword,
-      offset: self.currentPage,
-      limit: self.limit
-    )
+    self.isFinishPage = false
+    self.searchKeyword = keyword
+    return searchItem(keyword: keyword, page: self.currentPage)
   }
   
-  public func morePage() {
-    
+  public func morePage() -> AnyPublisher<[AppstoreApp], ArchiveError> {
+    guard let searchKeyword else {
+      return Future<[AppstoreApp], ArchiveError> { promise in
+        promise(.success([]))
+      }
+      .eraseToAnyPublisher()
+    }
+    return self.searchItem(keyword: searchKeyword, page: self.currentPage)
   }
   
 }
