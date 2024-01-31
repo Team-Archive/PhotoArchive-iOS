@@ -17,7 +17,7 @@ let dependencies = Dependencies(
       .remote(url: "https://github.com/airbnb/lottie-ios.git", requirement: .exact("4.0.1")),
       .remote(url: "https://github.com/Quick/Quick.git", requirement: .exact("6.1.0")),
       .remote(url: "https://github.com/Quick/Nimble.git", requirement: .exact("11.2.1")),
-      .remote(url: "https://github.com/pointfreeco/swift-composable-architecture.git", requirement: .exact("1.7.0")),
+      .remote(url: "https://github.com/pointfreeco/swift-composable-architecture.git", requirement: .exact("1.7.1")),
       .remote(url: "https://github.com/Team-Archive/ImageLoader-iOS.git", requirement: .exact("0.1")),
       .remote(url: "https://github.com/Team-Archive/Network-iOS.git", requirement: .exact("0.3"))
     ],
