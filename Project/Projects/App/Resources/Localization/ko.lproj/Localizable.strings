@@ -2,6 +2,7 @@
 created by hanwe lee
 e-mail: mobiledev@kakao.com
 */
-"msg_1" = "메시지1";
-"msg_2" = "메시지2";
-"myTitle" = "타이틀!";
+"Common_Error_Title" = "오류";
+"Common_Error_Title_From_Server" = "서버오류";
+"Common_Error_Title_From_Network" = "네트워크오류";
+"Common_Error_Message" = "예상하지 못한 오류가 발생하였습니다.";

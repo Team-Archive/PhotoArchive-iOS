@@ -7,12 +7,13 @@
 //
 
 import SwiftUI
+import AppstoreSearch
 
 @main
 struct SampleApp: App {
   var body: some Scene {
     WindowGroup {
-      ContentView()
+      AppstoreSearch()
     }
   }
 }

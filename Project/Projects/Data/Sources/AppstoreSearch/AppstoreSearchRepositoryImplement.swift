@@ -44,9 +44,7 @@ public final class AppstoreSearchRepositoryImplement: AppstoreSearchRepository {
       return .init(
         from: .server,
         code: (error as NSError).code,
-        message: "Error",
-        originMessage: error.localizedDescription,
-        titleMessage: "Error"
+        message: error.localizedDescription
       )
     }
     .eraseToAnyPublisher()

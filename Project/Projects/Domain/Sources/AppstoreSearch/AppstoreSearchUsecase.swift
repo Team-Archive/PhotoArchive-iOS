@@ -16,7 +16,8 @@ public class AppstoreSearchUsecase: AppstoreSearchUsecaseInterface {
   
   private let repository: AppstoreSearchRepository
   private let limit: UInt = 10
-  private var offset: UInt = 0
+  private var currentPage: UInt = 0
+  private var searchKeyword: String?
   
   // MARK: - internal properties
   
@@ -35,10 +36,10 @@ public class AppstoreSearchUsecase: AppstoreSearchUsecaseInterface {
   }
   
   public func search(keyword: String) -> AnyPublisher<[AppstoreApp], ArchiveError> {
-    self.offset = 0
+    self.currentPage = 0
     return self.repository.search(
       keyword: keyword,
-      offset: self.offset,
+      offset: self.currentPage,
       limit: self.limit
     )
   }

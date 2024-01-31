@@ -32,63 +32,43 @@ public final class ArchiveError: Error {
   public let code: Int
   public let archiveErrorCode: ArchiveErrorCode?
   public let from: ErrorFrom
-  public let titleMessage: String
-  public let messageValue: String
-  public let originMessage: String
+  public let message: String?
   
   // MARK: - life cycle
   
-  public init(from: ErrorFrom, code: Int, message: String, originMessage: String? = nil, titleMessage: String? = nil, archiveErrorCode: ArchiveErrorCode? = nil) {
+  public init(from: ErrorFrom, code: Int, message: String? = nil, archiveErrorCode: ArchiveErrorCode? = nil) {
     self.from = from
     self.code = code
     
-    let message: String = {
-      switch from {
-      case .own:
-        return message
-      case .server:
-        return message
-      default:
-        return message
-      }
-    }()
-    
-    self.messageValue = message
+    self.message = message
     self.archiveErrorCode = archiveErrorCode
-    if let originMessage {
-      self.originMessage = originMessage
-    } else {
-      self.originMessage = message
-    }
-    self.titleMessage = titleMessage ?? "Error"
   }
   
   public convenience init(_ errorCode: ArchiveErrorCode) {
     self.init(
       from: .own,
       code: errorCode.rawValue,
-      message: ArchiveError.messageFromArchiveErrorCode(errorCode),
-      titleMessage: ArchiveError.titleMessageFromArchiveErrorCode(errorCode),
+      message: nil,
       archiveErrorCode: errorCode
     )
   }
   
   // MARK: - private method
   
-  private static func messageFromArchiveErrorCode(_ code: ArchiveErrorCode) -> String {
-    var returnValue: String = ""
-    return returnValue
-  }
-  
-  private static func titleMessageFromArchiveErrorCode(_ code: ArchiveErrorCode) -> String {
-    var returnValue: String = ""
-    return returnValue
-  }
+//  private static func messageFromArchiveErrorCode(_ code: ArchiveErrorCode) -> String {
+//    var returnValue: String = ""
+//    return returnValue
+//  }
+//  
+//  private static func titleMessageFromArchiveErrorCode(_ code: ArchiveErrorCode) -> String {
+//    var returnValue: String = ""
+//    return returnValue
+//  }
   
   // MARK: - method
   
-  public func message() -> String {
-    return "\(self.messageValue)\n[\(self.code)]"
-  }
+//  public func message() -> String {
+//    return "\(self.messageValue)\n[\(self.code)]"
+//  }
   
 }

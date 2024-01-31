@@ -17,12 +17,14 @@ internal enum L10n {
     internal static let nsCameraUsageDescription = L10n.tr("InfoPlist", "NSCameraUsageDescription")
   }
   internal enum Localizable {
-    /// 메시지1
-    internal static let msg1 = L10n.tr("Localizable", "msg_1")
-    /// 메시지2
-    internal static let msg2 = L10n.tr("Localizable", "msg_2")
-    /// 타이틀!
-    internal static let myTitle = L10n.tr("Localizable", "myTitle")
+    /// 예상하지 못한 오류가 발생하였습니다.
+    internal static let commonErrorMessage = L10n.tr("Localizable", "Common_Error_Message")
+    /// 오류
+    internal static let commonErrorTitle = L10n.tr("Localizable", "Common_Error_Title")
+    /// 네트워크오류
+    internal static let commonErrorTitleFromNetwork = L10n.tr("Localizable", "Common_Error_Title_From_Network")
+    /// 서버오류
+    internal static let commonErrorTitleFromServer = L10n.tr("Localizable", "Common_Error_Title_From_Server")
   }
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length

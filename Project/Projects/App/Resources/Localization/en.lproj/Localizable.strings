@@ -2,6 +2,7 @@
 created by hanwe lee
 e-mail: mobiledev@kakao.com
 */
-"msg_1" = "this is msg 1";
-"msg_2" = "this is msg 2";
-"myTitle" = "title";
+"Common_Error_Title" = "";
+"Common_Error_Title_From_Server" = "";
+"Common_Error_Title_From_Network" = "";
+"Common_Error_Message" = "";
