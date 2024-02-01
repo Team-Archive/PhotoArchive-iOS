@@ -28,12 +28,12 @@ let dependencies = Dependencies(
       "FirebaseCrashlytics": .staticFramework,
       "FirebaseAppDistribution-Beta": .staticFramework,
       "SwiftyJSON": .staticFramework,
-      "Lottie": .staticLibrary,
+      "Lottie": .staticFramework,
       "Quick": .staticFramework,
       "Nimble": .staticFramework,
-      "ComposableArchitecture": .staticLibrary,
-      "ImageLoader-iOS": .staticLibrary,
-      "Network-iOS": .staticLibrary
+      "ComposableArchitecture": .staticFramework,
+      "ImageLoader-iOS": .staticFramework,
+      "Network-iOS": .staticFramework
     ],
     baseSettings: .settings(
       configurations: [

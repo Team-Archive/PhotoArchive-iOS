@@ -8,17 +8,17 @@
 
 import SwiftUI
 import ArchiveFoundation
-//import SignUp
+import Domain
 
 public struct OnboardingView: View {
-//  let signUpTest: SignUpUsecaseInterface = SignUpUsecase.makeObject()
+  let signUpTest: SignUpUsecaseInterface = SignUpUsecase.makeObject()
   public var body: some View {
     VStack {
       Text("Hello, world!")
     }
     .padding()
     .onAppear {
-//      signUpTest.signUp()
+      signUpTest.signUp()
     }
   }
   

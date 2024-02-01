@@ -32,6 +32,7 @@ extension Project {
         target: "Data",
         path: "../../Data"
       ))
+      returnValue.append(.tca)
       return returnValue
     }()
     return Project(

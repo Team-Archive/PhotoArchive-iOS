@@ -13,8 +13,7 @@ let project = Project.makeFeature(
   frameworkDependencies: [
     .swiftyJSON,
     .lottie,
-    .imageLoader,
-    .tca
+    .imageLoader
   ],
   testDependencies: []
 )

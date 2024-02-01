@@ -17,4 +17,7 @@ public protocol AppstoreSearchUsecaseInterface {
   func search(keyword: String) -> AnyPublisher<Result<[AppstoreApp], ArchiveError>, Never>
   func morePage() -> AnyPublisher<Result<[AppstoreApp], ArchiveError>, Never>
   
+  var isQuerying: Bool { get }
+  var isFinishPage: Bool { get }
+  
 }

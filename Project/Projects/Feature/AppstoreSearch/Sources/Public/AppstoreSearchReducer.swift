@@ -12,11 +12,11 @@ import ArchiveFoundation
 import Domain
 import Combine
 
-final class AppstoreSearchReducer: Reducer {
+public final class AppstoreSearchReducer: Reducer {
   
   // MARK: - TCA Define
   
-  enum Action: Equatable {
+  public enum Action: Equatable {
     case setIsLoading(Bool)
     case setError(ArchiveError)
     case search(keyword: String)
@@ -25,10 +25,10 @@ final class AppstoreSearchReducer: Reducer {
     case appendAppstoreAppList([AppstoreApp])
   }
   
-  struct State: Equatable {
+  public struct State: Equatable {
     var isLoading: Bool = false
     var err: ArchiveError?
-    var AppList: [AppstoreApp] = []
+    var appList: [AppstoreApp] = []
   }
   
   // MARK: - Private Property
@@ -39,11 +39,11 @@ final class AppstoreSearchReducer: Reducer {
   
   // MARK: - LifeCycle
   
-  init(usecase: AppstoreSearchUsecaseInterface) {
+  public init(usecase: AppstoreSearchUsecaseInterface) {
     self.appstoreSearchUsecase = usecase
   }
   
-  var body: some Reducer<State, Action> {
+  public var body: some Reducer<State, Action> {
     Reduce { state, action in
       switch action {
       case .setIsLoading(let isLoading):
@@ -59,6 +59,7 @@ final class AppstoreSearchReducer: Reducer {
             let result = try await self.search(keyword: keyword).async()
             switch result {
             case .success(let list):
+              print("검색결과: \(list)")
               await send(.setAppstoreAppList(list))
             case .failure(let err):
               await send(.setError(err))
@@ -81,10 +82,10 @@ final class AppstoreSearchReducer: Reducer {
           .send(.setIsLoading(false))
         ])
       case .setAppstoreAppList(let list):
-        state.AppList = list
+        state.appList = list
         return .none
       case .appendAppstoreAppList(let list):
-        state.AppList += list
+        state.appList += list
         return .none
       }
     }
@@ -93,6 +94,7 @@ final class AppstoreSearchReducer: Reducer {
   // MARK: - Private Method
   
   private func search(keyword: String) -> AnyPublisher<Result<[AppstoreApp], ArchiveError>, Never> {
+    print("검색: \(keyword)")
     return self.appstoreSearchUsecase.search(keyword: keyword)
   }
   

@@ -16,7 +16,6 @@ let project = Project.app(
     .lottie,
     .network,
     .imageLoader,
-    .tca,
     .project(
       target: "ArchiveFoundation",
       path: "../ArchiveFoundation"

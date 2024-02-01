@@ -8,12 +8,13 @@
 
 import SwiftUI
 import AppstoreSearch
+import Domain
 
 @main
 struct SampleApp: App {
   var body: some Scene {
     WindowGroup {
-      AppstoreSearch()
+      AppstoreSearchView(reducer: AppstoreSearchReducer(usecase: AppstoreSearchUsecase.makeObject(repository: AppstoreSearchRepositoryStubImplement())))
     }
   }
 }
