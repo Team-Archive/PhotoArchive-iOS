@@ -17,7 +17,7 @@ public enum ArchiveErrorCode: Int, LocalizedError {
   
 }
 
-public final class ArchiveError: Error {
+public final class ArchiveError: Error, Equatable {
   
   public enum ErrorFrom: String, Codable {
     case own
@@ -56,5 +56,9 @@ public final class ArchiveError: Error {
   // MARK: - private method
   
   // MARK: - method
+  
+  public static func == (lhs: ArchiveError, rhs: ArchiveError) -> Bool {
+    return lhs.code == rhs.code
+  }
   
 }

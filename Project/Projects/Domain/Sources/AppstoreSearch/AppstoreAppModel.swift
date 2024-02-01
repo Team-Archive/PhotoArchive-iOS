@@ -9,7 +9,7 @@
 import Foundation
 import SwiftyJSON
 
-public struct AppstoreApp: Decodable {
+public struct AppstoreApp: Decodable, Equatable {
   
   public let name: String
   
@@ -18,7 +18,7 @@ public struct AppstoreApp: Decodable {
     self.init(name: name)
   }
   
-  init(name: String) {
+  public init(name: String) {
     self.name = name
   }
   
