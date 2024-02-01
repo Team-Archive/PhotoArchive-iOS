@@ -19,8 +19,22 @@ extension Project {
     ],
     coreDataModel: [CoreDataModel],
     resources: ResourceFileElements = ["Resources/**"],
-    sampleAppAdditionalDependencies: [TargetDependency] = []
+    sampleAppAdditionalDependencies: [TargetDependency] = [],
+    additionalSourcePaths: [String] = []
   ) -> [Target] {
+    
+    let sourcesPath: SourceFilesList = {
+      let globs: [SourceFileGlob] = {
+        var returnValue: [SourceFileGlob] = ["Sources/**"]
+        for item in additionalSourcePaths {
+          returnValue.append(.glob(
+            Path(item)
+          ))
+        }
+        return returnValue
+      }()
+      return SourceFilesList(globs: globs)
+    }()
     
     let sources = Target(
       name: name,
@@ -28,7 +42,7 @@ extension Project {
       product: .staticFramework,
       bundleId: "com.archive.\(name)",
       infoPlist: .default,
-      sources: ["Sources/**"],
+      sources: sourcesPath,
       resources: resources,
       scripts: targetScripts,
       dependencies: frameworkDependencies,
