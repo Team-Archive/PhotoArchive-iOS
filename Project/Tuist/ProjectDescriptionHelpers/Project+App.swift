@@ -70,7 +70,7 @@ extension Project {
       
       returnValue.append(.pre(script: "${PROJECT_DIR}/../../Tools/LocalizationGen/LocalizationGen.sh", name: "LocalizationAutoGen"))
       returnValue.append(.pre(script: "${PROJECT_DIR}/../../Tools/swiftgen config run --config \"${PROJECT_DIR}/Resources/swiftgen.yml\"", name: "Gen"))
-      returnValue.append(.pre(script: "${PROJECT_DIR}/../../Tools/swiftlint --config \"${PROJECT_DIR}/../../Tools/swiftlint.yml\"", name: "Lint"))
+      returnValue.append(.pre(script: "${PROJECT_DIR}/../../Tools/swiftlint --config \"${PROJECT_DIR}/Resources/swiftlint.yml\"", name: "Lint"))
       return returnValue
     }()
     

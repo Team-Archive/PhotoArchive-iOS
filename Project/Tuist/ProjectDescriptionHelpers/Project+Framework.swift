@@ -15,9 +15,10 @@ extension Project {
     frameworkDependencies: [TargetDependency],
     testDependencies: [TargetDependency],
     targetScripts: [TargetScript] = [
-      .pre(script: "${PROJECT_DIR}/../../Tools/swiftlint --config \"${PROJECT_DIR}/../../Tools/swiftlint.yml\"", name: "Lint")
+      .pre(script: "${PROJECT_DIR}/../../Tools/swiftlint --config \"${PROJECT_DIR}/../App/Resources/swiftlint.yml\"", name: "Lint")
     ],
     coreDataModel: [CoreDataModel],
+    resources: ResourceFileElements = ["Resources/**"],
     sampleAppAdditionalDependencies: [TargetDependency] = []
   ) -> [Target] {
     
@@ -28,7 +29,7 @@ extension Project {
       bundleId: "com.archive.\(name)",
       infoPlist: .default,
       sources: ["Sources/**"],
-      resources: ["Resources/**"],
+      resources: resources,
       scripts: targetScripts,
       dependencies: frameworkDependencies,
       coreDataModels: coreDataModel

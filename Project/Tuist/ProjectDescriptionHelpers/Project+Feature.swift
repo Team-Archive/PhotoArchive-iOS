@@ -45,9 +45,10 @@ extension Project {
         frameworkDependencies: willSetFrameworkDependencies,
         testDependencies: testDependencies,
         targetScripts: [
-          .pre(script: "${PROJECT_DIR}/../../../Tools/swiftlint --config \"${PROJECT_DIR}/../../../Tools/swiftlint.yml\"", name: "Lint")
+          .pre(script: "${PROJECT_DIR}/../../../Tools/swiftlint --config \"${PROJECT_DIR}/../../App/Resources/swiftlint.yml\"", name: "Lint")
         ],
-        coreDataModel: []
+        coreDataModel: [],
+        resources: ["${PROJECT_DIR}/../../../App/Resources/**"]
       ),
       schemes: [],
       additionalFiles: [],
