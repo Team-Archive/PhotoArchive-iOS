@@ -27,8 +27,7 @@
  - 코드 컨벤션은 SwiftLint로 관리됩니다.
  - Indent Width는 2를 사용합니다.
 #### How to Set Indent With
-Xcode -> Settings -> Text Editing -> Indentation -> Indent
-<img width="830" alt="aaa" src="https://github.com/MyiOSPlayground/TCAStudy/assets/60125719/0cfaa8e9-27e7-4916-a711-69f9933d68c0">
+Xcode -> Settings -> Text Editing -> Indentation -> Indent Width
 
 ## Localization
  - 다국어 처리는 [프로그램](https://github.com/HanweeeeLee/LocalizationGen)을 이용해 자동화하여 관리하고 있습니다. 
