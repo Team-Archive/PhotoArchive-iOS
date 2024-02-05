@@ -16,7 +16,8 @@ public struct AppstoreSearchView: View {
   
   // MARK: - Private Property
   
-  private let store: Store<AppstoreSearchReducer.State, AppstoreSearchReducer.Action>
+//  private let store: Store<AppstoreSearchReducer.State, AppstoreSearchReducer.Action>
+  private let store: StoreOf<AppstoreSearchReducer> // 위에 주석처리된 문법의 축약형
   @State var text: String = ""
   
   // MARK: - Internal Property

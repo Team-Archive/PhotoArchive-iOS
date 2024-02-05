@@ -15,7 +15,8 @@ final class AppstoreSearchRepositoryStubImplement: AppstoreSearchRepository {
   
   func search(keyword: String, offset: UInt, limit: UInt) -> AnyPublisher<Result<[AppstoreApp], ArchiveError>, Never> {
     return Just(())
-      .delay(for: 2, scheduler: DispatchQueue.global())
+//      .delay(for: 2, scheduler: DispatchQueue.global())
+      .delay(for: 2, scheduler: DispatchQueue.main)
       .map { _ in
         return .success([
           .init(name: "test1", id: "test1"),

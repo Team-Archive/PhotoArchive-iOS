@@ -26,7 +26,7 @@ public class AppstoreSearchUsecase: AppstoreSearchUsecaseInterface {
   
   // MARK: - life cycle
   
-  private init(repository: AppstoreSearchRepository) {
+  public init(repository: AppstoreSearchRepository) {
     self.repository = repository
   }
   
