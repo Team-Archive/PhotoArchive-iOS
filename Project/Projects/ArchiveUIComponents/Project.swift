@@ -21,5 +21,7 @@ let project = Project(
   ),
   schemes: [],
   additionalFiles: [],
-  resourceSynthesizers: []
+  resourceSynthesizers: [
+    .assets()
+  ]
 )
