@@ -44,7 +44,10 @@ extension Project {
         ],
         defaultSettings: .recommended
       ),
-      targets: targets
+      targets: targets,
+      resourceSynthesizers: [
+        .assets()
+      ]
     )
   }
   
