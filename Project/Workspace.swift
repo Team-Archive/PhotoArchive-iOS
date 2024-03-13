@@ -8,14 +8,13 @@
 import ProjectDescription
 
 let workspace = Workspace(
-  name: "PhotoArchive",
+  name: "AboutTime",
   projects: [
     "Projects/App",
     "Projects/ArchiveFoundation",
     "Projects/ArchiveUIComponents",
     "Projects/APIHub",
     "Projects/Domain",
-    "Projects/Data",
-    "Projects/Feature",
+    "Projects/Data"
   ]
 )

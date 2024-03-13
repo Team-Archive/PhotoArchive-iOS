@@ -22,18 +22,18 @@ let dependencies = Dependencies(
       .remote(url: "https://github.com/Team-Archive/Network-iOS.git", requirement: .exact("0.4"))
     ],
     productTypes: [
-      "FirebaseAuth": .staticFramework,
-      "FirebaseAnalytics": .staticFramework,
-      "FirebaseMessaging": .staticFramework,
-      "FirebaseCrashlytics": .staticFramework,
-      "FirebaseAppDistribution-Beta": .staticFramework,
-      "SwiftyJSON": .staticFramework,
-      "Lottie": .staticFramework,
-      "Quick": .staticFramework,
-      "Nimble": .staticFramework,
-      "ComposableArchitecture": .staticFramework,
-      "ImageLoader-iOS": .staticFramework,
-      "Network-iOS": .staticFramework
+      "FirebaseAuth": .framework,
+      "FirebaseAnalytics": .framework,
+      "FirebaseMessaging": .framework,
+      "FirebaseCrashlytics": .framework,
+      "FirebaseAppDistribution-Beta": .framework,
+      "SwiftyJSON": .framework,
+      "Lottie": .framework,
+      "Quick": .framework,
+      "Nimble": .framework,
+      "ComposableArchitecture": .framework,
+      "ImageLoader-iOS": .framework,
+      "Network-iOS": .framework
     ],
     baseSettings: .settings(
       configurations: [

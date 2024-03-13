@@ -5,6 +5,7 @@ import ProjectDescriptionHelpers
 
 let project = Project.app(
   name: "App",
+  bundleAppName: "AboutTime",
   destinations: .iOS,
   dependencies: [
     .firebaseAnalytics,
@@ -21,8 +22,12 @@ let project = Project.app(
       path: "../ArchiveFoundation"
     ),
     .project(
-      target: "Feature",
-      path: "../Feature"
+      target: "AppstoreSearch",
+      path: "../Feature/AppstoreSearch"
+    ),
+    .project(
+      target: "Onboarding",
+      path: "../Feature/Onboarding"
     )
   ],
   additionalTargets: [],

@@ -22,6 +22,61 @@ extension Project {
     sampleAppAdditionalDependencies: [TargetDependency] = [],
     additionalSourcePaths: [String] = []
   ) -> [Target] {
+    return Project.frameworkTargets(
+      name: name,
+      destinations: destinations,
+      frameworkDependencies: frameworkDependencies,
+      testDependencies: testDependencies,
+      targetScripts: targetScripts,
+      coreDataModel: coreDataModel,
+      resources: resources,
+      sampleAppAdditionalDependencies: sampleAppAdditionalDependencies,
+      additionalSourcePaths: additionalSourcePaths,
+      product: .staticFramework
+    )
+  }
+  
+  public static func dynamicFrameworkTargets(
+    name: String,
+    destinations: Destinations,
+    frameworkDependencies: [TargetDependency],
+    testDependencies: [TargetDependency],
+    targetScripts: [TargetScript] = [
+      .pre(script: "${PROJECT_DIR}/../../Tools/swiftlint --config \"${PROJECT_DIR}/../App/Resources/swiftlint.yml\"", name: "Lint")
+    ],
+    coreDataModel: [CoreDataModel],
+    resources: ResourceFileElements = ["Resources/**"],
+    sampleAppAdditionalDependencies: [TargetDependency] = [],
+    additionalSourcePaths: [String] = []
+  ) -> [Target] {
+    return Project.frameworkTargets(
+      name: name,
+      destinations: destinations,
+      frameworkDependencies: frameworkDependencies,
+      testDependencies: testDependencies,
+      targetScripts: targetScripts,
+      coreDataModel: coreDataModel,
+      resources: resources,
+      sampleAppAdditionalDependencies: sampleAppAdditionalDependencies,
+      additionalSourcePaths: additionalSourcePaths,
+      product: .dynamicLibrary
+    )
+  }
+  
+  fileprivate static func frameworkTargets(
+    name: String,
+    destinations: Destinations,
+    frameworkDependencies: [TargetDependency],
+    testDependencies: [TargetDependency],
+    targetScripts: [TargetScript] = [
+      .pre(script: "${PROJECT_DIR}/../../Tools/swiftlint --config \"${PROJECT_DIR}/../App/Resources/swiftlint.yml\"", name: "Lint")
+    ],
+    coreDataModel: [CoreDataModel],
+    resources: ResourceFileElements = ["Resources/**"],
+    sampleAppAdditionalDependencies: [TargetDependency] = [],
+    additionalSourcePaths: [String] = [],
+    product: Product
+  ) -> [Target] {
     
     let sourcesPath: SourceFilesList = {
       let globs: [SourceFileGlob] = {
@@ -39,8 +94,9 @@ extension Project {
     let sources = Target(
       name: name,
       destinations: destinations,
-      product: .staticFramework,
+      product: .framework,
       bundleId: "com.archive.\(name)",
+      deploymentTargets: .iOS("17.0"),
       infoPlist: .default,
       sources: sourcesPath,
       resources: resources,
@@ -54,6 +110,7 @@ extension Project {
       destinations: destinations,
       product: .app,
       bundleId: "com.archive.\(name)TestHost",
+      deploymentTargets: .iOS("17.0"),
       infoPlist: .default,
       sources: ["TestHost/Sources/**"],
       resources: ["TestHost/Resources/**"],
@@ -65,6 +122,7 @@ extension Project {
       destinations: destinations,
       product: .app,
       bundleId: "com.archive.\(name)SampleApp",
+      deploymentTargets: .iOS("17.0"),
       infoPlist: .default,
       sources: ["SampleApp/Sources/**"],
       resources: ["SampleApp/Resources/**"],
@@ -76,6 +134,7 @@ extension Project {
       destinations: destinations,
       product: .unitTests,
       bundleId: "com.archive.\(name)tests",
+      deploymentTargets: .iOS("17.0"),
       infoPlist: .default,
       sources: ["Tests/**"],
       resources: [],
@@ -94,8 +153,9 @@ extension Project {
     let sources = Target(
       name: name,
       destinations: destinations,
-      product: .staticFramework,
+      product: .framework,
       bundleId: "com.archive.\(name)",
+      deploymentTargets: .iOS("17.0"),
       infoPlist: .default,
       sources: [],
       resources: [],

@@ -9,6 +9,7 @@ extension Project {
   /// Helper function to create the Project for this ExampleApp
   public static func app(
     name: String,
+    bundleAppName: String? = nil,
     destinations: Destinations,
     dependencies: [TargetDependency],
     testDependencies: [TargetDependency] = [],
@@ -19,6 +20,7 @@ extension Project {
     
     var targets = makeAppTargets(
       name: name,
+      bundleAppName: bundleAppName,
       destinations: destinations,
       dependencies: dependencies,
       testDependencies: testDependencies,
@@ -56,6 +58,7 @@ extension Project {
   /// Helper function to create the application target and the unit test target.
   private static func makeAppTargets(
     name: String,
+    bundleAppName: String? = nil,
     destinations: Destinations,
     dependencies: [TargetDependency],
     testDependencies: [TargetDependency] = [],
@@ -95,7 +98,7 @@ extension Project {
       name: name,
       destinations: destinations,
       product: .app,
-      bundleId: "com.archive.\(name)",
+      bundleId: "com.archive.\(bundleAppName ?? name)",
       deploymentTargets: .iOS("17.0"),
       infoPlist: .extendingDefault(with: infoPlist),
       sources: ["Sources/**"],
