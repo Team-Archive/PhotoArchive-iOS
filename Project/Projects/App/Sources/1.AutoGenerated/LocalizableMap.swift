@@ -25,6 +25,12 @@ internal enum L10n {
     internal static let commonErrorTitleFromNetwork = L10n.tr("Localizable", "Common_Error_Title_From_Network")
     /// 서버오류
     internal static let commonErrorTitleFromServer = L10n.tr("Localizable", "Common_Error_Title_From_Server")
+    /// Login with Apple
+    internal static let signInApple = L10n.tr("Localizable", "Sign_In_Apple")
+    /// Login with Facebook
+    internal static let signInFacebook = L10n.tr("Localizable", "Sign_In_Facebook")
+    /// Login with Google
+    internal static let signInGoogle = L10n.tr("Localizable", "Sign_In_Google")
   }
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length
