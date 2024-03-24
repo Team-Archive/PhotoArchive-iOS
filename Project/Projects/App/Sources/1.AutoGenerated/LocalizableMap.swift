@@ -11,7 +11,7 @@ import Foundation
 // swiftlint:disable nesting type_body_length type_name vertical_whitespace_opening_braces
 internal enum L10n {
   internal enum InfoPlist {
-    /// PhotoArchive(임시)
+    /// About Time
     internal static let cfBundleDisplayName = L10n.tr("InfoPlist", "CFBundleDisplayName")
     /// 위젯에 등록할 사진을 찍기위해 필요합니다.
     internal static let nsCameraUsageDescription = L10n.tr("InfoPlist", "NSCameraUsageDescription")
@@ -25,6 +25,12 @@ internal enum L10n {
     internal static let commonErrorTitleFromNetwork = L10n.tr("Localizable", "Common_Error_Title_From_Network")
     /// 서버오류
     internal static let commonErrorTitleFromServer = L10n.tr("Localizable", "Common_Error_Title_From_Server")
+    /// Login with Apple
+    internal static let signInApple = L10n.tr("Localizable", "Sign_In_Apple")
+    /// Login with Facebook
+    internal static let signInFacebook = L10n.tr("Localizable", "Sign_In_Facebook")
+    /// Login with Google
+    internal static let signInGoogle = L10n.tr("Localizable", "Sign_In_Google")
   }
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length

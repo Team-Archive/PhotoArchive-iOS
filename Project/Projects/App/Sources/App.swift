@@ -9,13 +9,16 @@ import SwiftUI
 import ArchiveFoundation
 import Onboarding
 import AppstoreSearch
+import Domain
+import Data
 
 @main
 struct PhotoArchiveApp: App {
   
   var body: some Scene {
     WindowGroup {
-      AppstoreSearch()
+//      AppstoreSearchView(reducer: AppstoreSearchReducer(usecase: AppstoreSearchUsecase(repository: AppstoreSearchRepositoryImplement())))
+      ContentView()
     }
   }
 }

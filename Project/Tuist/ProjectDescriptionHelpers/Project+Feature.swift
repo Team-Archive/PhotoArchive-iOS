@@ -39,7 +39,7 @@ extension Project {
       name: name,
       organizationName: Project.organizationName,
       packages: [],
-      targets: Project.staticFrameworkTargets(
+      targets: Project.dynamicFrameworkTargets(
         name: name,
         destinations: .iOS,
         frameworkDependencies: willSetFrameworkDependencies,
