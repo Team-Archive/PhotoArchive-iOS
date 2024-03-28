@@ -14,27 +14,6 @@ extension Project {
     frameworkDependencies: [TargetDependency],
     testDependencies: [TargetDependency]
   ) -> Project {
-    let willSetFrameworkDependencies: [TargetDependency] = {
-      var returnValue: [TargetDependency] = frameworkDependencies
-      returnValue.append(.project(
-        target: "ArchiveFoundation",
-        path: "../../ArchiveFoundation"
-      ))
-      returnValue.append(.project(
-        target: "ArchiveUIComponents",
-        path: "../../ArchiveUIComponents"
-      ))
-      returnValue.append(.project(
-        target: "Domain",
-        path: "../../Domain"
-      ))
-      returnValue.append(.project(
-        target: "Data",
-        path: "../../Data"
-      ))
-      returnValue.append(.tca)
-      return returnValue
-    }()
     return Project(
       name: name,
       organizationName: Project.organizationName,
@@ -42,7 +21,7 @@ extension Project {
       targets: Project.dynamicFrameworkTargets(
         name: name,
         destinations: .iOS,
-        frameworkDependencies: willSetFrameworkDependencies,
+        frameworkDependencies: frameworkDependencies,
         testDependencies: testDependencies,
         targetScripts: [
           .pre(script: "${PROJECT_DIR}/../../../Tools/LocalizationGen/FeatureLocalizationGen.sh", name: "LocalizationAutoGen"),

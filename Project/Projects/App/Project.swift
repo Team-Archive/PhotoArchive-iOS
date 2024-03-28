@@ -8,27 +8,36 @@ let project = Project.app(
   bundleAppName: "AboutTime",
   destinations: .iOS,
   dependencies: [
+    .project(
+      target: "ArchiveFoundation",
+      path: "../ArchiveFoundation"
+    ),
+    .project(
+      target: "AppRoute",
+      path: "../AppRoute"
+    ),
+    .project(
+      target: "Data",
+      path: "../Data"
+    ),
+    .project(
+      target: "UIComponents",
+      path: "../UIComponents"
+    ),
     .firebaseAnalytics,
     .firebaseMessaging,
     .firebaseCrashlytics,
     .firebaseAppDistributionBeta,
     .firebaseDynamicLinks,
     .swiftyJSON,
-    .lottie,
-    .network,
-    .imageLoader,
     .project(
-      target: "ArchiveFoundation",
-      path: "../ArchiveFoundation"
+      target: "Onboarding",
+      path: "../Feature/Onboarding"
     ),
     .project(
       target: "AppstoreSearch",
       path: "../Feature/AppstoreSearch"
     ),
-    .project(
-      target: "Onboarding",
-      path: "../Feature/Onboarding"
-    )
   ],
   additionalTargets: [],
   additionalSourcePaths: ["../Sources/**"],

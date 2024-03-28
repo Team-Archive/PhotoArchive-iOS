@@ -9,18 +9,20 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 import Foundation
 
+let projectName: String = "Domain"
 let project = Project(
-  name: "Domain",
+  name: projectName,
   organizationName: Project.organizationName,
   packages: [],
-  targets: Project.staticFrameworkTargets(
-    name: "Domain",
+  targets: Project.dynamicFrameworkTargets(
+    name: projectName,
     destinations: .iOS,
     frameworkDependencies: [
       .project(
         target: "ArchiveFoundation",
         path: "../ArchiveFoundation"
-      )
+      ),
+      .swiftyJSON
     ],
     testDependencies: [
       .nimble,

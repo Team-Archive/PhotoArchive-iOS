@@ -3,12 +3,13 @@ import ProjectDescriptionHelpers
 
 // MARK: - Project
 
+let projectName: String = "APIHub"
 let project = Project(
-  name: "APIHub",
+  name: projectName,
   organizationName: Project.organizationName,
   packages: [],
-  targets: Project.staticFrameworkTargets(
-    name: "APIHub",
+  targets: Project.dynamicFrameworkTargets(
+    name: projectName,
     destinations: .iOS,
     frameworkDependencies: [
       .project(
