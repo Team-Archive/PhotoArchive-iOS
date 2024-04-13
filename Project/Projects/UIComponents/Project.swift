@@ -19,7 +19,7 @@ let project = Project(
     testDependencies: [],
     targetScripts: [
       .pre(script: "${PROJECT_DIR}/../../Tools/LocalizationGen/LocalizationGen.sh", name: "LocalizationAutoGen"),
-      .pre(script: "${PROJECT_DIR}/../../Tools/swiftgen config run --config \"${PROJECT_DIR}/../App/Resources/uiComponentsSwiftgen.yml\"", name: "Gen"),
+      .pre(script: "${PROJECT_DIR}/../../Tools/swiftgen config run --config \"${PROJECT_DIR}/Resources/uiComponentsSwiftgen.yml\"", name: "Gen"),
       .pre(script: "${PROJECT_DIR}/../../Tools/swiftlint --config \"${PROJECT_DIR}/../App/Resources/swiftlint.yml\"", name: "Lint")
     ],
     coreDataModel: []
