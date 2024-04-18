@@ -7,13 +7,18 @@
 //
 
 import SwiftUI
+import UIComponents
 
 struct ContentView: View {
   var body: some View {
     VStack {
-      Text("Hello, world!")
+      ATSignInButton(type: .apple, action: {
+        print("apple")
+      })
+      ATButton(type: .primary, title: "hola", action: {
+        print("Button")
+      })
     }
-    .padding()
   }
 }
 

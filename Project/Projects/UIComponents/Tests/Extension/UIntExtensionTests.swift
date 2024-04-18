@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import ArchiveUIComponents
+@testable import UIComponents
 
 class UIntExtensionTests: XCTestCase {
   
