@@ -9,28 +9,28 @@ import Foundation
 
 // swiftlint:disable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:disable nesting type_body_length type_name vertical_whitespace_opening_braces
-internal enum L10n {
-  internal enum InfoPlist {
+public enum L10n {
+  public enum InfoPlist {
     /// About Time
-    internal static let cfBundleDisplayName = L10n.tr("InfoPlist", "CFBundleDisplayName")
+    public static let cfBundleDisplayName = L10n.tr("InfoPlist", "CFBundleDisplayName")
     /// 위젯에 등록할 사진을 찍기위해 필요합니다.
-    internal static let nsCameraUsageDescription = L10n.tr("InfoPlist", "NSCameraUsageDescription")
+    public static let nsCameraUsageDescription = L10n.tr("InfoPlist", "NSCameraUsageDescription")
   }
-  internal enum Localizable {
+  public enum Localizable {
     /// 예상하지 못한 오류가 발생하였습니다.
-    internal static let commonErrorMessage = L10n.tr("Localizable", "Common_Error_Message")
+    public static let commonErrorMessage = L10n.tr("Localizable", "Common_Error_Message")
     /// 오류
-    internal static let commonErrorTitle = L10n.tr("Localizable", "Common_Error_Title")
+    public static let commonErrorTitle = L10n.tr("Localizable", "Common_Error_Title")
     /// 네트워크오류
-    internal static let commonErrorTitleFromNetwork = L10n.tr("Localizable", "Common_Error_Title_From_Network")
+    public static let commonErrorTitleFromNetwork = L10n.tr("Localizable", "Common_Error_Title_From_Network")
     /// 서버오류
-    internal static let commonErrorTitleFromServer = L10n.tr("Localizable", "Common_Error_Title_From_Server")
+    public static let commonErrorTitleFromServer = L10n.tr("Localizable", "Common_Error_Title_From_Server")
     /// Login with Apple
-    internal static let signInApple = L10n.tr("Localizable", "Sign_In_Apple")
+    public static let signInApple = L10n.tr("Localizable", "Sign_In_Apple")
     /// Login with Facebook
-    internal static let signInFacebook = L10n.tr("Localizable", "Sign_In_Facebook")
+    public static let signInFacebook = L10n.tr("Localizable", "Sign_In_Facebook")
     /// Login with Google
-    internal static let signInGoogle = L10n.tr("Localizable", "Sign_In_Google")
+    public static let signInGoogle = L10n.tr("Localizable", "Sign_In_Google")
   }
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length

@@ -9,12 +9,13 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 import Foundation
 
+let projectName: String = "Data"
 let project = Project(
-  name: "Data",
+  name: projectName,
   organizationName: Project.organizationName,
   packages: [],
-  targets: Project.staticFrameworkTargets(
-    name: "Data",
+  targets: Project.dynamicFrameworkTargets(
+    name: projectName,
     destinations: .iOS,
     frameworkDependencies: [
       .project(
@@ -28,7 +29,9 @@ let project = Project(
       .project(
         target: "APIHub",
         path: "../APIHub"
-      )
+      ),
+      .network,
+      .swiftyJSON
     ],
     testDependencies: [
       .nimble,

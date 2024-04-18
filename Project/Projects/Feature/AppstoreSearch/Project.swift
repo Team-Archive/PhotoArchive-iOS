@@ -11,8 +11,20 @@ import ProjectDescriptionHelpers
 let project = Project.makeFeature(
   name: "AppstoreSearch",
   frameworkDependencies: [
+    .project(
+      target: "ArchiveFoundation",
+      path: "../../ArchiveFoundation"
+    ),
+    .project(
+      target: "UIComponents",
+      path: "../../UIComponents"
+    ),
+    .project(
+      target: "Domain",
+      path: "../../Domain"
+    ),
+    .tca,
     .swiftyJSON,
-    .lottie,
     .imageLoader
   ],
   testDependencies: []

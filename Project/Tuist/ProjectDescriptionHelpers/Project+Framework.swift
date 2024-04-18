@@ -59,7 +59,7 @@ extension Project {
       resources: resources,
       sampleAppAdditionalDependencies: sampleAppAdditionalDependencies,
       additionalSourcePaths: additionalSourcePaths,
-      product: .dynamicLibrary
+      product: .framework
     )
   }
   

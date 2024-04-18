@@ -3,7 +3,7 @@ import ProjectDescriptionHelpers
 
 // MARK: - Project
 
-let projectName: String = "ArchiveFoundation"
+let projectName: String = "AppRoute"
 let project = Project(
   name: projectName,
   organizationName: Project.organizationName,
@@ -11,7 +11,16 @@ let project = Project(
   targets: Project.dynamicFrameworkTargets(
     name: projectName,
     destinations: .iOS,
-    frameworkDependencies: [],
+    frameworkDependencies: [
+      .project(
+        target: "ArchiveFoundation",
+        path: "../ArchiveFoundation"
+      ),
+      .project(
+        target: "Domain",
+        path: "../Domain"
+      )
+    ],
     testDependencies: [],
     coreDataModel: []
   ),
