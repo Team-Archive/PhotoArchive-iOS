@@ -86,14 +86,14 @@ public struct ATSignInButton: View {
   public var body: some View {
     
     Button(action: {
-      
+      self.action()
     }, label: {
       HStack {
         Spacer()
         self.type.iconImage
           .renderingMode(.original)
         Text(self.type.contents)
-          .font(.fonts(.sample))
+          .font(.fonts(.buttonSemiBold14))
           .foregroundStyle(self.type.textColor)
         Spacer()
       }
