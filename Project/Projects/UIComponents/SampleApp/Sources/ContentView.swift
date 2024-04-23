@@ -10,6 +10,13 @@ import SwiftUI
 import UIComponents
 
 struct ContentView: View {
+  
+  @State var isToggleOn: Bool = false {
+    didSet {
+      print("isToggleOn: \(self.isToggleOn)")
+    }
+  }
+  
   var body: some View {
     ScrollView {
       VStack {
@@ -42,6 +49,17 @@ struct ContentView: View {
           print("Button")
         }, isEnabled: .constant(false))
         .frame(width: 62, height: 62)
+        Toggle("", isOn: $isToggleOn)
+          .toggleStyle(ATToggleStyle(
+            onColor: UIComponentsAsset.Colors.purple.swiftUIColor,
+            offColor: UIComponentsAsset.Colors.gray200.swiftUIColor,
+            onThumbColor: UIComponentsAsset.Colors.white.swiftUIColor,
+            offThumbColor: UIComponentsAsset.Colors.white.swiftUIColor
+          ))
+        ATTagView(icon: .init(systemName: "bolt"), title: "hola")
+        ATTagView(icon: nil, title: "hola")
+        ATWeatherTagView(weather: .cloudy, temperature: 5.5)
+        ATWeatherTagView(designType: .secondary ,weather: .cloudy, temperature: 5.5)
       }
     }
     .background(.gray)
@@ -51,3 +69,5 @@ struct ContentView: View {
 #Preview {
   ContentView()
 }
+
+
