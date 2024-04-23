@@ -11,14 +11,20 @@ import UIComponents
 
 struct ContentView: View {
   var body: some View {
-    VStack {
-      ATSignInButton(type: .apple, action: {
-        print("apple")
-      })
-      ATButton(type: .primary, title: "hola", action: {
-        print("Button")
-      })
+    ScrollView {
+      VStack {
+        ATSignInButton(type: .apple, action: {
+          print("apple")
+        })
+        ATButton(title: "hola", action: {
+          print("Button")
+        })
+        ATButton(title: "hola", action: {
+          print("Button")
+        }, isEnabled: .constant(false))
+      }
     }
+    .background(.gray)
   }
 }
 
