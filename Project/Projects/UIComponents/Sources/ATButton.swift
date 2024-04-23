@@ -10,16 +10,38 @@ import SwiftUI
 
 public struct ATButton: View {
   
-  public enum ButtonType {
-    case primary
-  }
-  
   // MARK: - public state
+  
+  @Binding var isEnabled: Bool
   
   // MARK: - private properties
   
-  private let type: ButtonType
   private let title: String
+  
+  private var textColor: Color {
+    if self.isEnabled {
+      return Gen.Colors.purpleGray400.swiftUIColor
+    } else {
+      return Gen.Colors.gray200.swiftUIColor
+    }
+  }
+  
+  private var backgroundColor: Color {
+    if self.isEnabled {
+      return Gen.Colors.white.swiftUIColor
+    } else {
+      return Gen.Colors.purpleGray400.swiftUIColor
+    }
+  }
+  
+  private var font: Font {
+    if self.isEnabled {
+      return .fonts(.buttonExtraBold14)
+    } else {
+      return .fonts(.body14)
+    }
+  }
+  
   
   // MARK: - public properties
   
@@ -32,36 +54,27 @@ public struct ATButton: View {
     Button(action: {
       self.action()
     }, label: {
-//      HStack {
-//        Spacer()
-//        self.type.iconImage
-//          .renderingMode(.original)
-//        Text(self.type.contents)
-//          .font(.fonts(.sample))
-//          .foregroundStyle(self.type.textColor)
-//        Spacer()
-//      }
-//      .frame(height: 56)
-//      .background(self.type.backgroundColor)
-//      .clipShape(.rect(cornerRadius: 28))
-//      .overlay(
-//        RoundedRectangle(cornerRadius: 28)
-//          .stroke(self.type.borderColor, lineWidth: 1)
-//      )
-//      .padding([.leading, .trailing], 20)
-      Text(title)
-        .font(.fonts(.buttonSemiBold14))
+      HStack {
+        Text(self.title)
+          .font(self.font)
+          .foregroundStyle(self.textColor)
+          .padding(26)
+      }
+      .frame(height: 36)
+      .background(self.backgroundColor)
+      .clipShape(.rect(cornerRadius: 18))
     })
+    .disabled(!self.isEnabled)
 
   }
   
   public init(
-    type: ButtonType = .primary,
     title: String,
-    action: @escaping () -> Void
+    action: @escaping () -> Void,
+    isEnabled: Binding<Bool> = .constant(true)
   ) {
-    self.type = type
     self.title = title
+    self._isEnabled = isEnabled
     self.action = action
   }
   
@@ -73,8 +86,8 @@ public struct ATButton: View {
 
 #Preview {
   VStack {
-    ATButton(type: .primary, title: "hola", action: {
-      print("apple!")
+    ATButton(title: "hola", action: {
+      print("hola")
     })
   }
   
