@@ -47,7 +47,7 @@ extension Font {
     case .body12:
       return .custom(FontDefine.FontType.regular.name, size: 12)
     case .buttonExtraBold14:
-      return .custom(FontDefine.FontType.bold.name, size: 14)
+      return .custom(FontDefine.FontType.extraBold.name, size: 14)
     case .buttonSemiBold14:
       return .custom(FontDefine.FontType.semiBold.name, size: 14)
     }
