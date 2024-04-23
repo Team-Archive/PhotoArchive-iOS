@@ -18,44 +18,44 @@ public struct ATSignInButton: View {
     var iconImage: Image {
       switch self {
       case .apple:
-        return Gen.Images.appleMini.swiftUIImage
+        return UIComponentsAsset.Images.appleMini.swiftUIImage
       case .google:
-        return Gen.Images.googleMini.swiftUIImage
+        return UIComponentsAsset.Images.googleMini.swiftUIImage
       case .facebook:
-        return Gen.Images.facebookMini.swiftUIImage
+        return UIComponentsAsset.Images.facebookMini.swiftUIImage
       }
     }
     
     var backgroundColor: Color {
       switch self {
       case .apple:
-        return Gen.Colors.apple.swiftUIColor
+        return UIComponentsAsset.Colors.apple.swiftUIColor
       case .google:
-        return Gen.Colors.google.swiftUIColor
+        return UIComponentsAsset.Colors.google.swiftUIColor
       case .facebook:
-        return Gen.Colors.facebook.swiftUIColor
+        return UIComponentsAsset.Colors.facebook.swiftUIColor
       }
     }
     
     var textColor: Color {
       switch self {
       case .apple:
-        return Gen.Colors.white.swiftUIColor
+        return UIComponentsAsset.Colors.white.swiftUIColor
       case .google:
-        return Gen.Colors.black.swiftUIColor
+        return UIComponentsAsset.Colors.black.swiftUIColor
       case .facebook:
-        return Gen.Colors.black.swiftUIColor
+        return UIComponentsAsset.Colors.black.swiftUIColor
       }
     }
     
     var borderColor: Color {
       switch self {
       case .apple:
-        return Gen.Colors.apple.swiftUIColor
+        return UIComponentsAsset.Colors.apple.swiftUIColor
       case .google:
-        return Gen.Colors.black.swiftUIColor
+        return UIComponentsAsset.Colors.black.swiftUIColor
       case .facebook:
-        return Gen.Colors.facebook.swiftUIColor
+        return UIComponentsAsset.Colors.facebook.swiftUIColor
       }
     }
     
@@ -104,7 +104,7 @@ public struct ATSignInButton: View {
         RoundedRectangle(cornerRadius: 28)
           .stroke(self.type.borderColor, lineWidth: 1)
       )
-      .padding([.leading, .trailing], 20)
+      .padding([.leading, .trailing], .designContentsInset)
     })
 
   }

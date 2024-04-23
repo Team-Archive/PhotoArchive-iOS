@@ -1,14 +1,14 @@
 //
-//  ATButton.swift
+//  ATBottomButton.swift
 //  UIComponents
 //
-//  Created by Aaron Hanwe LEE on 4/16/24.
+//  Created by Aaron Hanwe LEE on 4/23/24.
 //  Copyright © 2024 TeamArchive. All rights reserved.
 //
 
 import SwiftUI
 
-public struct ATButton: View {
+public struct ATBottomButton: View {
   
   // MARK: - public state
   
@@ -20,7 +20,7 @@ public struct ATButton: View {
   
   private var textColor: Color {
     if self.isEnabled {
-      return UIComponentsAsset.Colors.purpleGray400.swiftUIColor
+      return UIComponentsAsset.Colors.white.swiftUIColor
     } else {
       return UIComponentsAsset.Colors.gray200.swiftUIColor
     }
@@ -28,7 +28,7 @@ public struct ATButton: View {
   
   private var backgroundColor: Color {
     if self.isEnabled {
-      return UIComponentsAsset.Colors.white.swiftUIColor
+      return UIComponentsAsset.Colors.purpleGray200.swiftUIColor
     } else {
       return UIComponentsAsset.Colors.purpleGray400.swiftUIColor
     }
@@ -55,14 +55,16 @@ public struct ATButton: View {
       self.action()
     }, label: {
       HStack {
+        Spacer()
         Text(self.title)
           .font(self.font)
           .foregroundStyle(self.textColor)
-          .padding(26)
+        Spacer()
       }
-      .frame(height: 36)
+      .frame(height: 40)
       .background(self.backgroundColor)
-      .clipShape(.rect(cornerRadius: 18))
+      .clipShape(.rect(cornerRadius: 8))
+      .padding([.leading, .trailing], .designContentsInset)
     })
     .disabled(!self.isEnabled)
 
@@ -86,7 +88,7 @@ public struct ATButton: View {
 
 #Preview {
   VStack {
-    ATButton(title: "hola", action: {
+    ATBottomButton(title: "hola", action: {
       print("hola")
     })
   }
