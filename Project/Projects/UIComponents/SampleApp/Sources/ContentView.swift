@@ -59,7 +59,8 @@ struct ContentView: View {
         ATTagView(icon: .init(systemName: "bolt"), title: "hola")
         ATTagView(icon: nil, title: "hola")
         ATWeatherTagView(weather: .cloudy, temperature: 5.5)
-        ATWeatherTagView(designType: .secondary ,weather: .cloudy, temperature: 5.5)
+        ATWeatherTagView(designType: .secondary, weather: .cloudy, temperature: 5.5)
+        ATSegmentedControlView(segmentTitleList: ["Test11111111", "Test2"])
       }
     }
     .background(.gray)
