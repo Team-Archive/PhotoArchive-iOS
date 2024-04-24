@@ -60,7 +60,13 @@ struct ContentView: View {
         ATTagView(icon: nil, title: "hola")
         ATWeatherTagView(weather: .cloudy, temperature: 5.5)
         ATWeatherTagView(designType: .secondary, weather: .cloudy, temperature: 5.5)
-        ATSegmentedControlView(segmentTitleList: ["Test11111111", "Test2"])
+        ATDateTagView(date: Date())
+        ATSegmentedDynamicControlView(segmentTitleList: ["Test11111111", "Test2"])
+        ATSegmentedStaticControlView(segmentItemList: [
+          .init(icon: .init(systemName: "bolt"), title: "Bolt"),
+          .init(icon: .init(systemName: "heart"), title: "Heart")
+        ])
+        ATCheckBoxView(title: "hola", isChecked: false)
       }
     }
     .background(.gray)

@@ -1,5 +1,5 @@
 //
-//  ATSegmentedControlView.swift
+//  ATSegmentedDynamicControlView.swift
 //  UIComponents
 //
 //  Created by Aaron Hanwe LEE on 4/24/24.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-public struct ATSegmentedControlView: View {
+public struct ATSegmentedDynamicControlView: View {
   
   // MARK: - public state
   
@@ -18,6 +18,7 @@ public struct ATSegmentedControlView: View {
   
   @State private var segmentWidthList: [CGFloat]
   private let segmentTitleList: [String]
+  private let height: CGFloat
   
   // MARK: - public properties
   
@@ -29,24 +30,28 @@ public struct ATSegmentedControlView: View {
         ZStack(alignment: .leading) {
           Capsule()
             .fill(UIComponentsAsset.Colors.white.swiftUIColor)
-            .frame(width: self.segmentWidthList[self.selectedSegmentIndex], height: 36)
+            .frame(width: self.segmentWidthList[self.selectedSegmentIndex], height: self.height)
             .offset(x: self.xOffset(index: self.selectedSegmentIndex), y: 0)
             .animation(.easeInOut(duration: 0.3), value: selectedSegmentIndex)
           
           HStack(spacing: 0) {
             ForEach(0..<segmentTitleList.count, id: \.self) { index in
-              ATSegmentedControlViewItemButton(title: segmentTitleList[index], index: index, selectedSegmentIndex: $selectedSegmentIndex, action: {
-                withAnimation {
-                  selectedSegmentIndex = index
-                }
-              })
-              .background(
-                GeometryReader { proxy in
-                  Color.clear
-                    .onAppear {
-                      self.segmentWidthList[index] = proxy.size.width
-                    }
-                }
+              ATSegmentedDynamicControlViewItemButton(
+                title: segmentTitleList[index],
+                height: self.height,
+                index: index,
+                selectedSegmentIndex: $selectedSegmentIndex,
+                action: {
+                  withAnimation {
+                    selectedSegmentIndex = index
+                  }
+                }).background(
+                  GeometryReader { proxy in
+                    Color.clear
+                      .onAppear {
+                        self.segmentWidthList[index] = proxy.size.width
+                      }
+                  }
               )
             }
           }
@@ -55,13 +60,15 @@ public struct ATSegmentedControlView: View {
         .clipShape(Capsule())
       }
     }
-    .frame(height: 36)
+    .frame(height: self.height)
   }
   
   public init(
-    segmentTitleList: [String]
+    segmentTitleList: [String],
+    height: CGFloat = 36
   ) {
     self.segmentTitleList = segmentTitleList
+    self.height = height
     self.segmentWidthList = .init(repeating: 0, count: segmentTitleList.count)
   }
   
@@ -76,7 +83,7 @@ public struct ATSegmentedControlView: View {
   
 }
 
-fileprivate struct ATSegmentedControlViewItemButton: View {
+fileprivate struct ATSegmentedDynamicControlViewItemButton: View {
   
   // MARK: - public state
   
@@ -86,6 +93,7 @@ fileprivate struct ATSegmentedControlViewItemButton: View {
   // MARK: - private properties
   
   private let title: String
+  private let height: CGFloat
   
   private var textColor: Color {
     if self.selectedSegmentIndex == self.index {
@@ -134,11 +142,13 @@ fileprivate struct ATSegmentedControlViewItemButton: View {
   
   public init(
     title: String,
+    height: CGFloat,
     index: Int,
     selectedSegmentIndex: Binding<Int>,
     action: @escaping () -> Void
   ) {
     self.title = title
+    self.height = height
     self.index = index
     self._selectedSegmentIndex = selectedSegmentIndex
     self.action = action
@@ -152,6 +162,6 @@ fileprivate struct ATSegmentedControlViewItemButton: View {
 
 #Preview {
   VStack {
-    ATSegmentedControlView(segmentTitleList: ["Test11111111", "Test2"])
+    ATSegmentedDynamicControlView(segmentTitleList: ["Test11111111", "Test2"])
   }
 }
