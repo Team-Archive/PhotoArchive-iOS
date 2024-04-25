@@ -41,14 +41,56 @@ struct ContentView: View {
         ATBottomActionButton(icon: .init(systemName: "bolt"), title: "hola", action: {
           print("Button")
         }, isEnabled: .constant(false))
-        ATRoundIconButton(icon: UIComponentsAsset.Images.plus.swiftUIImage, borderColor: .white, borderWidth: 2, action: {
-          print("Button")
+        ATRoundIconButton(
+          icon: UIComponentsAsset.Images.plus.swiftUIImage,
+          borderColor: .white,
+          borderWidth: 2,
+          iconSizeType: .constant(.init(
+            width: 18,
+            height: 18
+          )), action: {
+            print("Button")
+          })
+        .frame(width: 62, height: 62)
+        ATRoundIconButton(
+          icon: UIComponentsAsset.Images.plus.swiftUIImage,
+          borderColor: .white,
+          borderWidth: 2,
+          iconSizeType: .constant(.init(
+            width: 18,
+            height: 18
+          )),
+          action: {
+            print("Button")
+          }, isEnabled: .constant(false))
+        .frame(width: 62, height: 62)
+        ATRoundIconButton(
+          icon: UIComponentsAsset.Images.send24.swiftUIImage,
+          backgroundColor: UIComponentsAsset.Colors.purpleGray400.swiftUIColor,
+          action: {
+            print("Button")
+          }
+        )
+        .frame(width: 44, height: 44)
+        ATRoundIconButton(
+          icon: UIComponentsAsset.Images.send24.swiftUIImage,
+          backgroundColor: UIComponentsAsset.Colors.purpleGray200.swiftUIColor,
+          action: {
+            print("Button")
+          }
+        )
+        .frame(width: 40, height: 30)
+        ATSelectableButton(contentsView: Text("hola"), action: { isSelected in
+          print("Button: \(isSelected)")
         })
-        .frame(width: 62, height: 62)
-        ATRoundIconButton(icon: UIComponentsAsset.Images.plus.swiftUIImage, borderColor: .white, borderWidth: 2, action: {
-          print("Button")
-        }, isEnabled: .constant(false))
-        .frame(width: 62, height: 62)
+        ATSelectableEmojiButton(
+          emoji: .heart,
+          selectedCount: 100,
+          isSelected: true,
+          action: { isSelected in
+            print("Button: \(isSelected)")
+          }
+        )
         Toggle("", isOn: $isToggleOn)
           .toggleStyle(ATToggleStyle(
             onColor: UIComponentsAsset.Colors.purple.swiftUIColor,
