@@ -24,7 +24,7 @@ public struct ATSelectableEmojiButton: View {
   
   // MARK: - public properties
   
-  public var action: (_ isSelected: Bool) -> Void
+  public var action: (_ isSelected: Bool, _ count: UInt) -> Void
   
   // MARK: - life cycle
   
@@ -44,7 +44,7 @@ public struct ATSelectableEmojiButton: View {
           selectedCount -= 1
         }
       }
-      self.action(isSelected)
+      self.action(isSelected, selectedCount)
     }
 
   }
@@ -53,7 +53,7 @@ public struct ATSelectableEmojiButton: View {
     emoji: ExpressiveEmoji,
     selectedCount: UInt,
     isSelected: Bool = false,
-    action: @escaping (_ isSelected: Bool) -> Void,
+    action: @escaping (_ isSelected: Bool, _ count: UInt) -> Void,
     isEnabled: Binding<Bool> = .constant(true)
   ) {
     self.emoji = emoji
@@ -115,8 +115,8 @@ public struct ATSelectableEmojiContentsView: View {
 #Preview {
   
   VStack {
-    ATSelectableEmojiButton(emoji: .flower, selectedCount: 10) { isSelected in
-      print("hola: \(isSelected)")
+    ATSelectableEmojiButton(emoji: .flower, selectedCount: 10) { isSelected, count in
+      print("hola: \(isSelected) \(count)")
     }
   }
   

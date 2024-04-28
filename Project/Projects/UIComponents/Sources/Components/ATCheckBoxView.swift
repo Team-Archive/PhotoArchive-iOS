@@ -49,12 +49,15 @@ public struct ATCheckBoxView: View {
   
   // MARK: - public properties
   
+  public var action: (_ isChecked: Bool) -> Void
+  
   // MARK: - life cycle
   
   public var body: some View {
     
     Button(action: {
       self.isChecked = !self.isChecked
+      self.action(self.isChecked)
     }, label: {
       HStack(spacing: 4) {
         ZStack {
@@ -82,10 +85,12 @@ public struct ATCheckBoxView: View {
   
   public init(
     title: String,
-    isChecked: Bool
+    isChecked: Bool,
+    action: @escaping (_ isChecked: Bool) -> Void
   ) {
     self.title = title
     self.isChecked = isChecked
+    self.action = action
   }
   
   // MARK: - private method
@@ -96,6 +101,8 @@ public struct ATCheckBoxView: View {
 
 #Preview {
   VStack {
-    ATCheckBoxView(title: "hola", isChecked: false)
+    ATCheckBoxView(title: "hola", isChecked: false, action: { isChecked in
+      print("isChecked: \(isChecked)")
+    })
   }
 }

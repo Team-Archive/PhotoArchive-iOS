@@ -87,8 +87,8 @@ struct ContentView: View {
           emoji: .heart,
           selectedCount: 100,
           isSelected: true,
-          action: { isSelected in
-            print("Button: \(isSelected)")
+          action: { isSelected, count in
+            print("Button: \(isSelected) \(count)")
           }
         )
         Toggle("", isOn: $isToggleOn)
@@ -108,7 +108,36 @@ struct ContentView: View {
           .init(icon: .init(systemName: "bolt"), title: "Bolt"),
           .init(icon: .init(systemName: "heart"), title: "Heart")
         ])
-        ATCheckBoxView(title: "hola", isChecked: false)
+        ATCheckBoxView(title: "hola", isChecked: false, action: { isChecked in
+          print("isChecked: \(isChecked)")
+        })
+        ATUrlImage(
+          url: URL(string: "https://hips.hearstapps.com/hmg-prod/images/little-cute-maltipoo-puppy-royalty-free-image-1652926025.jpg?crop=0.444xw:1.00xh;0.129xw,0&resize=980:*")!,
+          placeholder: .init(systemName: "bolt")
+        )
+        .resizable()
+        .scaledToFill()
+        .frame(width: 100, height: 100)
+        .clipped()
+        ATCheckImageButton(
+          type: .url(
+            url: URL(string: "https://hips.hearstapps.com/hmg-prod/images/little-cute-maltipoo-puppy-royalty-free-image-1652926025.jpg?crop=0.444xw:1.00xh;0.129xw,0&resize=980:*")!,
+            placeholder: .init(systemName: "bolt")
+          ),
+          isChecked: false,
+          action: { isChecked in
+            print("hola: \(isChecked)")
+          }
+        )
+        .frame(width: 68, height: 68)
+        ATCheckImageButton(
+          type: .image(.init(systemName: "bolt")),
+          isChecked: true,
+          action: { isChecked in
+            print("hola: \(isChecked)")
+          }
+        )
+        .frame(width: 68, height: 68)
       }
     }
     .background(.gray)
