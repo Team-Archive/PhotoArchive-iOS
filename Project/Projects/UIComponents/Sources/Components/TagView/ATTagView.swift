@@ -26,18 +26,18 @@ public struct ATTagView: View {
   private var textColor: Color {
     switch self.designType {
     case .primary:
-      return UIComponentsAsset.Colors.white.swiftUIColor
+      return Gen.Colors.white.color
     case .secondary:
-      return UIComponentsAsset.Colors.white.swiftUIColor
+      return Gen.Colors.white.color
     }
   }
   
   private var backgroundColor: Color {
     switch self.designType {
     case .primary:
-      return UIComponentsAsset.Colors.purpleGray300.swiftUIColor
+      return Gen.Colors.purpleGray300.color
     case .secondary:
-      return UIComponentsAsset.Colors.gray200.swiftUIColor
+      return Gen.Colors.gray200.color
     }
   }
   

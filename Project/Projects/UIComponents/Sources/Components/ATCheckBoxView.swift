@@ -19,18 +19,18 @@ public struct ATCheckBoxView: View {
   private let title: String
   
   private var textColor: Color {
-    return UIComponentsAsset.Colors.white.swiftUIColor
+    return Gen.Colors.white.color
   }
   
   private var iconColor: Color {
-    return UIComponentsAsset.Colors.white.swiftUIColor
+    return Gen.Colors.white.color
   }
   
   private var backgroundColor: Color {
     if self.isChecked {
-      return UIComponentsAsset.Colors.purple.swiftUIColor
+      return Gen.Colors.purple.color
     } else {
-      return UIComponentsAsset.Colors.white.swiftUIColor.opacity(0.8)
+      return Gen.Colors.white.color.opacity(0.8)
     }
   }
   
@@ -38,7 +38,7 @@ public struct ATCheckBoxView: View {
     if self.isChecked {
       return .clear
     } else {
-      return UIComponentsAsset.Colors.gray300.swiftUIColor
+      return Gen.Colors.gray300.color
     }
   }
   
@@ -63,10 +63,10 @@ public struct ATCheckBoxView: View {
         ZStack {
           Circle()
             .tint(self.backgroundColor)
-          UIComponentsAsset.Images.check.swiftUIImage
+          Gen.Images.check.image
             .resizable()
             .renderingMode(.template)
-            .tint(UIComponentsAsset.Colors.white.swiftUIColor)
+            .tint(Gen.Colors.white.color)
             .aspectRatio(contentMode: .fill)
             .frame(width: 12, height: 12, alignment: .center)
         }.overlay(

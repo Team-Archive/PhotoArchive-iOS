@@ -16,7 +16,7 @@ public struct ATWeatherTagView: View {
     var icon: Image {
       switch self {
       case .cloudy:
-        return UIComponentsAsset.Images.cloudy.swiftUIImage
+        return Gen.Images.cloudy.image
       }
     }
   }

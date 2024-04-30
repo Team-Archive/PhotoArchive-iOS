@@ -21,25 +21,25 @@ public struct ATBottomActionButton: View {
   
   private var textColor: Color {
     if self.isEnabled {
-      return UIComponentsAsset.Colors.white.swiftUIColor
+      return Gen.Colors.white.color
     } else {
-      return UIComponentsAsset.Colors.gray200.swiftUIColor
+      return Gen.Colors.gray200.color
     }
   }
   
   private var backgroundStartColor: Color {
     if self.isEnabled {
-      return UIComponentsAsset.Colors.gradationMainStart.swiftUIColor
+      return Gen.Colors.gradationMainStart.color
     } else {
-      return UIComponentsAsset.Colors.purpleGray400.swiftUIColor
+      return Gen.Colors.purpleGray400.color
     }
   }
   
   private var backgroundEndColor: Color {
     if self.isEnabled {
-      return UIComponentsAsset.Colors.gradationMainEnd.swiftUIColor
+      return Gen.Colors.gradationMainEnd.color
     } else {
-      return UIComponentsAsset.Colors.purpleGray400.swiftUIColor
+      return Gen.Colors.purpleGray400.color
     }
   }
   

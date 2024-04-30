@@ -18,44 +18,44 @@ public struct ATSignInButton: View {
     var iconImage: Image {
       switch self {
       case .apple:
-        return UIComponentsAsset.Images.appleMini.swiftUIImage
+        return Gen.Images.appleMini.image
       case .google:
-        return UIComponentsAsset.Images.googleMini.swiftUIImage
+        return Gen.Images.googleMini.image
       case .facebook:
-        return UIComponentsAsset.Images.facebookMini.swiftUIImage
+        return Gen.Images.facebookMini.image
       }
     }
     
     var backgroundColor: Color {
       switch self {
       case .apple:
-        return UIComponentsAsset.Colors.apple.swiftUIColor
+        return Gen.Colors.apple.color
       case .google:
-        return UIComponentsAsset.Colors.google.swiftUIColor
+        return Gen.Colors.google.color
       case .facebook:
-        return UIComponentsAsset.Colors.facebook.swiftUIColor
+        return Gen.Colors.facebook.color
       }
     }
     
     var textColor: Color {
       switch self {
       case .apple:
-        return UIComponentsAsset.Colors.white.swiftUIColor
+        return Gen.Colors.white.color
       case .google:
-        return UIComponentsAsset.Colors.black.swiftUIColor
+        return Gen.Colors.black.color
       case .facebook:
-        return UIComponentsAsset.Colors.black.swiftUIColor
+        return Gen.Colors.black.color
       }
     }
     
     var borderColor: Color {
       switch self {
       case .apple:
-        return UIComponentsAsset.Colors.apple.swiftUIColor
+        return Gen.Colors.apple.color
       case .google:
-        return UIComponentsAsset.Colors.black.swiftUIColor
+        return Gen.Colors.black.color
       case .facebook:
-        return UIComponentsAsset.Colors.facebook.swiftUIColor
+        return Gen.Colors.facebook.color
       }
     }
     

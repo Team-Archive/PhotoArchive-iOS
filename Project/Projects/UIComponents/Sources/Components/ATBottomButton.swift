@@ -20,17 +20,17 @@ public struct ATBottomButton: View {
   
   private var textColor: Color {
     if self.isEnabled {
-      return UIComponentsAsset.Colors.white.swiftUIColor
+      return Gen.Colors.white.color
     } else {
-      return UIComponentsAsset.Colors.gray200.swiftUIColor
+      return Gen.Colors.gray200.color
     }
   }
   
   private var backgroundColor: Color {
     if self.isEnabled {
-      return UIComponentsAsset.Colors.purpleGray200.swiftUIColor
+      return Gen.Colors.purpleGray200.color
     } else {
-      return UIComponentsAsset.Colors.purpleGray400.swiftUIColor
+      return Gen.Colors.purpleGray400.color
     }
   }
   

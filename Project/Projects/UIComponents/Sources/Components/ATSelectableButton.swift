@@ -23,7 +23,7 @@ public struct ATSelectableButton<Content>: View where Content: View {
   private let defaultBackgroundColor: Color
   private let selectedBackgroundColor: Color
   private let font: Font = .fonts(.body13)
-  private let textColor: Color = UIComponentsAsset.Colors.white.swiftUIColor
+  private let textColor: Color = Gen.Colors.white.color
   private let contentsView: Content
   
   private var overlayBackgroundColor: Color {
@@ -75,9 +75,9 @@ public struct ATSelectableButton<Content>: View where Content: View {
   
   public init(
     contentsView: Content,
-    backgroundColor: Color = UIComponentsAsset.Colors.purpleGray200.swiftUIColor,
-    selectedBackgroundColor: Color = UIComponentsAsset.Colors.purple.swiftUIColor.opacity(0.3),
-    selectedBorderColor: Color = UIComponentsAsset.Colors.purple.swiftUIColor,
+    backgroundColor: Color = Gen.Colors.purpleGray200.color,
+    selectedBackgroundColor: Color = Gen.Colors.purple.color.opacity(0.3),
+    selectedBorderColor: Color = Gen.Colors.purple.color,
     isSelected: Bool = false,
     action: @escaping (_ isSelected: Bool) -> Void,
     isEnabled: Binding<Bool> = .constant(true)

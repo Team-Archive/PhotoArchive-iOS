@@ -32,7 +32,7 @@ public struct ATRoundIconButton: View {
     if self.isEnabled {
       return self.backgroundStartColorValue
     } else {
-      return UIComponentsAsset.Colors.purpleGray400.swiftUIColor
+      return Gen.Colors.purpleGray400.color
     }
   }
   
@@ -40,15 +40,15 @@ public struct ATRoundIconButton: View {
     if self.isEnabled {
       return self.backgroundEndColorValue
     } else {
-      return UIComponentsAsset.Colors.purpleGray400.swiftUIColor
+      return Gen.Colors.purpleGray400.color
     }
   }
   
   private var iconColor: Color {
     if self.isEnabled {
-      return UIComponentsAsset.Colors.white.swiftUIColor
+      return Gen.Colors.white.color
     } else {
-      return UIComponentsAsset.Colors.gray200.swiftUIColor
+      return Gen.Colors.gray200.color
     }
   }
   
@@ -111,8 +111,8 @@ public struct ATRoundIconButton: View {
   
   public init(
     icon: Image,
-    backgroundStartColor: Color = UIComponentsAsset.Colors.gradationMainStart.swiftUIColor,
-    backgroundEndColor: Color = UIComponentsAsset.Colors.gradationMainEnd.swiftUIColor,
+    backgroundStartColor: Color = Gen.Colors.gradationMainStart.color,
+    backgroundEndColor: Color = Gen.Colors.gradationMainEnd.color,
     borderColor: Color = .clear,
     borderWidth: CGFloat = 0,
     iconSizeType: IconSizeType = .auto,

@@ -29,7 +29,7 @@ public struct ATSegmentedDynamicControlView: View {
       VStack {
         ZStack(alignment: .leading) {
           Capsule()
-            .fill(UIComponentsAsset.Colors.white.swiftUIColor)
+            .fill(Gen.Colors.white.color)
             .frame(width: self.segmentWidthList[self.selectedSegmentIndex], height: self.height)
             .offset(x: self.xOffset(index: self.selectedSegmentIndex), y: 0)
             .animation(.easeInOut(duration: 0.3), value: selectedSegmentIndex)
@@ -56,7 +56,7 @@ public struct ATSegmentedDynamicControlView: View {
             }
           }
         }
-        .background(UIComponentsAsset.Colors.purpleGray200.swiftUIColor)
+        .background(Gen.Colors.purpleGray200.color)
         .clipShape(Capsule())
       }
     }
@@ -97,9 +97,9 @@ fileprivate struct ATSegmentedDynamicControlViewItemButton: View {
   
   private var textColor: Color {
     if self.selectedSegmentIndex == self.index {
-      return UIComponentsAsset.Colors.purpleGray300.swiftUIColor
+      return Gen.Colors.purpleGray300.color
     } else {
-      return UIComponentsAsset.Colors.gray200.swiftUIColor
+      return Gen.Colors.gray200.color
     }
   }
   

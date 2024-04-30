@@ -24,7 +24,7 @@ public struct ATCheckImageButton: View {
   
   private var borderColor: Color {
     if self.isChecked {
-      return UIComponentsAsset.Colors.purple.swiftUIColor
+      return Gen.Colors.purple.color
     } else {
       return .clear
     }
@@ -45,15 +45,15 @@ public struct ATCheckImageButton: View {
       if isChecked {
         ZStack {
           Circle()
-            .fill(UIComponentsAsset.Colors.imageSelectBorder.swiftUIColor)
+            .fill(Gen.Colors.imageSelectBorder.color)
             .frame(width: 26, height: 26)
           Circle()
             .fill(self.borderColor)
             .frame(width: 24, height: 24)
-          UIComponentsAsset.Images.check.swiftUIImage
+          Gen.Images.check.image
             .resizable()
             .renderingMode(.template)
-            .foregroundStyle(UIComponentsAsset.Colors.white.swiftUIColor)
+            .foregroundStyle(Gen.Colors.white.color)
             .frame(width: 12, height: 12)
         }
       } else {
@@ -84,7 +84,7 @@ public struct ATCheckImageButton: View {
                 .fill(.clear)
               image
                 .renderingMode(.template)
-                .tint(UIComponentsAsset.Colors.white.swiftUIColor)
+                .tint(Gen.Colors.white.color)
                 .padding(14)
             }
           case .url(let url, let placeholder):
@@ -92,7 +92,7 @@ public struct ATCheckImageButton: View {
               .scaledToFill()
           }
         }
-        .background(UIComponentsAsset.Colors.purpleGray200.swiftUIColor)
+        .background(Gen.Colors.purpleGray200.color)
         .clipShape(.circle)
         .padding(4)
         

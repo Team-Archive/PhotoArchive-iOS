@@ -39,7 +39,7 @@ public struct ATSegmentedStaticControlView: View {
       VStack {
         ZStack(alignment: .init(horizontal: .leading, vertical: .top)) {
           Capsule()
-            .fill(UIComponentsAsset.Colors.white.swiftUIColor)
+            .fill(Gen.Colors.white.color)
             .frame(width: geometry.size.width / CGFloat(segmentItemList.count), height: self.underLineHeight)
             .offset(x: geometry.size.width / CGFloat(segmentItemList.count) * CGFloat(selectedSegmentIndex), y: self.height - self.underLineHeight)
             .animation(.easeInOut(duration: 0.3), value: selectedSegmentIndex)
@@ -99,9 +99,9 @@ fileprivate struct ATSegmentedStaticControlViewItemButton: View {
   
   private var textColor: Color {
     if self.selectedSegmentIndex == self.index {
-      return UIComponentsAsset.Colors.white.swiftUIColor
+      return Gen.Colors.white.color
     } else {
-      return UIComponentsAsset.Colors.gray300.swiftUIColor
+      return Gen.Colors.gray300.color
     }
   }
   

@@ -80,7 +80,7 @@ public struct ATSelectableEmojiContentsView: View {
   private let emoji: ExpressiveEmoji
   
   private let font: Font = .fonts(.body13)
-  private let textColor: Color = UIComponentsAsset.Colors.white.swiftUIColor
+  private let textColor: Color = Gen.Colors.white.color
   
   // MARK: - public properties
   

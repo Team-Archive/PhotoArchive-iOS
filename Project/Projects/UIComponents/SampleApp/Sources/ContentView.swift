@@ -35,14 +35,14 @@ struct ContentView: View {
         ATBottomButton(title: "hola", action: {
           print("Button")
         }, isEnabled: .constant(false))
-        ATBottomActionButton(icon: UIComponentsAsset.Images.send24.swiftUIImage, title: "hola", action: {
+        ATBottomActionButton(icon: Gen.Images.send24.image, title: "hola", action: {
           print("Button")
         })
         ATBottomActionButton(icon: .init(systemName: "bolt"), title: "hola", action: {
           print("Button")
         }, isEnabled: .constant(false))
         ATRoundIconButton(
-          icon: UIComponentsAsset.Images.plus.swiftUIImage,
+          icon: Gen.Images.plus.image,
           borderColor: .white,
           borderWidth: 2,
           iconSizeType: .constant(.init(
@@ -53,7 +53,7 @@ struct ContentView: View {
           })
         .frame(width: 62, height: 62)
         ATRoundIconButton(
-          icon: UIComponentsAsset.Images.plus.swiftUIImage,
+          icon: Gen.Images.plus.image,
           borderColor: .white,
           borderWidth: 2,
           iconSizeType: .constant(.init(
@@ -65,16 +65,16 @@ struct ContentView: View {
           }, isEnabled: .constant(false))
         .frame(width: 62, height: 62)
         ATRoundIconButton(
-          icon: UIComponentsAsset.Images.send24.swiftUIImage,
-          backgroundColor: UIComponentsAsset.Colors.purpleGray400.swiftUIColor,
+          icon: Gen.Images.send24.image,
+          backgroundColor: Gen.Colors.purpleGray400.color,
           action: {
             print("Button")
           }
         )
         .frame(width: 44, height: 44)
         ATRoundIconButton(
-          icon: UIComponentsAsset.Images.send24.swiftUIImage,
-          backgroundColor: UIComponentsAsset.Colors.purpleGray200.swiftUIColor,
+          icon: Gen.Images.send24.image,
+          backgroundColor: Gen.Colors.purpleGray200.color,
           action: {
             print("Button")
           }
@@ -93,10 +93,10 @@ struct ContentView: View {
         )
         Toggle("", isOn: $isToggleOn)
           .toggleStyle(ATToggleStyle(
-            onColor: UIComponentsAsset.Colors.purple.swiftUIColor,
-            offColor: UIComponentsAsset.Colors.gray200.swiftUIColor,
-            onThumbColor: UIComponentsAsset.Colors.white.swiftUIColor,
-            offThumbColor: UIComponentsAsset.Colors.white.swiftUIColor
+            onColor: Gen.Colors.purple.color,
+            offColor: Gen.Colors.gray200.color,
+            onThumbColor: Gen.Colors.white.color,
+            offThumbColor: Gen.Colors.white.color
           ))
         ATTagView(icon: .init(systemName: "bolt"), title: "hola")
         ATTagView(icon: nil, title: "hola")
