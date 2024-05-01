@@ -117,13 +117,19 @@ extension Project {
       dependencies: [.target(name: name)]
     )
     
+    let sampleAppInfoPlist: [String: Plist.Value] = [
+      "CFBundleShortVersionString": "1.0",
+      "CFBundleVersion": "1",
+      "NSPhotoLibraryUsageDescription": "사진첩 권한이 필요해요"
+    ]
+    
     let sampleApp = Target(
       name: "\(name)SampleApp",
       destinations: destinations,
       product: .app,
       bundleId: "com.archive.\(name)SampleApp",
       deploymentTargets: .iOS("17.0"),
-      infoPlist: .default,
+      infoPlist: .extendingDefault(with: sampleAppInfoPlist),
       sources: ["SampleApp/Sources/**"],
       resources: ["SampleApp/Resources/**"],
       dependencies: [.target(name: name)] + sampleAppAdditionalDependencies
