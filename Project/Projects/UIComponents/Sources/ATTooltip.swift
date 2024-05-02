@@ -26,10 +26,7 @@ public struct ATTooltip: View {
   public var body: some View {
     VStack {
       VStack {
-        Spacer()
         HStack(spacing: 4) {
-          Spacer().frame(width: 16)
-          
           Text(title)
             .font(.fonts(.bodyBold14))
             .foregroundStyle(contentColor)
@@ -40,10 +37,10 @@ public struct ATTooltip: View {
             .aspectRatio(contentMode: .fit)
             .foregroundStyle(contentColor)
             .frame(width: 20)
-          
-          Spacer().frame(width: 16)
         }
-        Spacer()
+        .padding(.horizontal, 16)
+        .padding(.vertical, 10)
+      
       }
       .background(backgroundColor)
       .clipShape(.rect(cornerRadius: 20))
@@ -53,8 +50,7 @@ public struct ATTooltip: View {
         .renderingMode(.template)
         .foregroundStyle(backgroundColor)
         .frame(width: 12, height: 10)
-
-    }.frame(height: 50)
+    }
   }
   
   public init(
