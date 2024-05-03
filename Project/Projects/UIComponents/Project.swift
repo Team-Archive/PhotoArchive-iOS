@@ -14,7 +14,8 @@ let project = Project(
       .project(
         target: "ArchiveFoundation",
         path: "../ArchiveFoundation"
-      )
+      ),
+      .imageLoader
     ],
     testDependencies: [],
     targetScripts: [

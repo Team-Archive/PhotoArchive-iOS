@@ -48,7 +48,6 @@ extension Project {
       ),
       targets: targets,
       resourceSynthesizers: [
-        .assets()
       ]
     )
   }

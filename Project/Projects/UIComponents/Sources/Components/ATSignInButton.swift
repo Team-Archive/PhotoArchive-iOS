@@ -18,44 +18,44 @@ public struct ATSignInButton: View {
     var iconImage: Image {
       switch self {
       case .apple:
-        return Gen.Images.appleMini.swiftUIImage
+        return Gen.Images.appleMini.image
       case .google:
-        return Gen.Images.googleMini.swiftUIImage
+        return Gen.Images.googleMini.image
       case .facebook:
-        return Gen.Images.facebookMini.swiftUIImage
+        return Gen.Images.facebookMini.image
       }
     }
     
     var backgroundColor: Color {
       switch self {
       case .apple:
-        return Gen.Colors.apple.swiftUIColor
+        return Gen.Colors.apple.color
       case .google:
-        return Gen.Colors.google.swiftUIColor
+        return Gen.Colors.google.color
       case .facebook:
-        return Gen.Colors.facebook.swiftUIColor
+        return Gen.Colors.facebook.color
       }
     }
     
     var textColor: Color {
       switch self {
       case .apple:
-        return Gen.Colors.white.swiftUIColor
+        return Gen.Colors.white.color
       case .google:
-        return Gen.Colors.black.swiftUIColor
+        return Gen.Colors.black.color
       case .facebook:
-        return Gen.Colors.black.swiftUIColor
+        return Gen.Colors.black.color
       }
     }
     
     var borderColor: Color {
       switch self {
       case .apple:
-        return Gen.Colors.apple.swiftUIColor
+        return Gen.Colors.apple.color
       case .google:
-        return Gen.Colors.black.swiftUIColor
+        return Gen.Colors.black.color
       case .facebook:
-        return Gen.Colors.facebook.swiftUIColor
+        return Gen.Colors.facebook.color
       }
     }
     
@@ -104,7 +104,7 @@ public struct ATSignInButton: View {
         RoundedRectangle(cornerRadius: 28)
           .stroke(self.type.borderColor, lineWidth: 1)
       )
-      .padding([.leading, .trailing], 20)
+      .padding([.leading, .trailing], .designContentsInset)
     })
 
   }

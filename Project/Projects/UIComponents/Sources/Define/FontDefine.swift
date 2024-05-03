@@ -14,6 +14,7 @@ final class FontDefine: NSObject {
     case regular
     case bold
     case semiBold
+    case extraBold
     
     var name: String {
       switch self {
@@ -37,6 +38,13 @@ final class FontDefine: NSObject {
           return "Lato-Semibold"
         case .korean:
           return "AppleSDGothicNeo-Semibold"
+        }
+      case .extraBold:
+        switch Locale.lang {
+        case .english:
+          return "Lato-Extrabold"
+        case .korean:
+          return "AppleSDGothicNeo-Bold"
         }
       }
     }

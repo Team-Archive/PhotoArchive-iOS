@@ -19,7 +19,7 @@ public enum ATFonts {
   case body14
   case body13
   case body12
-  case buttonBold14
+  case buttonExtraBold14
   case buttonSemiBold14
   
   
@@ -46,8 +46,8 @@ extension Font {
       return .custom(FontDefine.FontType.regular.name, size: 13)
     case .body12:
       return .custom(FontDefine.FontType.regular.name, size: 12)
-    case .buttonBold14:
-      return .custom(FontDefine.FontType.bold.name, size: 14)
+    case .buttonExtraBold14:
+      return .custom(FontDefine.FontType.extraBold.name, size: 14)
     case .buttonSemiBold14:
       return .custom(FontDefine.FontType.semiBold.name, size: 14)
     }

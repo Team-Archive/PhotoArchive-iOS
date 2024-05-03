@@ -109,13 +109,13 @@ import SwiftUI
 {% if resourceCount.arresourcegroup > 0 %}
 {{accessModifier}} struct {{arResourceGroupType}} {
   {{accessModifier}} fileprivate(set) var name: String
-  
+
 #if os(iOS)
   @available(iOS 11.3, *)
   {{accessModifier}} var referenceImages: Set<ARReferenceImage> {
     return ARReferenceImage.referenceImages(in: self)
   }
-  
+
   @available(iOS 12.0, *)
   {{accessModifier}} var referenceObjects: Set<ARReferenceObject> {
     return ARReferenceObject.referenceObjects(in: self)
@@ -145,44 +145,44 @@ import SwiftUI
 {% if resourceCount.color > 0 %}
 {{accessModifier}} final class {{colorType}} {
   {{accessModifier}} fileprivate(set) var name: String
-  
+
 #if os(macOS)
   {{accessModifier}} typealias Color = NSColor
 #elseif os(iOS) || os(tvOS) || os(watchOS)
-  {{accessModifier}} typealias Color = UIColor
+  {{accessModifier}} typealias UIKitColor = UIColor
 #endif
-  
+
   @available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.13, *)
-  {{accessModifier}} private(set) lazy var color: Color = {
-    guard let color = Color(asset: self) else {
+  {{accessModifier}} private(set) lazy var uikitColor: UIKitColor = {
+    guard let color = UIKitColor(asset: self) else {
       fatalError("Unable to load color asset named \\(name).")
     }
     return color
   }()
-  
+
 #if canImport(SwiftUI)
-  private var _swiftUIColor: Any? = nil
+  private var _color: Any? = nil
   @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
-  {{accessModifier}} private(set) var swiftUIColor: SwiftUI.Color {
+  {{accessModifier}} private(set) var color: SwiftUI.Color {
     get {
-      if self._swiftUIColor == nil {
-        self._swiftUIColor = SwiftUI.Color(asset: self)
+      if self._color == nil {
+        self._color = SwiftUI.Color(asset: self)
       }
-      
-      return self._swiftUIColor as! SwiftUI.Color
+
+      return self._color as! SwiftUI.Color
     }
     set {
-      self._swiftUIColor = newValue
+      self._color = newValue
     }
   }
 #endif
-  
+
   fileprivate init(name: String) {
     self.name = name
   }
 }
 
-{{accessModifier}} extension {{colorType}}.Color {
+{{accessModifier}} extension {{colorType}}.UIKitColor {
   @available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.13, *)
   convenience init?(asset: {{colorType}}) {
     let bundle = {{bundleToken}}.bundle
@@ -210,7 +210,7 @@ import SwiftUI
 {% if resourceCount.data > 0 %}
 {{accessModifier}} struct {{dataType}} {
   {{accessModifier}} fileprivate(set) var name: String
-  
+
 #if os(iOS) || os(tvOS) || os(macOS)
   @available(iOS 9.0, macOS 10.11, *)
   {{accessModifier}} var data: NSDataAsset {
@@ -240,37 +240,37 @@ import SwiftUI
 {% if resourceCount.image > 0 %}
 {{accessModifier}} struct {{imageType}} {
   {{accessModifier}} fileprivate(set) var name: String
-  
+
 #if os(macOS)
   {{accessModifier}} typealias Image = NSImage
 #elseif os(iOS) || os(tvOS) || os(watchOS)
-  {{accessModifier}} typealias Image = UIImage
+  {{accessModifier}} typealias UIKitImage = UIImage
 #endif
-  
-  {{accessModifier}} var image: Image {
+
+  {{accessModifier}} var uikitImage: UIKitImage {
     let bundle = {{bundleToken}}.bundle
 #if os(iOS) || os(tvOS)
-    let image = Image(named: name, in: bundle, compatibleWith: nil)
+    let image = UIKitImage(named: name, in: bundle, compatibleWith: nil)
 #elseif os(macOS)
     let image = bundle.image(forResource: NSImage.Name(name))
 #elseif os(watchOS)
-    let image = Image(named: name)
+    let image = UIKitImage(named: name)
 #endif
     guard let result = image else {
       fatalError("Unable to load image asset named \\(name).")
     }
     return result
   }
-  
+
 #if canImport(SwiftUI)
   @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
-  {{accessModifier}} var swiftUIImage: SwiftUI.Image {
+  {{accessModifier}} var image: SwiftUI.Image {
     SwiftUI.Image(asset: self)
   }
 #endif
 }
 
-{{accessModifier}} extension {{imageType}}.Image {
+{{accessModifier}} extension {{imageType}}.UIKitImage {
   @available(macOS, deprecated,
              message: "This initializer is unsafe on macOS, please use the {{imageType}}.image property")
   convenience init?(asset: {{imageType}}) {
@@ -292,12 +292,12 @@ import SwiftUI
     let bundle = {{bundleToken}}.bundle
     self.init(asset.name, bundle: bundle)
   }
-  
+
   init(asset: {{imageType}}, label: Text) {
     let bundle = {{bundleToken}}.bundle
     self.init(asset.name, bundle: bundle, label: label)
   }
-  
+
   init(decorative asset: {{imageType}}) {
     let bundle = {{bundleToken}}.bundle
     self.init(decorative: asset.name, bundle: bundle)
