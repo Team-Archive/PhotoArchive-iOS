@@ -2,7 +2,7 @@
 //  ATDivider.swift
 //  UIComponents
 //
-//  Created by 김진영 on 5/7/24.
+//  Created by jinyoung on 5/7/24.
 //  Copyright © 2024 TeamArchive. All rights reserved.
 //
 import SwiftUI

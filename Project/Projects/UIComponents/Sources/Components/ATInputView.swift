@@ -2,7 +2,7 @@
 //  ATInputView.swift
 //  UIComponents
 //
-//  Created by 김진영 on 5/3/24.
+//  Created by jinyoung on 5/3/24.
 //  Copyright © 2024 TeamArchive. All rights reserved.
 //
 
