@@ -24,7 +24,7 @@ public struct ATTooltip: View {
   // MARK: - life cycle
   
   public var body: some View {
-    VStack {
+    VStack(spacing: 0) {
       VStack {
         HStack(spacing: 4) {
           Text(title)
@@ -51,7 +51,7 @@ public struct ATTooltip: View {
         .renderingMode(.template)
         .foregroundStyle(backgroundColor)
         .frame(width: 12, height: 10)
-    }.frame(height: 50)
+    }
   }
   
   public init(
