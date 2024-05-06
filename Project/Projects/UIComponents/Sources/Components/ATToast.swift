@@ -66,6 +66,7 @@ public struct ATToast: View {
     .padding(.vertical, 14)
     .background(Gen.Colors.purpleGray300.color)
     .clipShape(.rect(cornerRadius: 8))
+    .padding()
   }
   
   public init(icon: ATToastIcon, message: String) {
