@@ -16,14 +16,14 @@ public struct ATToast: View {
     var image: Image {
       switch self {
       case .check:
-        return Gen.Images.check.swiftUIImage
+        return Gen.Images.check.image
       }
     }
     
     var tintColor: Color {
       switch self {
       case .check:
-        return Gen.Colors.green.swiftUIColor
+        return Gen.Colors.green.color
       }
     }
   }
@@ -51,20 +51,20 @@ public struct ATToast: View {
         
         Text(message)
           .font(.fonts(.buttonSemiBold14))
-          .foregroundStyle(Gen.Colors.white.swiftUIColor)
+          .foregroundStyle(Gen.Colors.white.color)
         
         Spacer()
         
-        Gen.Images.closeMini.swiftUIImage
+        Gen.Images.closeMini.image
           .resizable()
           .renderingMode(.template)
           .frame(width: 24, height: 24)
-          .foregroundStyle(Gen.Colors.white.swiftUIColor)
+          .foregroundStyle(Gen.Colors.white.color)
       }
       .padding(.horizontal, 16)
     }
     .padding(.vertical, 14)
-    .background(Gen.Colors.purpleGray300.swiftUIColor)
+    .background(Gen.Colors.purpleGray300.color)
     .clipShape(.rect(cornerRadius: 8))
   }
   

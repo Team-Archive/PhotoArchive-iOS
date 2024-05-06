@@ -20,6 +20,21 @@ struct ContentView: View {
   var body: some View {
     ScrollView {
       VStack {
+        ATInputView()
+        ATGradientView(type: .main, direction: .horizontal)
+          .frame(height: 44)
+        ATGradientView(type: .morning, direction: .horizontal)
+          .frame(height: 44)
+        ATGradientView(type: .afternoon, direction: .horizontal)
+          .frame(height: 44)
+        ATGradientView(type: .evening, direction: .horizontal)
+          .frame(height: 44)
+        ATGradientView(type: .night, direction: .horizontal)
+          .frame(height: 44)
+        ATBadge(text: "1")
+        ATToast(icon: .check, message: "사진 업로드가 완료되었습니다.")
+        ATTooltip(title: "Be the first to share the news!")
+
         ATSignInButton(type: .apple, action: {
           print("apple")
         })

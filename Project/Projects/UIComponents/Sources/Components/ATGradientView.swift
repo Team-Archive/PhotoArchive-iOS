@@ -22,36 +22,36 @@ public struct ATGradientView: View {
       case .main:
         return Gradient(
           colors: [
-            Gen.Colors.gradationMainStart.swiftUIColor,
-            Gen.Colors.gradationMainEnd.swiftUIColor
+            Gen.Colors.gradationMainStart.color,
+            Gen.Colors.gradationMainEnd.color
           ]
         )
       case .morning:
         return Gradient(
           colors: [
-            Gen.Colors.gradationMorningStart.swiftUIColor,
-            Gen.Colors.gradationMorningEnd.swiftUIColor
+            Gen.Colors.gradationMorningStart.color,
+            Gen.Colors.gradationMorningEnd.color
           ]
         )
       case .afternoon:
         return Gradient(
           colors: [
-            Gen.Colors.gradationAfternoonStart.swiftUIColor,
-            Gen.Colors.gradationAfternoonEnd.swiftUIColor
+            Gen.Colors.gradationAfternoonStart.color,
+            Gen.Colors.gradationAfternoonEnd.color
           ]
         )
       case .evening:
         return Gradient(
           colors: [
-            Gen.Colors.gradationEveningStart.swiftUIColor,
-            Gen.Colors.gradationEveningEnd.swiftUIColor
+            Gen.Colors.gradationEveningStart.color,
+            Gen.Colors.gradationEveningEnd.color
           ]
         )
       case .night:
         return Gradient(
           colors: [
-            Gen.Colors.gradationNightStart.swiftUIColor,
-            Gen.Colors.gradationNightEnd.swiftUIColor
+            Gen.Colors.gradationNightStart.color,
+            Gen.Colors.gradationNightEnd.color
           ]
         )
       }

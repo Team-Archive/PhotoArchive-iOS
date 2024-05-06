@@ -31,7 +31,7 @@ public struct ATTooltip: View {
             .font(.fonts(.bodyBold14))
             .foregroundStyle(contentColor)
           
-          Gen.Images.close.swiftUIImage
+          Gen.Images.close.image
             .resizable()
             .renderingMode(.template)
             .aspectRatio(contentMode: .fit)
@@ -44,19 +44,20 @@ public struct ATTooltip: View {
       }
       .background(backgroundColor)
       .clipShape(.rect(cornerRadius: 20))
+      .frame(height: 40)
       
-      Gen.Images.tooltipArrow.swiftUIImage
+      Gen.Images.tooltipArrow.image
         .resizable()
         .renderingMode(.template)
         .foregroundStyle(backgroundColor)
         .frame(width: 12, height: 10)
-    }
+    }.frame(height: 50)
   }
   
   public init(
     title: String,
-    contentColor: Color = Gen.Colors.purpleGray400.swiftUIColor,
-    backgroundColor: Color = Gen.Colors.white.swiftUIColor
+    contentColor: Color = Gen.Colors.purpleGray400.color,
+    backgroundColor: Color = Gen.Colors.white.color
   ) {
     self.title = title
     self.contentColor = contentColor

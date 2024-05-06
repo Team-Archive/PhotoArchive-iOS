@@ -36,8 +36,8 @@ public struct ATBadge: View {
   
   public init(
     text: String,
-    backgroundColor: Color = Gen.Colors.purple.swiftUIColor,
-    contentColor: Color = Gen.Colors.white.swiftUIColor
+    backgroundColor: Color = Gen.Colors.purple.color,
+    contentColor: Color = Gen.Colors.white.color
   ) {
     self.text = text
     self.backgroundColor = backgroundColor
