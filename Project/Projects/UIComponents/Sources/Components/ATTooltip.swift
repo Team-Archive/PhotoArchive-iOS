@@ -12,45 +12,53 @@ public struct ATTooltip: View {
   // MARK: - public state
   
   // MARK: - private properties
+  private let title: String
+  private let contentColor: Color
+  private let backgroundColor: Color
+  
+  @State private var isHidden = false
   
   // MARK: - public properties
-  
-  private let title: String
-  
-  private let contentColor: Color
-  
-  private let backgroundColor: Color
   
   // MARK: - life cycle
   
   public var body: some View {
+    if !isHidden {
     VStack(spacing: 0) {
-      VStack {
-        HStack(spacing: 4) {
-          Text(title)
-            .font(.fonts(.bodyBold14))
-            .foregroundStyle(contentColor)
+        VStack {
+          HStack(spacing: 4) {
+            Text(title)
+              .font(.fonts(.bodyBold14))
+              .foregroundStyle(contentColor)
+            
+            Gen.Images.close.image
+              .resizable()
+              .renderingMode(.template)
+              .aspectRatio(contentMode: .fit)
+              .foregroundStyle(contentColor)
+              .frame(width: 20)
+              .onTapGesture {
+                withAnimation {
+                  isHidden = true
+                }
+              }
+          }
+          .padding(.horizontal, 16)
+          .padding(.vertical, 10)
           
-          Gen.Images.close.image
-            .resizable()
-            .renderingMode(.template)
-            .aspectRatio(contentMode: .fit)
-            .foregroundStyle(contentColor)
-            .frame(width: 20)
         }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 10)
-      
+        .background(backgroundColor)
+        .clipShape(.rect(cornerRadius: 20))
+        .frame(height: 40)
+        
+        Gen.Images.tooltipArrow.image
+          .resizable()
+          .renderingMode(.template)
+          .foregroundStyle(backgroundColor)
+          .frame(width: 12, height: 10)
       }
-      .background(backgroundColor)
-      .clipShape(.rect(cornerRadius: 20))
-      .frame(height: 40)
-      
-      Gen.Images.tooltipArrow.image
-        .resizable()
-        .renderingMode(.template)
-        .foregroundStyle(backgroundColor)
-        .frame(width: 12, height: 10)
+    } else {
+      VStack {}
     }
   }
   

@@ -20,7 +20,14 @@ struct ContentView: View {
   var body: some View {
     ScrollView {
       VStack {
-        ATNavigationBar(type: .default(title: "새로운 사진", trailingIcon: Gen.Images.refresh24.image))
+        ATNavigationBar(
+          type: .default(title: "새로운 사진",
+                         trailingIcon: Gen.Images.refresh24.image,
+                         backAction: {
+                           print("ATNavigationBar Back Action")
+                         }, trailingAction: {
+                           print("ATNavigationBar Trailing Action")
+                         }))
         ATDivider(type: .small)
         ATDivider(type: .medium)
         ATDivider(type: .large)

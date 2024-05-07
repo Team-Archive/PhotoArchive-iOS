@@ -10,14 +10,17 @@ import SwiftUI
 
 public struct ATNavigationBar: View {
   public enum ATNavigationBarType {
-    case `default`(title: String = "", trailingIcon: Image? = nil)
+    case `default`(title: String = "",
+                   trailingIcon: Image? = nil,
+                   backAction: (() -> Void)?,
+                   trailingAction: (() -> Void)?)
   }
   
   // MARK: - public state
   
   // MARK: - private properties
   private let type: ATNavigationBarType
-  
+
   // MARK: - public properties
   
   // MARK: - life cycle
@@ -25,11 +28,14 @@ public struct ATNavigationBar: View {
   public var body: some View {
     HStack {
       switch type {
-      case .default(let title, let trailingIcon):
+      case .default(let title, let trailingIcon, let backAction, let trailingAction):
         Gen.Images.back.image
           .resizable()
           .frame(width: 24, height: 24)
-        
+          .onTapGesture {
+            backAction?()
+          }
+
         Spacer()
         
         Text(title)
@@ -41,6 +47,9 @@ public struct ATNavigationBar: View {
         trailingIcon?
           .resizable()
           .frame(width: 24, height: 24)
+          .onTapGesture {
+            trailingAction?()
+          }
       }
     }
     .padding(.horizontal, 18)
@@ -60,7 +69,10 @@ public struct ATNavigationBar: View {
 
 #Preview {
   VStack {
-    ATNavigationBar(type: .default(title: "", trailingIcon: Gen.Images.refresh24.image))
+    ATNavigationBar(type: .default(title: "",
+                                   trailingIcon: Gen.Images.refresh24.image,
+                                   backAction: nil,
+                                   trailingAction: nil))
   }
   
 }

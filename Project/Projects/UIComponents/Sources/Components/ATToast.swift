@@ -34,6 +34,8 @@ public struct ATToast: View {
   private let icon: ATToastIcon
   private let message: String
   
+  @State private var isHidden = false
+  
   // MARK: - public properties
   
   
@@ -41,32 +43,41 @@ public struct ATToast: View {
   // MARK: - life cycle
   
   public var body: some View {
-    VStack {
-      HStack(spacing: 10) {
-        icon.image
-          .resizable()
-          .renderingMode(.template)
-          .foregroundStyle(icon.tintColor)
-          .frame(width: 24, height: 24)
-        
-        Text(message)
-          .font(.fonts(.buttonSemiBold14))
-          .foregroundStyle(Gen.Colors.white.color)
-        
-        Spacer()
-        
-        Gen.Images.closeMini.image
-          .resizable()
-          .renderingMode(.template)
-          .frame(width: 24, height: 24)
-          .foregroundStyle(Gen.Colors.white.color)
+    if !isHidden {
+      VStack {
+        HStack(spacing: 10) {
+          icon.image
+            .resizable()
+            .renderingMode(.template)
+            .foregroundStyle(icon.tintColor)
+            .frame(width: 24, height: 24)
+          
+          Text(message)
+            .font(.fonts(.buttonSemiBold14))
+            .foregroundStyle(Gen.Colors.white.color)
+          
+          Spacer()
+          
+          Gen.Images.closeMini.image
+            .resizable()
+            .renderingMode(.template)
+            .frame(width: 24, height: 24)
+            .foregroundStyle(Gen.Colors.white.color)
+            .onTapGesture {
+              withAnimation {
+                isHidden = true
+              }
+            }
+        }
+        .padding(.horizontal, 16)
       }
-      .padding(.horizontal, 16)
+      .padding(.vertical, 14)
+      .background(Gen.Colors.purpleGray300.color)
+      .clipShape(.rect(cornerRadius: 8))
+      .padding()
+    } else {
+      VStack {}
     }
-    .padding(.vertical, 14)
-    .background(Gen.Colors.purpleGray300.color)
-    .clipShape(.rect(cornerRadius: 8))
-    .padding()
   }
   
   public init(icon: ATToastIcon, message: String) {
