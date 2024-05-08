@@ -16,7 +16,7 @@ public struct AlbumReducer: Reducer {
   
   // MARK: - TCA Define
   
-  public enum Action: Equatable { // Equatable을 채택한 이유는 테스트 가능하게 만들기 위함
+  public enum Action: Equatable {
     case setIsLoading(Bool)
     case setError(ArchiveError)
     case search(keyword: String)
@@ -28,7 +28,7 @@ public struct AlbumReducer: Reducer {
   public struct State: Equatable { // Equatable을 채택하는 이유: class와 같은 참조타입이면 값이 변해도 주소값이 같기 때문에 변화를 감지하기 어려움. 100% 변화를 감지하기 위해서 값타입과 Equatable을 채택
     var isLoading: Bool = false
     var err: ArchiveError?
-    /*@BindingState*/ var appList: [AppstoreApp] = [] // BindingState를 사용하면 외부에서 값을 변경 할 수 있으나, 캡슐화를 손상시키기 때문에 권장하지는 않는다. 다만 복잡성 감소를 위해 만들어 놓은듯;
+    /*@BindingState*/ var appList: [AppstoreApp] = []
   }
   
   // MARK: - Private Property

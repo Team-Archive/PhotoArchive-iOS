@@ -17,6 +17,8 @@ public enum L10n {
     public static let nsCameraUsageDescription = L10n.tr("InfoPlist", "NSCameraUsageDescription")
   }
   public enum Localizable {
+    /// 최근
+    public static let albumRecentAlbum = L10n.tr("Localizable", "Album_Recent_Album")
     /// 예상하지 못한 오류가 발생하였습니다.
     public static let commonErrorMessage = L10n.tr("Localizable", "Common_Error_Message")
     /// 오류
