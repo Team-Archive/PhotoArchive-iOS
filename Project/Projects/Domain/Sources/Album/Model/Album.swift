@@ -9,7 +9,7 @@
 import Foundation
 import Photos
 
-public struct Album: Equatable {
+public struct Album: Equatable, Identifiable {
   
   public let id: UUID
   public let name: String

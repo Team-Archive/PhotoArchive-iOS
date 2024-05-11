@@ -13,8 +13,10 @@ public enum L10n {
   public enum InfoPlist {
     /// About Time
     public static let cfBundleDisplayName = L10n.tr("InfoPlist", "CFBundleDisplayName")
-    /// 위젯에 등록할 사진을 찍기위해 필요합니다.
+    /// 사진을 게시하기위해 카메라 권한이 필요합니다.
     public static let nsCameraUsageDescription = L10n.tr("InfoPlist", "NSCameraUsageDescription")
+    /// 사진을 게시하기위해 사진 보관함 권한이 필요합니다.
+    public static let nsPhotoLibraryUsageDescription = L10n.tr("InfoPlist", "NSPhotoLibraryUsageDescription")
   }
   public enum Localizable {
     /// 최근

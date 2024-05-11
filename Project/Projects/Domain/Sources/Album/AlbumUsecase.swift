@@ -11,4 +11,5 @@ import Photos
 
 public protocol AlbumUsecase {
   func fetchAlbumList() -> [Album]
+  func checkAlbumPermission() async -> PHAuthorizationStatus
 }

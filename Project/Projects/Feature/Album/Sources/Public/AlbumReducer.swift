@@ -11,6 +11,7 @@ import Foundation
 import ArchiveFoundation
 import Domain
 import Combine
+import Photos
 
 public struct AlbumReducer: Reducer {
   
@@ -19,21 +20,22 @@ public struct AlbumReducer: Reducer {
   public enum Action: Equatable {
     case setIsLoading(Bool)
     case setError(ArchiveError)
-    case search(keyword: String)
-    case requestMoreSearchData
-    case setAppstoreAppList([AppstoreApp])
-    case appendAppstoreAppList([AppstoreApp])
+    case readAlbumList
+    case setAlbumList([Album])
+    case checkAlbumPermission
+    case setAlbumPermission(PHAuthorizationStatus)
   }
   
-  public struct State: Equatable { // Equatable을 채택하는 이유: class와 같은 참조타입이면 값이 변해도 주소값이 같기 때문에 변화를 감지하기 어려움. 100% 변화를 감지하기 위해서 값타입과 Equatable을 채택
+  public struct State: Equatable {
     var isLoading: Bool = false
     var err: ArchiveError?
-    /*@BindingState*/ var appList: [AppstoreApp] = []
+    var albumList: [Album] = []
+    var albumPermission: PHAuthorizationStatus?
   }
   
   // MARK: - Private Property
   
-  private let appstoreSearchUsecase: AppstoreSearchUsecaseInterface
+  private let albumUsecase: AlbumUsecase
   
   private enum CancelId {
     case search
@@ -43,12 +45,11 @@ public struct AlbumReducer: Reducer {
   
   // MARK: - LifeCycle
   
-  public init(usecase: AppstoreSearchUsecaseInterface) {
-    self.appstoreSearchUsecase = usecase
+  public init(albumUsecase: AlbumUsecase) {
+    self.albumUsecase = albumUsecase
   }
   
-  public var body: some /*Reducer<State, Action>*/ ReducerOf<Self> {
-    @Dependency(\.timeZone) var timeZone // KeyPath를 사용해 의존성을 주입할 수 있음. 내가 만든 appstoreSearchUsecase도 이렇게 주입이 가능한가? -> 가능은 하지만 Interface로 사용하지는 못하는듯. 더 문제는 구체 클래스로 사용한다고 해도, 구현체를 어떻게 바꿔치기 하느냐가 더 문제가 되는듯..? DependencyExtensionSample 참조
+  public var body: some ReducerOf<Self> {
     Reduce { state, action in
       switch action {
       case .setIsLoading(let isLoading):
@@ -57,43 +58,31 @@ public struct AlbumReducer: Reducer {
       case .setError(let err):
         state.err = err
         return .none
-      case .search(let keyword):
-        return Effect.concatenate( // 사용자가 검색을 두 번 누른다면 이전 검색을 취소하고, 새로운 검색을 시작한다.
-          .cancel(id: CancelId.search),
-          .concatenate([
-            .send(.setIsLoading(true)),
-            .run { send in
-              let result = try await self.search(keyword: keyword).async()
-              switch result {
-              case .success(let list):
-                print("검색결과: \(list)")
-                await send(.setAppstoreAppList(list))
-              case .failure(let err):
-                await send(.setError(err))
-              }
-            }.cancellable(id: CancelId.search),
-            .send(.setIsLoading(false))
-          ])
+      case .readAlbumList:
+        return .concatenate(
+          .run(operation: { send in
+            let albumList = self.fetchAlbumList()
+            await send(.setAlbumList(albumList))
+          })
         )
-      case .requestMoreSearchData:
-        return .concatenate([
-          .send(.setIsLoading(true)),
-          .run { send in
-            let result = try await self.moreSearchData().async()
-            switch result {
-            case .success(let list):
-              await send(.setAppstoreAppList(list))
-            case .failure(let err):
-              await send(.setError(err))
-            }
-          },
-          .send(.setIsLoading(false))
-        ])
-      case .setAppstoreAppList(let list):
-        state.appList = list
+      case .setAlbumList(let albumList):
+        state.albumList = albumList
         return .none
-      case .appendAppstoreAppList(let list):
-        state.appList += list
+      case .checkAlbumPermission:
+        return .concatenate(
+          .run(operation: { send in
+            let albumPermission = await self.checkAlbumPermission()
+            switch albumPermission {
+            case .authorized, .limited:
+              await send(.readAlbumList)
+            default:
+              break
+            }
+            await send(.setAlbumPermission(albumPermission))
+          })
+        )
+      case .setAlbumPermission(let status):
+        state.albumPermission = status
         return .none
       }
     }
@@ -101,13 +90,12 @@ public struct AlbumReducer: Reducer {
   
   // MARK: - Private Method
   
-  private func search(keyword: String) -> AnyPublisher<Result<[AppstoreApp], ArchiveError>, Never> {
-    print("검색: \(keyword)")
-    return self.appstoreSearchUsecase.search(keyword: keyword)
+  private func fetchAlbumList() -> [Album] {
+    return self.albumUsecase.fetchAlbumList()
   }
   
-  private func moreSearchData() -> AnyPublisher<Result<[AppstoreApp], ArchiveError>, Never> {
-    return self.appstoreSearchUsecase.morePage()
+  private func checkAlbumPermission() async -> PHAuthorizationStatus {
+    return await self.albumUsecase.checkAlbumPermission()
   }
   
   // MARK: - Public Method

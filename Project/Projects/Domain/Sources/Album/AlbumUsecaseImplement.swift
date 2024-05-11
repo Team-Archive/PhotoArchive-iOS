@@ -67,11 +67,25 @@ public final class AlbumUsecaseImplement: AlbumUsecase {
     return returnValue
   }
   
-  // MARK: internal function
+  // MARK: public function
   
   public func fetchAlbumList() -> [Album] {
     return [self.fetchAllPhotoAlbum()] + self.fetchAllAlbums()
   }
   
-
+  public func checkAlbumPermission() async -> PHAuthorizationStatus {
+    let status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
+    
+    switch status {
+    case .notDetermined:
+      return await withCheckedContinuation { continuation in
+        PHPhotoLibrary.requestAuthorization(for: .readWrite) { newStatus in
+          continuation.resume(returning: newStatus)
+        }
+      }
+    default:
+      return status
+    }
+  }
+  
 }

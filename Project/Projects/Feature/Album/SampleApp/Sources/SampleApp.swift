@@ -7,14 +7,14 @@
 //
 
 import SwiftUI
-import AppstoreSearch
+import Album
 import Domain
 
 @main
 struct SampleApp: App {
   var body: some Scene {
     WindowGroup {
-      AppstoreSearchView(reducer: AppstoreSearchReducer(usecase: AppstoreSearchUsecase.makeObject(repository: AppstoreSearchRepositoryStubImplement())))
+      AlbumView(reducer: AlbumReducer(albumUsecase: AlbumUsecaseImplement(recentAlbumName: "최근")))
     }
   }
 }

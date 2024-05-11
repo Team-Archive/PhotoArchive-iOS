@@ -10,14 +10,14 @@ import Foundation
 import SwiftUI
 import ComposableArchitecture
 import Domain
+import Photos
+import ArchiveFoundation
 
-public struct AppstoreSearchView: View {
+public struct AlbumView: View {
   
   // MARK: - Private Property
   
-//  private let store: Store<AppstoreSearchReducer.State, AppstoreSearchReducer.Action>
-  private let store: StoreOf<AlbumReducer> // 위에 주석처리된 문법의 축약형
-  @State var text: String = ""
+  private let store: StoreOf<AlbumReducer>
   
   // MARK: - Internal Property
   
@@ -29,24 +29,24 @@ public struct AppstoreSearchView: View {
     
     WithViewStore(store, observe: { $0 }) { viewStore in
       ZStack {
-        VStack {
-          VStack(spacing: 8) {
-            TextField("텍스트 입력", text: $text)
-              .onSubmit {
-                self.store.send(.search(keyword: text))
-              }
-            List(viewStore.appList) { app in
-              Text(app.name)
+        if let permission = viewStore.albumPermission {
+          switch permission {
+          case .authorized, .limited:
+            AlbumListView(albumList: viewStore.albumList)
+          default:
+            AlbumNotPermittedView {
+              ArchiveCommonUtil.openSetting()
             }
           }
-          .navigationTitle("앱 목록")
+        } else {
+          AlbumNotPermittedView {
+            ArchiveCommonUtil.openSetting()
+          }
         }
-        .padding()
-        
-        ProgressView()
-          .opacity(viewStore.state.isLoading ? 1 : 0)
-        
       }
+      .onAppear(perform: {
+        viewStore.send(.checkAlbumPermission)
+      })
     }
   }
   
@@ -56,6 +56,7 @@ public struct AppstoreSearchView: View {
     self.store = .init(initialState: .init(), reducer: {
       return reducer
     })
+    self.store.send(.readAlbumList)
   }
   
   // MARK: - Private Method
