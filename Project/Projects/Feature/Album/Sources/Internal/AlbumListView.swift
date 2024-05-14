@@ -10,104 +10,97 @@ import SwiftUI
 import UIComponents
 import Domain
 import Photos
+import ArchiveFoundation
 
 public struct AlbumListView: View {
-  
-  //  private struct AlbumThumbnailInfo: Identifiable {
-  //    let id: UUID
-  //    let name: String
-  //    let image: Image
-  //  }
   
   // MARK: - public state
   
   // MARK: - private properties
   
   private let albumList: [Album]
-  @State private var viewModels: [UUID: AlbumThumbnailViewModel] = [:]
+  private let itemRightInset: CGFloat = 16
+  private let itemBottomInset: CGFloat = 20
+  private let contentsHeight: CGFloat = 46
+  private let gridLeftRightInset: CGFloat = 20
   
   // MARK: - public properties
+  
+  public var action: (Album) -> Void
   
   // MARK: - life cycle
   
   public var body: some View {
     
     ZStack {
-      List {
-        ForEach(self.albumList) { album in
-          HStack {
-            //            album.thumbnailAsset?.toImage(size: .init(width: 200, height: 200))
-            if let thumbnailAsset = album.thumbnailAsset {
-              albumThumbnailView(asset: thumbnailAsset, id: album.id)
-            } else {
-              Text("No Thumbnail")
+      ATBackgroundView()
+        .edgesIgnoringSafeArea(.all)
+      GeometryReader { geometry in
+        ScrollView {
+          let columns: [GridItem] = Array(repeating: .init(.flexible(), spacing: self.itemRightInset), count: 2)
+          LazyVGrid(columns: columns, spacing: self.itemBottomInset) {
+            ForEach(self.albumList) { album in
+              albumThumbnailView(album: album)
+                .frame(
+                  width: (geometry.size.width - self.itemRightInset - (gridLeftRightInset * 2)) / 2,
+                  height: ((geometry.size.width - self.itemRightInset - (gridLeftRightInset * 2)) / 2) + contentsHeight
+                )
             }
           }
-        }
+        }.padding(
+          EdgeInsets(
+            top: 0,
+            leading: self.gridLeftRightInset,
+            bottom: 0,
+            trailing: self.gridLeftRightInset
+          )
+        )
       }
-      .listStyle(.plain)
     }
     
   }
   
-  init(albumList: [Album]) {
+  init(albumList: [Album], selected: @escaping (Album) -> Void) {
     self.albumList = albumList
-    
+    self.action = selected
   }
   
   // MARK: - private method
   
   @ViewBuilder
-  private func albumThumbnailView(asset: PHAsset, id: UUID) -> some View {
-    let viewModel = viewModels[id, default: AlbumThumbnailViewModel(asset: asset)]
-    if let image = viewModel.image {
-      image
-        .resizable()
-        .aspectRatio(contentMode: .fill)
-        .frame(width: 200, height: 200)
-    } else if let errorMessage = viewModel.errorMessage {
-      Text(errorMessage)
-    } else {
-      ProgressView()
-    }
+  private func albumThumbnailView(album: Album) -> some View {
+    Button(action: {
+      self.action(album)
+    }, label: {
+      VStack(alignment: .leading) {
+        ATPHAssetImage(asset: album.thumbnailAsset, placeholder: Gen.Images.allPerson.image)
+          .resizable()
+          .scaledToFill()
+          .aspectRatio(contentMode: .fill)
+          .clipShape(.rect(cornerRadius: 8))
+          .clipped()
+        Spacer(minLength: 8)
+        Text(album.name)
+          .font(.fonts(.body14))
+          .foregroundStyle(Gen.Colors.white.color)
+        Spacer(minLength: 4)
+        Text(album.count.toDotString())
+          .font(.fonts(.body14))
+          .foregroundStyle(Gen.Colors.gray300.color)
+      }
+      .frame(maxHeight: .infinity)
+    })
   }
   
   // MARK: - internal method
   
 }
 
-class AlbumThumbnailViewModel: ObservableObject {
-  @Published var image: Image?
-  @Published var errorMessage: String?
-  
-  private var asset: PHAsset
-  
-  init(asset: PHAsset) {
-    self.asset = asset
-    loadImage()
-  }
-  
-  func loadImage() {
-    Task {
-      let result = await asset.toImage(.thumbnail)
-      switch result {
-      case .success(let img):
-        DispatchQueue.main.async {
-          self.image = img
-          self.errorMessage = nil
-        }
-      case .failure(_):
-        DispatchQueue.main.async {
-          self.errorMessage = "Failed to load image."
-        }
-      }
-    }
-  }
-}
-
 #Preview {
   VStack {
-    AlbumListView(albumList: [])
+    AlbumListView(albumList: [], selected: { selected in
+      print("selected: \(selected)")
+    })
   }
   
 }

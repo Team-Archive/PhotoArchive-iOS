@@ -32,7 +32,9 @@ public struct AlbumView: View {
         if let permission = viewStore.albumPermission {
           switch permission {
           case .authorized, .limited:
-            AlbumListView(albumList: viewStore.albumList)
+            AlbumListView(albumList: viewStore.albumList, selected: { selected in
+              print("selected: \(selected)")
+            })
           default:
             AlbumNotPermittedView {
               ArchiveCommonUtil.openSetting()
