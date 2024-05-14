@@ -22,7 +22,6 @@ public struct AlbumListView: View {
   private let itemRightInset: CGFloat = 16
   private let itemBottomInset: CGFloat = 20
   private let contentsHeight: CGFloat = 46
-  private let gridLeftRightInset: CGFloat = 20
   
   // MARK: - public properties
   
@@ -42,17 +41,17 @@ public struct AlbumListView: View {
             ForEach(self.albumList) { album in
               albumThumbnailView(album: album)
                 .frame(
-                  width: (geometry.size.width - self.itemRightInset - (gridLeftRightInset * 2)) / 2,
-                  height: ((geometry.size.width - self.itemRightInset - (gridLeftRightInset * 2)) / 2) + contentsHeight
+                  width: (geometry.size.width - self.itemRightInset - (.designContentsInset * 2)) / 2,
+                  height: ((geometry.size.width - self.itemRightInset - (.designContentsInset * 2)) / 2) + contentsHeight
                 )
             }
           }
         }.padding(
           EdgeInsets(
             top: 0,
-            leading: self.gridLeftRightInset,
+            leading: .designContentsInset,
             bottom: 0,
-            trailing: self.gridLeftRightInset
+            trailing: .designContentsInset
           )
         )
       }
@@ -73,7 +72,7 @@ public struct AlbumListView: View {
       self.action(album)
     }, label: {
       VStack(alignment: .leading) {
-        ATPHAssetImage(asset: album.thumbnailAsset, placeholder: Gen.Images.allPerson.image)
+        ATPHAssetImage(asset: album.thumbnailAsset, placeholder: Gen.Images.placeholder.image)
           .resizable()
           .scaledToFill()
           .aspectRatio(contentMode: .fill)

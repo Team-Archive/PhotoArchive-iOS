@@ -21,4 +21,12 @@ public struct Album: Equatable, Identifiable {
     return lhs.id == rhs.id
   }
   
+  public init(id: UUID, name: String, count: Int, fetchResult: PHFetchResult<PHAsset>, thumbnailAsset: PHAsset?) {
+    self.id = id
+    self.name = name
+    self.count = count
+    self.fetchResult = fetchResult
+    self.thumbnailAsset = thumbnailAsset
+  }
+  
 }
