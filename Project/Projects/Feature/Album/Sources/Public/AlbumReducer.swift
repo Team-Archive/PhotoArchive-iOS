@@ -24,6 +24,11 @@ public struct AlbumReducer: Reducer {
     case setAlbumList([Album])
     case checkAlbumPermission
     case setAlbumPermission(PHAuthorizationStatus)
+    case setSelectedAlbum(Album)
+    case appendSelectedAsset(PHAsset)
+    case removeSelectedAsset(PHAsset)
+    case setCurrentFocusIndex(UInt)
+    case clearCurentFocusIndex
   }
   
   public struct State: Equatable {
@@ -31,6 +36,9 @@ public struct AlbumReducer: Reducer {
     var err: ArchiveError?
     var albumList: [Album] = []
     var albumPermission: PHAuthorizationStatus?
+    var selectedAlbum: Album?
+    var selectedAssetList: [PHAsset] = []
+    var currentFocusIndex: UInt?
   }
   
   // MARK: - Private Property
@@ -45,7 +53,9 @@ public struct AlbumReducer: Reducer {
   
   // MARK: - LifeCycle
   
-  public init(albumUsecase: AlbumUsecase) {
+  public init(
+    albumUsecase: AlbumUsecase
+  ) {
     self.albumUsecase = albumUsecase
   }
   
@@ -63,6 +73,9 @@ public struct AlbumReducer: Reducer {
           .run(operation: { send in
             let albumList = self.fetchAlbumList()
             await send(.setAlbumList(albumList))
+            if let album = albumList.first {
+              await send(.setSelectedAlbum(album))
+            }
           })
         )
       case .setAlbumList(let albumList):
@@ -83,6 +96,21 @@ public struct AlbumReducer: Reducer {
         )
       case .setAlbumPermission(let status):
         state.albumPermission = status
+        return .none
+      case .setSelectedAlbum(let album):
+        state.selectedAlbum = album
+        return .none
+      case .appendSelectedAsset(let asset):
+        state.selectedAssetList.append(asset)
+        return .none
+      case .removeSelectedAsset(let asset):
+        state.selectedAssetList = state.selectedAssetList.filter { $0 != asset }
+        return .none
+      case .setCurrentFocusIndex(let index):
+        state.currentFocusIndex = index
+        return .none
+      case .clearCurentFocusIndex:
+        state.currentFocusIndex = nil
         return .none
       }
     }

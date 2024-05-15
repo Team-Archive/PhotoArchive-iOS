@@ -35,10 +35,14 @@ public struct AlbumView: View {
 //            AlbumListView(albumList: viewStore.albumList, selected: { selected in
 //              print("selected: \(selected)")
 //            })
-            if let album = viewStore.albumList[safe: 0] {
-              AlbumPhotoView(album: viewStore.albumList[0]) { asset in
-                print("asset: \(asset)")
-              }
+            if let album = viewStore.selectedAlbum {
+              AlbumMultiSelectPhotoView(
+                store: store,
+                album: album) {
+                  print("done")
+                }
+            } else {
+              Text("Unexpected Error.. :(\nNot Exist Album")
             }
           default:
             AlbumNotPermittedView {
