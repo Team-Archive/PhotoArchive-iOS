@@ -120,7 +120,8 @@ extension Project {
     let sampleAppInfoPlist: [String: Plist.Value] = [
       "CFBundleShortVersionString": "1.0",
       "CFBundleVersion": "1",
-      "NSPhotoLibraryUsageDescription": "사진첩 권한이 필요해요"
+      "NSPhotoLibraryUsageDescription": "사진첩 권한이 필요해요",
+      "UILaunchScreen": "LaunchScreen"
     ]
     
     let sampleApp = Target(
