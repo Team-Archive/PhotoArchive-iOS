@@ -55,16 +55,16 @@ struct ContentView: View {
         ATButton(title: "hola", action: {
           print("Button")
         }, isEnabled: .constant(false))
-        ATBottomButton(title: "hola", action: {
+        ATBottomButton(title: "ATBottomButton", action: {
           print("Button")
         })
-        ATBottomButton(title: "hola", action: {
+        ATBottomButton(title: "ATBottomButton", action: {
           print("Button")
         }, isEnabled: .constant(false))
-        ATBottomActionButton(icon: Gen.Images.send24.image, title: "hola", action: {
+        ATBottomActionButton(icon: Gen.Images.send24.image, title: "ATBottomActionButton", action: {
           print("Button")
         })
-        ATBottomActionButton(icon: .init(systemName: "bolt"), title: "hola", action: {
+        ATBottomActionButton(icon: .init(systemName: "bolt"), title: "ATBottomActionButton", action: {
           print("Button")
         }, isEnabled: .constant(false))
         ATRoundIconButton(
@@ -106,7 +106,7 @@ struct ContentView: View {
           }
         )
         .frame(width: 40, height: 30)
-        ATSelectableButton(contentsView: Text("hola"), action: { isSelected in
+        ATSelectableButton(contentsView: Text("ATSelectableButton"), action: { isSelected in
           print("Button: \(isSelected)")
         })
         ATSelectableEmojiButton(
@@ -124,8 +124,8 @@ struct ContentView: View {
             onThumbColor: Gen.Colors.white.color,
             offThumbColor: Gen.Colors.white.color
           ))
-        ATTagView(icon: .init(systemName: "bolt"), title: "hola")
-        ATTagView(icon: nil, title: "hola")
+        ATTagView(icon: .init(systemName: "bolt"), title: "ATTagView")
+        ATTagView(icon: nil, title: "ATTagView")
         ATWeatherTagView(weather: .cloudy, temperature: 5.5)
         ATWeatherTagView(designType: .secondary, weather: .cloudy, temperature: 5.5)
         ATDateTagView(date: Date())
@@ -134,7 +134,7 @@ struct ContentView: View {
           .init(icon: .init(systemName: "bolt"), title: "Bolt"),
           .init(icon: .init(systemName: "heart"), title: "Heart")
         ])
-        ATCheckBoxView(title: "hola", isChecked: false, action: { isChecked in
+        ATCheckBoxView(title: "ATCheckBoxView", isChecked: false, action: { isChecked in
           print("isChecked: \(isChecked)")
         })
         ATUrlImage(
@@ -152,7 +152,7 @@ struct ContentView: View {
           ),
           isChecked: false,
           action: { isChecked in
-            print("hola: \(isChecked)")
+            print("ATCheckImageButton: \(isChecked)")
           }
         )
         .frame(width: 68, height: 68)
@@ -160,7 +160,7 @@ struct ContentView: View {
           type: .image(.init(systemName: "bolt")),
           isChecked: true,
           action: { isChecked in
-            print("hola: \(isChecked)")
+            print("ATCheckImageButton: \(isChecked)")
           }
         )
         .frame(width: 68, height: 68)
