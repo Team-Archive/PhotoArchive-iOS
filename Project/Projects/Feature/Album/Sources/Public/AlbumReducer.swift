@@ -27,8 +27,6 @@ public struct AlbumReducer: Reducer {
     case setSelectedAlbum(Album)
     case appendSelectedAsset(PHAsset)
     case removeSelectedAsset(PHAsset)
-    case setCurrentFocusIndex(UInt)
-    case clearCurentFocusIndex
   }
   
   public struct State: Equatable {
@@ -38,7 +36,6 @@ public struct AlbumReducer: Reducer {
     var albumPermission: PHAuthorizationStatus?
     var selectedAlbum: Album?
     var selectedAssetList: [PHAsset] = []
-    var currentFocusIndex: UInt?
   }
   
   // MARK: - Private Property
@@ -105,12 +102,6 @@ public struct AlbumReducer: Reducer {
         return .none
       case .removeSelectedAsset(let asset):
         state.selectedAssetList = state.selectedAssetList.filter { $0 != asset }
-        return .none
-      case .setCurrentFocusIndex(let index):
-        state.currentFocusIndex = index
-        return .none
-      case .clearCurentFocusIndex:
-        state.currentFocusIndex = nil
         return .none
       }
     }

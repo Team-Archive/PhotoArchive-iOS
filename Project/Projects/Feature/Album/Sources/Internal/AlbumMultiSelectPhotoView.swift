@@ -75,15 +75,10 @@ struct AlbumMultiSelectPhotoView: View {
     WithViewStore(store, observe: { $0 }) { viewStore in
       Button(action: {
         if viewStore.selectedAssetList.contains(asset) {
-          if let currentFocusIndex = viewStore.currentFocusIndex {
-            if currentFocusIndex == index {
-              viewStore.send(.removeSelectedAsset(asset))
-            }
-          }
+          viewStore.send(.removeSelectedAsset(asset))
         } else {
           viewStore.send(.appendSelectedAsset(asset))
         }
-        viewStore.send(.setCurrentFocusIndex(index))
       }, label: {
         VStack(alignment: .leading) {
           ZStack {
@@ -92,7 +87,6 @@ struct AlbumMultiSelectPhotoView: View {
               .scaledToFill()
               .aspectRatio(contentMode: .fill)
               .clipped()
-            FocusBoxView(asset: asset)
             SelectBoxView(asset: asset)
           }
         }
@@ -110,7 +104,14 @@ struct AlbumMultiSelectPhotoView: View {
           .fill(.clear)
           .border(viewStore.selectedAssetList.contains(asset) ? Gen.Colors.purple.color : .clear, width: 2)
         if viewStore.selectedAssetList.contains(asset) {
-          SelectedItemNumberView(value: 1)
+          let selectedIndex: UInt = {
+            if let index = self.selectedIndex(list: viewStore.selectedAssetList, asset: asset) {
+              return index + 1
+            } else {
+              return 0
+            }
+          }()
+          SelectedItemNumberView(value: selectedIndex)
             .padding(8)
         } else {
           UnselectedItemNumberView()
@@ -142,10 +143,17 @@ struct AlbumMultiSelectPhotoView: View {
       .clipShape(.circle)
   }
   
-  @ViewBuilder
-  private func FocusBoxView(asset: PHAsset) -> some View {
-    WithViewStore(store, observe: { $0 }) { viewStore in
-      viewStore.selectedAssetList.contains(asset) ? Gen.Colors.gray200.color.opacity(0.3) : .clear
+  private func selectedIndex(list: [PHAsset], asset: PHAsset) -> UInt? {
+    if list.contains(asset) {
+      for i in 0..<list.count {
+        guard let item = list[safe: i] else { continue }
+        if item == asset {
+          return UInt(i)
+        }
+      }
+      return nil
+    } else {
+      return nil
     }
   }
   
@@ -154,14 +162,24 @@ struct AlbumMultiSelectPhotoView: View {
 }
 
 
-//#Preview {
-//  VStack {
-//    AlbumMultiSelectPhotoView(
-//      reducer: <#AlbumReducer#>, album: .init(id: UUID(), name: "test", count: 10, fetchResult: .init(), thumbnailAsset: nil),
-//      completion: { selected in
-//      print("selected: \(selected)")
-//    })
-//  }
-//
-//}
+#Preview {
+  VStack {
+    AlbumMultiSelectPhotoView(
+      store: .init(
+        initialState: .init(),
+        reducer: {
+      
+        }),
+      album: .init(
+        id: UUID(),
+        name: "최신",
+        count: 10,
+        fetchResult: .init(),
+        thumbnailAsset: nil
+      )) {
+        
+      }
+  }
+
+}
 
