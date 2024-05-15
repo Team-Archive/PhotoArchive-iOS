@@ -40,9 +40,9 @@ extension PHAsset {
     var size: CGSize {
       switch self {
       case .detail:
-        return .init(width: 300, height: 300)
+        return .init(width: 500, height: 500)
       case .thumbnail:
-        return .init(width: 200, height: 200)
+        return .init(width: 300, height: 300)
       }
     }
   }

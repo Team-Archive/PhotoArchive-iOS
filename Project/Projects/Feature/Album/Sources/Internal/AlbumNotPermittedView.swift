@@ -9,7 +9,7 @@
 import SwiftUI
 import UIComponents
 
-public struct AlbumNotPermittedView: View {
+struct AlbumNotPermittedView: View {
   
   // MARK: - public state
   
@@ -17,11 +17,11 @@ public struct AlbumNotPermittedView: View {
   
   // MARK: - public properties
   
-  public var action: () -> Void
+  var action: () -> Void
   
   // MARK: - life cycle
   
-  public var body: some View {
+  var body: some View {
     
     VStack {
       Text("권한이 없어요 ~")

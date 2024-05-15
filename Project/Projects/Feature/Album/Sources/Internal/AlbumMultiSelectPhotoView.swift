@@ -1,5 +1,5 @@
 //
-//  AlbumPhotoView.swift
+//  AlbumMultiSelectPhotoView.swift
 //  Album
 //
 //  Created by Aaron Hanwe LEE on 5/10/24.
@@ -12,7 +12,7 @@ import Domain
 import Photos
 import ArchiveFoundation
 
-public struct AlbumPhotoView: View {
+struct AlbumMultiSelectPhotoView: View {
   
   // MARK: - public state
   
@@ -23,11 +23,11 @@ public struct AlbumPhotoView: View {
   
   // MARK: - public properties
   
-  public var action: (PHAsset) -> Void
+  var completion: ([PHAsset]) -> Void
   
   // MARK: - life cycle
   
-  public var body: some View {
+  var body: some View {
     
     ZStack {
       ATBackgroundView()
@@ -48,9 +48,9 @@ public struct AlbumPhotoView: View {
     
   }
   
-  init(album: Album, selected: @escaping (PHAsset) -> Void) {
+  init(album: Album, completion: @escaping ([PHAsset]) -> Void) {
     self.album = album
-    self.action = selected
+    self.completion = completion
   }
   
   // MARK: - private method
@@ -58,7 +58,7 @@ public struct AlbumPhotoView: View {
   @ViewBuilder
   private func ThumbnailView(asset: PHAsset) -> some View {
     Button(action: {
-      self.action(asset)
+      
     }, label: {
       VStack(alignment: .leading) {
         ATPHAssetImage(asset: asset, placeholder: Gen.Images.placeholder.image)
@@ -77,7 +77,7 @@ public struct AlbumPhotoView: View {
 
 #Preview {
   VStack {
-    AlbumPhotoView(album: .init(id: UUID(), name: "test", count: 10, fetchResult: .init(), thumbnailAsset: nil), selected: { selected in
+    AlbumMultiSelectPhotoView(album: .init(id: UUID(), name: "test", count: 10, fetchResult: .init(), thumbnailAsset: nil), selected: { selected in
       print("selected: \(selected)")
     })
   }

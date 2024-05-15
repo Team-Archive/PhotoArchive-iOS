@@ -12,7 +12,7 @@ import Domain
 import Photos
 import ArchiveFoundation
 
-public struct AlbumListView: View {
+struct AlbumListView: View {
   
   // MARK: - public state
   
@@ -25,11 +25,11 @@ public struct AlbumListView: View {
   
   // MARK: - public properties
   
-  public var action: (Album) -> Void
+  var action: (Album) -> Void
   
   // MARK: - life cycle
   
-  public var body: some View {
+  var body: some View {
     
     ZStack {
       ATBackgroundView()
