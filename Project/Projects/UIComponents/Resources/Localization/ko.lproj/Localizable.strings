@@ -10,3 +10,7 @@ e-mail: mobiledev@kakao.com
 "Sign_In_Google" = "Login with Google";
 "Sign_In_Facebook" = "Login with Facebook";
 "Album_Recent_Album" = "최근";
+"Album_Not_Permitted_Title" = "사진첩 접근권한 허용";
+"Album_Not_Permitted_Contents" = "About Time을 이용해 사진을 친구들과 공유하기 위해 사진첩 접근권한이 필요해요";
+"Album_Not_Permitted_Help" = "앱 설정에서 언제든지 변경할 수 있어요.";
+"Album_Not_Permitted_Allow_Button_Title" = "접근권한 허용";

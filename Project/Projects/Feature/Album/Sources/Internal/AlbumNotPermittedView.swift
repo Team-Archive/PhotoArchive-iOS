@@ -22,14 +22,23 @@ struct AlbumNotPermittedView: View {
   // MARK: - life cycle
   
   var body: some View {
-    
-    VStack {
-      Text("권한이 없어요 ~")
-      Button("설정으로 갑시다") {
-        self.action()
+    ZStack {
+      ATBackgroundView()
+        .edgesIgnoringSafeArea(.all)
+      VStack(spacing: 20) {
+        Spacer()
+        ContentsView()
+        Spacer()
+        Spacer()
+        Text(L10n.Localizable.albumNotPermittedHelp)
+          .font(.fonts(.body14))
+          .foregroundStyle(Gen.Colors.gray300.color)
+          .multilineTextAlignment(.center)
+        ATBottomActionButton(title: L10n.Localizable.albumNotPermittedAllowButtonTitle, action: {
+          action()
+        })
       }
     }
-
   }
   
   init(action: @escaping () -> Void) {
@@ -37,6 +46,30 @@ struct AlbumNotPermittedView: View {
   }
   
   // MARK: - private method
+  
+  @ViewBuilder
+  private func ContentsView() -> some View {
+    VStack(spacing: 20) {
+      Gen.Images.requestAlbumPermission.image
+        .frame(width: 80, height: 65)
+      Text(L10n.Localizable.albumNotPermittedTitle)
+        .font(.fonts(.title24))
+        .foregroundStyle(Gen.Colors.white.color)
+        .multilineTextAlignment(.center)
+      Text(L10n.Localizable.albumNotPermittedContents)
+        .font(.fonts(.body14))
+        .foregroundStyle(Gen.Colors.gray300.color)
+        .multilineTextAlignment(.center)
+    }
+    .padding(
+      .init(
+        top: 0,
+        leading: .designContentsInset,
+        bottom: 0,
+        trailing: .designContentsInset
+      )
+    )
+  }
   
   // MARK: - internal method
   

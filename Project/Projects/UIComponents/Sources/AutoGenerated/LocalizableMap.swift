@@ -19,6 +19,14 @@ public enum L10n {
     public static let nsPhotoLibraryUsageDescription = L10n.tr("InfoPlist", "NSPhotoLibraryUsageDescription")
   }
   public enum Localizable {
+    /// 접근권한 허용
+    public static let albumNotPermittedAllowButtonTitle = L10n.tr("Localizable", "Album_Not_Permitted_Allow_Button_Title")
+    /// About Time을 이용해 사진을 친구들과 공유하기 위해 사진첩 접근권한이 필요해요
+    public static let albumNotPermittedContents = L10n.tr("Localizable", "Album_Not_Permitted_Contents")
+    /// 앱 설정에서 언제든지 변경할 수 있어요.
+    public static let albumNotPermittedHelp = L10n.tr("Localizable", "Album_Not_Permitted_Help")
+    /// 사진첩 접근권한 허용
+    public static let albumNotPermittedTitle = L10n.tr("Localizable", "Album_Not_Permitted_Title")
     /// 최근
     public static let albumRecentAlbum = L10n.tr("Localizable", "Album_Recent_Album")
     /// 예상하지 못한 오류가 발생하였습니다.
