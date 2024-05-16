@@ -27,6 +27,8 @@ public enum L10n {
     public static let albumNotPermittedHelp = L10n.tr("Localizable", "Album_Not_Permitted_Help")
     /// 사진첩 접근권한 허용
     public static let albumNotPermittedTitle = L10n.tr("Localizable", "Album_Not_Permitted_Title")
+    /// 업로드
+    public static let albumPhotoSelectCompleteButtonTitle = L10n.tr("Localizable", "Album_Photo_Select_Complete_Button_Title")
     /// 최근
     public static let albumRecentAlbum = L10n.tr("Localizable", "Album_Recent_Album")
     /// 예상하지 못한 오류가 발생하였습니다.

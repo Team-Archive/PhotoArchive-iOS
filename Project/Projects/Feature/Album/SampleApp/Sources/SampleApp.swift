@@ -14,7 +14,13 @@ import Domain
 struct SampleApp: App {
   var body: some Scene {
     WindowGroup {
-      AlbumView(reducer: AlbumReducer(albumUsecase: AlbumUsecaseImplement(recentAlbumName: "최근")))
+      AlbumView(
+        reducer: AlbumReducer(albumUsecase: AlbumUsecaseImplement(recentAlbumName: "최근")),
+        complete: { imageList in
+          print("selected: \(imageList)")
+        }, close: {
+          print("close")
+        })
     }
   }
 }
