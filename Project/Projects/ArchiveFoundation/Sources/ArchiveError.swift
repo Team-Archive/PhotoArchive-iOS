@@ -16,6 +16,7 @@ public enum ArchiveErrorCode: Int, LocalizedError {
   case dataToJsonFail
   case assetLoadingFailed
   case imageConversionFailed
+  case assetToDataFail
   
 }
 

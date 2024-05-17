@@ -13,7 +13,7 @@ extension PHAsset {
   
   // MARK: private method
   
-  private func toImage(size: CGSize) async -> Result<Image, ArchiveErrorCode> {
+  private func toImage(size: CGSize) async -> Result<Image, ArchiveError> {
     let options = PHImageRequestOptions()
     options.isNetworkAccessAllowed = true
     options.deliveryMode = .highQualityFormat
@@ -26,7 +26,25 @@ extension PHAsset {
           let image = Image(uiImage: uiImage)
           continuation.resume(returning: .success(image))
         } else {
-          continuation.resume(returning: .failure(.assetLoadingFailed))
+          continuation.resume(returning: .failure(.init(.assetLoadingFailed)))
+        }
+      }
+    }
+  }
+  
+  private func toData(size: CGSize) async -> Result<Data, ArchiveError> {
+    let options = PHImageRequestOptions()
+    options.isNetworkAccessAllowed = true
+    options.deliveryMode = .highQualityFormat
+    options.resizeMode = .exact
+    options.isSynchronous = true
+    
+    return await withCheckedContinuation { continuation in
+      PHImageManager.default().requestImage(for: self, targetSize: size, contentMode: .aspectFit, options: options) { uiImage, _ in
+        if let uiImage = uiImage, let imageData = uiImage.jpegData(compressionQuality: 1.0) {
+          continuation.resume(returning: .success(imageData))
+        } else {
+          continuation.resume(returning: .failure(.init(.assetLoadingFailed)))
         }
       }
     }
@@ -48,8 +66,12 @@ extension PHAsset {
     }
   }
   
-  public func toImage(_ type: PHAssetPhotoType) async -> Result<Image, ArchiveErrorCode> {
+  public func toImage(_ type: PHAssetPhotoType) async -> Result<Image, ArchiveError> {
     return await self.toImage(size: type.size)
+  }
+  
+  public func toData(_ type: PHAssetPhotoType) async -> Result<Data, ArchiveError> {
+    return await self.toData(size: type.size)
   }
   
 }

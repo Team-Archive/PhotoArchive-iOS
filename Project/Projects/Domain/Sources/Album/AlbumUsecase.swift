@@ -8,8 +8,10 @@
 
 import Foundation
 import Photos
+import ArchiveFoundation
 
 public protocol AlbumUsecase {
   func fetchAlbumList() -> [Album]
   func checkAlbumPermission() async -> PHAuthorizationStatus
+  func assetListToImageDataList(assetList: [PHAsset]) async -> Result<[Data], ArchiveError>
 }

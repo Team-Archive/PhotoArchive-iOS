@@ -29,8 +29,6 @@ struct AlbumMultiSelectPhotoView: View {
   
   // MARK: - public properties
   
-  var completion: () -> Void
-  
   // MARK: - life cycle
   
   var body: some View {
@@ -59,12 +57,10 @@ struct AlbumMultiSelectPhotoView: View {
   
   init(
     store: StoreOf<AlbumReducer>,
-    maxSelectableCount: UInt = 10,
-    completion: @escaping () -> Void
+    maxSelectableCount: UInt = 10
   ) {
     self.store = store
     self.maxSelectableCount = maxSelectableCount
-    self.completion = completion
   }
   
   // MARK: - private method
@@ -74,18 +70,18 @@ struct AlbumMultiSelectPhotoView: View {
     
     WithViewStore(store, observe: { $0 }) { viewStore in
       Button(action: {
-        if viewStore.selectedAssetList.count + 1 > self.maxSelectableCount {
-          withAnimation {
-            shakeTrigger = index
-            let generator = UINotificationFeedbackGenerator()
-            generator.notificationOccurred(.error)
-          }
-          DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            shakeTrigger = nil
-          }
+        if viewStore.selectedAssetList.contains(asset) {
+          viewStore.send(.removeSelectedAsset(asset))
         } else {
-          if viewStore.selectedAssetList.contains(asset) {
-            viewStore.send(.removeSelectedAsset(asset))
+          if viewStore.selectedAssetList.count + 1 > self.maxSelectableCount {
+            withAnimation {
+              shakeTrigger = index
+              let generator = UINotificationFeedbackGenerator()
+              generator.notificationOccurred(.error)
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+              shakeTrigger = nil
+            }
           } else {
             viewStore.send(.appendSelectedAsset(asset))
           }
@@ -183,9 +179,7 @@ struct AlbumMultiSelectPhotoView: View {
         reducer: {
           
         })
-    ) {
-      
-    }
+    )
   }
   
 }

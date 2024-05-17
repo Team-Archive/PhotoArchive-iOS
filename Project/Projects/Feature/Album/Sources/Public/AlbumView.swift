@@ -23,7 +23,7 @@ public struct AlbumView: View {
   @State private var stackPath: NavigationPath = .init()
   @State private var isShowAlbumSelect: Bool = false
   var closeAction: () -> Void
-  var completeAction: ([Image]) -> Void
+  var completeAction: ([PHAsset]) -> Void
   
   // MARK: - Internal Property
   
@@ -31,7 +31,7 @@ public struct AlbumView: View {
   
   public init(
     reducer: AlbumReducer,
-    complete: @escaping ([Image]) -> Void,
+    complete: @escaping ([PHAsset]) -> Void,
     close: @escaping () -> Void
   ) {
     self.store = .init(initialState: .init(), reducer: {
@@ -53,9 +53,7 @@ public struct AlbumView: View {
               if let _ = viewStore.selectedAlbum {
                 AlbumMultiSelectPhotoView(
                   store: store
-                ) {
-                  print("done")
-                }
+                )
               } else {
                 Text("Unexpected Error.. :(\nNot Exist Album")
               }
@@ -86,7 +84,7 @@ public struct AlbumView: View {
               
               ToolbarItem(placement: .topBarTrailing) {
                 CompleteButtonView {
-                  print("업로드 하자")
+                  self.completeAction(viewStore.selectedAssetList)
                 }
               }
               
@@ -111,6 +109,7 @@ public struct AlbumView: View {
             ToolbarItem(content: {})
           }
         }
+        .navigationBarTitleDisplayMode(.inline)
         .onAppear(perform: {
           viewStore.send(.checkAlbumPermission)
         })

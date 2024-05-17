@@ -112,7 +112,6 @@ public struct AlbumReducer: Reducer {
             await send(.setAlbumAssetList(assetList))
           })
         )
-        return .none
       case .appendSelectedAsset(let asset):
         state.selectedAssetList.append(asset)
         return .none
@@ -136,8 +135,11 @@ public struct AlbumReducer: Reducer {
     return await self.albumUsecase.checkAlbumPermission()
   }
   
+  private func convertAssetListToDataList(list: [PHAsset]) async -> Result<[Data], ArchiveError> {
+    return await self.albumUsecase.assetListToImageDataList(assetList: list)
+  }
+  
   // MARK: - Public Method
   
 }
-
 
