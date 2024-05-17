@@ -35,7 +35,7 @@ public final class AlbumUsecaseImplement: AlbumUsecase {
         name: self.recentAlbumName,
         count: fetchResult.count,
         fetchResult: fetchResult,
-        thumbnailAsset: fetchResult.lastObject
+        thumbnailAsset: fetchResult.firstObject
       )
     )
   }
@@ -51,15 +51,14 @@ public final class AlbumUsecaseImplement: AlbumUsecase {
       fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
       fetchOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
       
-      let assets = PHAsset.fetchAssets(in: collection, options: nil)
-      let firstAsset = assets.firstObject
+      let assets = PHAsset.fetchAssets(in: collection, options: fetchOptions)
       returnValue.append(
         .init(
           id: UUID(),
           name: collection.localizedTitle ?? collection.localIdentifier,
-          count: collection.estimatedAssetCount,
-          fetchResult: PHAsset.fetchAssets(in: collection, options: nil),
-          thumbnailAsset: firstAsset
+          count: assets.count,
+          fetchResult: assets,
+          thumbnailAsset: assets.firstObject
         )
       )
     }

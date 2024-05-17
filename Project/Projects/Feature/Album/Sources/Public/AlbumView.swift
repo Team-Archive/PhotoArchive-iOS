@@ -13,6 +13,7 @@ import Domain
 import Photos
 import ArchiveFoundation
 import UIComponents
+import Combine
 
 public struct AlbumView: View {
   
@@ -20,6 +21,7 @@ public struct AlbumView: View {
   
   private let store: StoreOf<AlbumReducer>
   @State private var stackPath: NavigationPath = .init()
+  @State private var isShowAlbumSelect: Bool = false
   var closeAction: () -> Void
   var completeAction: ([Image]) -> Void
   
@@ -48,12 +50,12 @@ public struct AlbumView: View {
           if let permission = viewStore.albumPermission {
             switch permission {
             case .authorized, .limited:
-              if let album = viewStore.selectedAlbum {
+              if let _ = viewStore.selectedAlbum {
                 AlbumMultiSelectPhotoView(
-                  store: store,
-                  album: album) {
-                    print("done")
-                  }
+                  store: store
+                ) {
+                  print("done")
+                }
               } else {
                 Text("Unexpected Error.. :(\nNot Exist Album")
               }
@@ -72,7 +74,7 @@ public struct AlbumView: View {
           if let permission = viewStore.albumPermission {
             switch permission {
             case .authorized, .limited:
-              ToolbarItem(placement: .navigationBarLeading) {
+              ToolbarItem(placement: .topBarLeading) {
                 Button(action: {
                   closeAction()
                 }) {
@@ -82,7 +84,7 @@ public struct AlbumView: View {
                 }
               }
               
-              ToolbarItem(placement: .navigationBarTrailing) {
+              ToolbarItem(placement: .topBarTrailing) {
                 CompleteButtonView {
                   print("업로드 하자")
                 }
@@ -90,8 +92,17 @@ public struct AlbumView: View {
               
               ToolbarItem(placement: .principal) {
                 ReplaceAlbumButtonView(action: {
-                  print("Select album")
+                  isShowAlbumSelect = true
                 })
+                .fullScreenCover(isPresented: $isShowAlbumSelect) {
+                  AlbumListView(
+                    albumList: viewStore.albumList,
+                    isPresented: self.$isShowAlbumSelect
+                  ) { album in
+                    self.isShowAlbumSelect = false
+                    viewStore.send(.setSelectedAlbum(album))
+                  }
+                }
               }
             default:
               ToolbarItem(content: {})

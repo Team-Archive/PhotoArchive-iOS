@@ -13,6 +13,7 @@ import UIComponents
 import Domain
 import Photos
 import ArchiveFoundation
+import Combine
 
 struct AlbumMultiSelectPhotoView: View {
   
@@ -21,7 +22,6 @@ struct AlbumMultiSelectPhotoView: View {
   // MARK: - private properties
   
   private let store: StoreOf<AlbumReducer>
-  private let album: Album
   private let itemInset: CGFloat = 3
   private let maxSelectableCount: UInt
   private let selectedItemWidthHeight: CGFloat = 24
@@ -41,8 +41,8 @@ struct AlbumMultiSelectPhotoView: View {
         ScrollView {
           let columns: [GridItem] = Array(repeating: .init(.flexible(), spacing: self.itemInset), count: 3)
           LazyVGrid(columns: columns, spacing: self.itemInset) {
-            ForEach(0..<self.album.fetchResult.count, id: \.self) { index in
-              if let asset: PHAsset = self.album.fetchResult.object(at: index) as? PHAsset {
+            ForEach(0..<viewStore.albumAssetList.count, id: \.self) { index in
+              if let asset: PHAsset = viewStore.albumAssetList[safe: index] {
                 ThumbnailView(
                   asset: asset,
                   index: UInt(index)
@@ -58,12 +58,10 @@ struct AlbumMultiSelectPhotoView: View {
   
   init(
     store: StoreOf<AlbumReducer>,
-    album: Album,
     maxSelectableCount: UInt = 10,
     completion: @escaping () -> Void
   ) {
     self.store = store
-    self.album = album
     self.maxSelectableCount = maxSelectableCount
     self.completion = completion
   }
@@ -87,6 +85,7 @@ struct AlbumMultiSelectPhotoView: View {
               .scaledToFill()
               .aspectRatio(contentMode: .fill)
               .clipped()
+              .id(asset.localIdentifier)
             SelectBoxView(asset: asset)
           }
         }
@@ -168,18 +167,12 @@ struct AlbumMultiSelectPhotoView: View {
       store: .init(
         initialState: .init(),
         reducer: {
+          
+        })
+    ) {
       
-        }),
-      album: .init(
-        id: UUID(),
-        name: "최신",
-        count: 10,
-        fetchResult: .init(),
-        thumbnailAsset: nil
-      )) {
-        
-      }
+    }
   }
-
+  
 }
 

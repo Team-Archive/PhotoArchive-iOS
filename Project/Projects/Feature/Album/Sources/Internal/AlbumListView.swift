@@ -18,6 +18,8 @@ struct AlbumListView: View {
   
   // MARK: - private properties
   
+  @State private var stackPath: NavigationPath = .init()
+  @Binding var isPresented: Bool
   private let albumList: [Album]
   private let itemRightInset: CGFloat = 16
   private let itemBottomInset: CGFloat = 20
@@ -31,36 +33,55 @@ struct AlbumListView: View {
   
   var body: some View {
     
-    ZStack {
-      ATBackgroundView()
-        .edgesIgnoringSafeArea(.all)
-      GeometryReader { geometry in
-        ScrollView {
-          let columns: [GridItem] = Array(repeating: .init(.flexible(), spacing: self.itemRightInset), count: 2)
-          LazyVGrid(columns: columns, spacing: self.itemBottomInset) {
-            ForEach(self.albumList) { album in
-              albumThumbnailView(album: album)
-                .frame(
-                  width: (geometry.size.width - self.itemRightInset - (.designContentsInset * 2)) / 2,
-                  height: ((geometry.size.width - self.itemRightInset - (.designContentsInset * 2)) / 2) + contentsHeight
-                )
+    GeometryReader { geometry in
+      NavigationStack(path: $stackPath) {
+        ZStack {
+          ATBackgroundView()
+            .edgesIgnoringSafeArea(.all)
+          ScrollView {
+            let columns: [GridItem] = Array(repeating: .init(.flexible(), spacing: self.itemRightInset), count: 2)
+            LazyVGrid(columns: columns, spacing: self.itemBottomInset) {
+              ForEach(self.albumList) { album in
+                albumThumbnailView(album: album)
+                  .frame(
+                    width: (geometry.size.width - self.itemRightInset - (.designContentsInset * 2)) / 2,
+                    height: ((geometry.size.width - self.itemRightInset - (.designContentsInset * 2)) / 2) + contentsHeight
+                  )
+                  .aspectRatio(1, contentMode: .fit)
+              }
+            }
+          }.padding(
+            EdgeInsets(
+              top: 0,
+              leading: .designContentsInset,
+              bottom: 0,
+              trailing: .designContentsInset
+            )
+          )
+        }
+        .toolbar {
+          ToolbarItem(placement: .topBarTrailing) {
+            Button(action: {
+              self.isPresented = false
+            }) {
+              Gen.Images.close.image
+                .renderingMode(.template)
+                .foregroundStyle(Gen.Colors.white.color)
             }
           }
-        }.padding(
-          EdgeInsets(
-            top: 0,
-            leading: .designContentsInset,
-            bottom: 0,
-            trailing: .designContentsInset
-          )
-        )
+        }
       }
     }
     
   }
   
-  init(albumList: [Album], selected: @escaping (Album) -> Void) {
+  init(
+    albumList: [Album],
+    isPresented: Binding<Bool>,
+    selected: @escaping (Album) -> Void
+  ) {
     self.albumList = albumList
+    self._isPresented = isPresented
     self.action = selected
   }
   
@@ -97,7 +118,7 @@ struct AlbumListView: View {
 
 #Preview {
   VStack {
-    AlbumListView(albumList: [], selected: { selected in
+    AlbumListView(albumList: [], isPresented: .constant(true), selected: { selected in
       print("selected: \(selected)")
     })
   }

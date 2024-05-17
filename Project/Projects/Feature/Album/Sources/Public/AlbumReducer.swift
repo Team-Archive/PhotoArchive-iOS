@@ -24,6 +24,7 @@ public struct AlbumReducer: Reducer {
     case setAlbumList([Album])
     case checkAlbumPermission
     case setAlbumPermission(PHAuthorizationStatus)
+    case setAlbumAssetList([PHAsset])
     case setSelectedAlbum(Album)
     case appendSelectedAsset(PHAsset)
     case removeSelectedAsset(PHAsset)
@@ -35,6 +36,7 @@ public struct AlbumReducer: Reducer {
     var albumList: [Album] = []
     var albumPermission: PHAuthorizationStatus?
     var selectedAlbum: Album?
+    var albumAssetList: [PHAsset] = []
     var selectedAssetList: [PHAsset] = []
   }
   
@@ -96,12 +98,29 @@ public struct AlbumReducer: Reducer {
         return .none
       case .setSelectedAlbum(let album):
         state.selectedAlbum = album
+        return .concatenate(
+          .run(operation: { send in
+            let assetList: [PHAsset] = {
+              var returnValue: [PHAsset] = []
+              for i in 0..<album.fetchResult.count {
+                if let asset: PHAsset = album.fetchResult.object(at: i) as? PHAsset {
+                  returnValue.append(asset)
+                }
+              }
+              return returnValue
+            }()
+            await send(.setAlbumAssetList(assetList))
+          })
+        )
         return .none
       case .appendSelectedAsset(let asset):
         state.selectedAssetList.append(asset)
         return .none
       case .removeSelectedAsset(let asset):
         state.selectedAssetList = state.selectedAssetList.filter { $0 != asset }
+        return .none
+      case .setAlbumAssetList(let list):
+        state.albumAssetList = list
         return .none
       }
     }

@@ -18,6 +18,7 @@ extension PHAsset {
     options.isNetworkAccessAllowed = true
     options.deliveryMode = .highQualityFormat
     options.resizeMode = .exact
+    options.isSynchronous = true
     
     return await withCheckedContinuation { continuation in
       PHImageManager.default().requestImage(for: self, targetSize: size, contentMode: .aspectFit, options: options) { uiImage, _ in

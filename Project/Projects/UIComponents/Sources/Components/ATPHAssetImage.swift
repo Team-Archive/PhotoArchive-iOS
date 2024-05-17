@@ -8,14 +8,13 @@
 
 import SwiftUI
 import Photos
+import Combine
 
 public struct ATPHAssetImage: View {
-  
-  // MARK: - public state
-  
+
   // MARK: - private properties
   
-  private let asset: PHAsset?
+  private var asset: PHAsset?
   private let placeholder: Image?
   private var capInsets: EdgeInsets = EdgeInsets()
   private var resizingMode: Image.ResizingMode = .stretch
@@ -24,22 +23,20 @@ public struct ATPHAssetImage: View {
   private var contentMode: ContentMode = .fit
   @State private var isLoadComplete: Bool = false
   @State private var image: Image?
+  @State private var previousAssetIdentifier: String?
   
   // MARK: - public properties
   
   // MARK: - life cycle
   
   public var body: some View {
-    
     ZStack {
       GeometryReader { geometry in
-        if let placeholder {
-          if !isLoadComplete {
-            placeholder
-              .resizable()
-              .frame(width: geometry.size.width, height: geometry.size.height)
-              .scaledToFill()
-          }
+        if let placeholder, !isLoadComplete {
+          placeholder
+            .resizable()
+            .frame(width: geometry.size.width, height: geometry.size.height)
+            .scaledToFill()
         }
         if let image {
           image
@@ -50,11 +47,10 @@ public struct ATPHAssetImage: View {
             .clipped()
         }
       }
-      
     }
     .clipped()
     .onAppear {
-      loadImage()
+      loadImageIfNeeded()
     }
     
   }
@@ -68,6 +64,14 @@ public struct ATPHAssetImage: View {
   }
   
   // MARK: - private method
+  
+  private func loadImageIfNeeded() {
+    guard let asset = asset else { return }
+    if previousAssetIdentifier != asset.localIdentifier {
+      loadImage()
+      previousAssetIdentifier = asset.localIdentifier
+    }
+  }
   
   private func loadImage() {
     Task {
@@ -113,7 +117,6 @@ extension ATPHAssetImage {
     newImage.contentMode = contentMode
     return newImage
   }
-  
 }
 
 #Preview {
