@@ -25,6 +25,7 @@ struct AlbumMultiSelectPhotoView: View {
   private let itemInset: CGFloat = 3
   private let maxSelectableCount: UInt
   private let selectedItemWidthHeight: CGFloat = 24
+  @State private var shakeTrigger: UInt?
   
   // MARK: - public properties
   
@@ -70,12 +71,24 @@ struct AlbumMultiSelectPhotoView: View {
   
   @ViewBuilder
   private func ThumbnailView(asset: PHAsset, index: UInt) -> some View {
+    
     WithViewStore(store, observe: { $0 }) { viewStore in
       Button(action: {
-        if viewStore.selectedAssetList.contains(asset) {
-          viewStore.send(.removeSelectedAsset(asset))
+        if viewStore.selectedAssetList.count + 1 > self.maxSelectableCount {
+          withAnimation {
+            shakeTrigger = index
+            let generator = UINotificationFeedbackGenerator()
+            generator.notificationOccurred(.error)
+          }
+          DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            shakeTrigger = nil
+          }
         } else {
-          viewStore.send(.appendSelectedAsset(asset))
+          if viewStore.selectedAssetList.contains(asset) {
+            viewStore.send(.removeSelectedAsset(asset))
+          } else {
+            viewStore.send(.appendSelectedAsset(asset))
+          }
         }
       }, label: {
         VStack(alignment: .leading) {
@@ -86,6 +99,7 @@ struct AlbumMultiSelectPhotoView: View {
               .aspectRatio(contentMode: .fill)
               .clipped()
               .id(asset.localIdentifier)
+              .modifier(WarningEffect(shakeTrigger == index ? 1 : 0))
             SelectBoxView(asset: asset)
           }
         }
