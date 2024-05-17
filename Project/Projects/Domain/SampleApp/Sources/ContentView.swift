@@ -12,7 +12,7 @@ import Photos
 
 struct ContentView: View {
   
-  let albumUsecase = AlbumUsecaseImplement(recentAlbumName: "최근")
+  let albumUsecase = AlbumUsecaseImplement(recentAlbumName: "최근", favoriteAlbumName: "즐겨찾는 항목")
   
   var body: some View {
     
