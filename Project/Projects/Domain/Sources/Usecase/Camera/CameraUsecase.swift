@@ -11,4 +11,8 @@ import AVFoundation
 
 public protocol CameraUsecase {
   func checkCameraAuthorization() async -> AVAuthorizationStatus
+  func startSession()
+  func stopSession()
+  func takePhoto() async -> Data?
+  func switchCamera()
 }

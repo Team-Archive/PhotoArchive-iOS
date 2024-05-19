@@ -13,9 +13,17 @@ public final class CameraUsecaseImplement: CameraUsecase {
   
   // MARK: private property
   
+  private let repository: CameraRepository
+  
   // MARK: internal property
   
   // MARK: lifeCycle
+  
+  public init(
+    repository: CameraRepository
+  ) {
+    self.repository = repository
+  }
   
   // MARK: private function
   
@@ -34,6 +42,22 @@ public final class CameraUsecaseImplement: CameraUsecase {
     default:
       return status
     }
+  }
+  
+  public func startSession() {
+    self.repository.startSession()
+  }
+  
+  public func stopSession() {
+    self.repository.stopSession()
+  }
+  
+  public func takePhoto() async -> Data? {
+    return await self.repository.takePhoto()
+  }
+  
+  public func switchCamera() {
+    self.repository.switchCamera()
   }
   
 }

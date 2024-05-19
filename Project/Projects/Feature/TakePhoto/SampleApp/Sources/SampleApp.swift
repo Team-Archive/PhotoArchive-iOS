@@ -9,12 +9,40 @@
 import SwiftUI
 import TakePhoto
 import Domain
+import Data
 
 @main
 struct SampleApp: App {
   var body: some Scene {
     WindowGroup {
-      Text("hola")
+      TakePhotoView(
+        reducer: TakePhotoReducer(
+          cameraUsecase: CameraUsecaseImplement(
+            repository: StubCameraRepositoryImplement()
+          )
+        )
+      )
     }
   }
+}
+
+final class StubCameraRepositoryImplement: CameraRepository {
+  func startSession() {
+    print("start session")
+  }
+  
+  func stopSession() {
+    print("stop session")
+  }
+  
+  func takePhoto() async -> Data? {
+    print("take photo")
+    return nil
+  }
+  
+  func switchCamera() {
+    print("switch camera")
+  }
+  
+  
 }
