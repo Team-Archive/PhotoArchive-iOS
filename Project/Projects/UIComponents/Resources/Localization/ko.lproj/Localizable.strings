@@ -15,3 +15,5 @@ e-mail: mobiledev@kakao.com
 "Album_Not_Permitted_Help" = "앱 설정에서 언제든지 변경할 수 있어요.";
 "Album_Not_Permitted_Allow_Button_Title" = "접근권한 허용";
 "Album_Photo_Select_Complete_Button_Title" = "업로드";
+"Take_Photo_Navi_Title" = "새로운 사진";
+"Take_Photo_Edit_Complete_Button_Title" = "보내기";

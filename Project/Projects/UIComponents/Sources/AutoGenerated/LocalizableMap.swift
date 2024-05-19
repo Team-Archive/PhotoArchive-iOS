@@ -45,6 +45,10 @@ public enum L10n {
     public static let signInFacebook = L10n.tr("Localizable", "Sign_In_Facebook")
     /// Login with Google
     public static let signInGoogle = L10n.tr("Localizable", "Sign_In_Google")
+    /// 보내기
+    public static let takePhotoEditCompleteButtonTitle = L10n.tr("Localizable", "Take_Photo_Edit_Complete_Button_Title")
+    /// 새로운 사진
+    public static let takePhotoNaviTitle = L10n.tr("Localizable", "Take_Photo_Navi_Title")
   }
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length

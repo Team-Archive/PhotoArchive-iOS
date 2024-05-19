@@ -43,7 +43,7 @@ struct TakePhotoBaseFrameView<Content>: View where Content: View {
               trailing: .designContentsInset
             )
           )
-        ActionView(
+        TakePhotoToolbarView(
           selectPhotoFromAlbumAction: {
             print("앨범에서 사진 고르기")
           }, takePhotoAction: {
@@ -52,6 +52,13 @@ struct TakePhotoBaseFrameView<Content>: View where Content: View {
             print("카메라 돌리기")
           }
         )
+//        EditPhotoToolbarView(
+//          editCompleteAction: {
+//            print("사진 편집 완료")
+//          }, editCancelAction: {
+//            print("사진 편집 취소")
+//          }
+//        )
       }
     }
   }
@@ -67,7 +74,7 @@ struct TakePhotoBaseFrameView<Content>: View where Content: View {
   // MARK: - private method
   
   @ViewBuilder
-  private func ActionView(
+  private func TakePhotoToolbarView(
     selectPhotoFromAlbumAction: @escaping () -> Void,
     takePhotoAction: @escaping () -> Void,
     switchCameraAction: @escaping () -> Void
@@ -140,6 +147,32 @@ struct TakePhotoBaseFrameView<Content>: View where Content: View {
           )
       }
     })
+  }
+  
+  @ViewBuilder
+  private func EditPhotoToolbarView(
+    editCompleteAction: @escaping () -> Void,
+    editCancelAction: @escaping () -> Void
+  ) -> some View {
+    HStack(spacing: 30) {
+      Button(action: {
+        editCancelAction()
+      }, label: {
+        Gen.Images.close.image.renderingMode(.template)
+          .resizable()
+          .frame(width: 22, height: 22)
+          .foregroundStyle(Gen.Colors.white.color)
+      })
+      .frame(width: 44, height: 44)
+      
+      ATBottomActionButton(title: L10n.Localizable.takePhotoEditCompleteButtonTitle, action: {
+        editCompleteAction()
+      })
+      .frame(width: 161)
+      
+      Color.clear
+        .frame(width: 44, height: 44)
+    }
   }
   
   // MARK: - internal method
