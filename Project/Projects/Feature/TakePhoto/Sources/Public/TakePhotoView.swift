@@ -38,7 +38,7 @@ public struct TakePhotoView: View {
         ATBackgroundView()
           .edgesIgnoringSafeArea(.all)
         TakePhotoBaseFrameView(
-          contentsView: Text("hola"),
+          contentsView: Color.brown,
           store: self.store
         )
       }

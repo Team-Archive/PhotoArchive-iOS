@@ -18,6 +18,7 @@ struct TakePhotoBaseFrameView<Content>: View where Content: View {
   // MARK: - private properties
   
   private let contentsView: Content
+  private let contentsViewCornerRadius: CGFloat = 24
   private let store: StoreOf<TakePhotoReducer>
   
   // MARK: - public properties
@@ -25,16 +26,33 @@ struct TakePhotoBaseFrameView<Content>: View where Content: View {
   // MARK: - life cycle
   
   var body: some View {
-    VStack(spacing: 48) {
-      ActionView(
-        selectPhotoFromAlbumAction: {
-          
-        }, takePhotoAction: {
-          
-        }, switchCameraAction: {
-          
-        }
-      )
+    GeometryReader { geometry in
+      VStack(spacing: 48) {
+        contentsView
+          .frame(
+            width: geometry.size.width - (.designContentsInset * 2),
+            height: geometry.size.width - (.designContentsInset * 2)
+          )
+          .clipped()
+          .clipShape(.rect(cornerRadius: self.contentsViewCornerRadius))
+          .padding(
+            .init(
+              top: 0,
+              leading: .designContentsInset,
+              bottom: 0,
+              trailing: .designContentsInset
+            )
+          )
+        ActionView(
+          selectPhotoFromAlbumAction: {
+            print("앨범에서 사진 고르기")
+          }, takePhotoAction: {
+            print("사진 찍기")
+          }, switchCameraAction: {
+            print("카메라 돌리기")
+          }
+        )
+      }
     }
   }
   
