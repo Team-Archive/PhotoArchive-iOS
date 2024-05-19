@@ -34,7 +34,12 @@ public struct TakePhotoView: View {
   public var body: some View {
     
     WithViewStore(store, observe: { $0 }) { viewStore in
-      Text("hola")
+      ZStack {
+        Text("hola")
+      }
+      .onAppear {
+        viewStore.send(.checkCameraPermission)
+      }
     }
     
   }

@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Album
+import TakePhoto
 import Domain
 
 @main

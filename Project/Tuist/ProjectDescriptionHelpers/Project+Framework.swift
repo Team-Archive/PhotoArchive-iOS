@@ -121,6 +121,7 @@ extension Project {
       "CFBundleShortVersionString": "1.0",
       "CFBundleVersion": "1",
       "NSPhotoLibraryUsageDescription": "사진첩 권한이 필요해요",
+      "NSCameraUsageDescription": "카메라 권한이 필요해요",
       "UILaunchScreen": "LaunchScreen"
     ]
     
