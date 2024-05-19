@@ -35,7 +35,12 @@ public struct TakePhotoView: View {
     
     WithViewStore(store, observe: { $0 }) { viewStore in
       ZStack {
-        Text("hola")
+        ATBackgroundView()
+          .edgesIgnoringSafeArea(.all)
+        TakePhotoBaseFrameView(
+          contentsView: Text("hola"),
+          store: self.store
+        )
       }
       .onAppear {
         viewStore.send(.checkCameraPermission)
