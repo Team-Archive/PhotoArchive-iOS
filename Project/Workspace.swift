@@ -18,7 +18,7 @@ let workspace = Workspace(
     "Projects/Data",
     "Projects/AppRoute",
     "Projects/Feature/Onboarding",
-    "Projects/Feature/Camera",
+    "Projects/Feature/TakePhoto",
     "Projects/Feature/Album"
   ]
 )

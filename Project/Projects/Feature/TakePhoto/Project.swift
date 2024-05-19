@@ -9,7 +9,7 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 
 let project = Project.makeFeature(
-  name: "Camera",
+  name: "TakePhoto",
   frameworkDependencies: [
     .project(
       target: "ArchiveFoundation",
