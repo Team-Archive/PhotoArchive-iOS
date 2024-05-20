@@ -12,8 +12,14 @@ import ArchiveFoundation
 import Domain
 import Combine
 import AVFoundation
+import Photos
 
 public struct TakePhotoReducer: Reducer {
+  
+  public enum SelectedPhoto: Equatable {
+    case fromCamera(Data)
+    case fromAlbum([PHAsset])
+  }
   
   // MARK: - TCA Define
   
@@ -24,7 +30,8 @@ public struct TakePhotoReducer: Reducer {
     case setAlbumPermission(AVAuthorizationStatus)
     case takePhoto
     case switchCamera
-    case setCapturedPhotoData(Data)
+    case setSelectedPhoto(SelectedPhoto)
+    case clearSelectedPhoto
   }
   
   public struct State: Equatable {
@@ -32,7 +39,7 @@ public struct TakePhotoReducer: Reducer {
     var err: ArchiveError?
     var cameraPermission: AVAuthorizationStatus?
     var cameraSession: AVCaptureSession
-    var capturedPhotoData: Data?
+    var selectedPhoto: SelectedPhoto?
     
     public init(cameraSession: AVCaptureSession) {
       self.cameraSession = cameraSession
@@ -89,7 +96,7 @@ public struct TakePhotoReducer: Reducer {
         return .concatenate(
           .run(operation: { send in
             if let capturedPhotoData = await self.takePhoto() {
-              await send(.setCapturedPhotoData(capturedPhotoData))
+              await send(.setSelectedPhoto(.fromCamera(capturedPhotoData)))
             } else {
               await send(.setError(.init(.cameraCaptureFail)))
             }
@@ -98,8 +105,11 @@ public struct TakePhotoReducer: Reducer {
       case .switchCamera:
         self.switchCamera()
         return .none
-      case .setCapturedPhotoData(let data):
-        state.capturedPhotoData = data
+      case .setSelectedPhoto(let selectedPhoto):
+        state.selectedPhoto = selectedPhoto
+        return .none
+      case .clearSelectedPhoto:
+        state.selectedPhoto = nil
         return .none
       }
     }

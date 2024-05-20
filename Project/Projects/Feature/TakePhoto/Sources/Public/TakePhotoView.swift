@@ -37,13 +37,21 @@ public struct TakePhotoView: View {
       ZStack {
         ATBackgroundView()
           .edgesIgnoringSafeArea(.all)
-        
-        TakePhotoBaseFrameView(
-          contentsView: cameraContentsView(),
-          store: self.store
-        )
-        .onAppear {
-          viewStore.send(.checkCameraPermission)
+        if let selectedPhoto = viewStore.selectedPhoto {
+          switch selectedPhoto {
+          case .fromCamera:
+            EditPhotoFromCamera(store: self.store)
+          case .fromAlbum:
+            EditPhotoFromAlbum(store: self.store)
+          }
+        } else {
+          TakePhotoBaseFrameView(
+            contentsView: cameraContentsView(),
+            store: self.store
+          )
+          .onAppear {
+            viewStore.send(.checkCameraPermission)
+          }
         }
       }
     }

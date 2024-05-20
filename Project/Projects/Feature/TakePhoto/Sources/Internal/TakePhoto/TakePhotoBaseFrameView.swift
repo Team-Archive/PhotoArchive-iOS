@@ -155,32 +155,6 @@ struct TakePhotoBaseFrameView<Content>: View where Content: View {
     }
   }
   
-  @ViewBuilder
-  private func EditPhotoToolbarView(
-    editCompleteAction: @escaping () -> Void,
-    editCancelAction: @escaping () -> Void
-  ) -> some View {
-    HStack(spacing: 30) {
-      Button(action: {
-        editCancelAction()
-      }, label: {
-        Gen.Images.close.image.renderingMode(.template)
-          .resizable()
-          .frame(width: 22, height: 22)
-          .foregroundStyle(Gen.Colors.white.color)
-      })
-      .frame(width: 44, height: 44)
-      
-      ATBottomActionButton(title: L10n.Localizable.takePhotoEditCompleteButtonTitle, action: {
-        editCompleteAction()
-      })
-      .frame(width: 161)
-      
-      Color.clear
-        .frame(width: 44, height: 44)
-    }
-  }
-  
   // MARK: - internal method
   
 }

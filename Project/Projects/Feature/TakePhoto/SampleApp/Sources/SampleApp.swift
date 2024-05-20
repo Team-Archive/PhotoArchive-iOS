@@ -26,10 +26,49 @@ struct SampleApp: App {
   }
 }
 
+#if targetEnvironment(simulator)
+import UIKit
+
+final class StubCameraRepositoryImplement: NSObject, CameraRepository {
+  
+  // MARK: - private properties
+  
+  // MARK: - internal properties
+  
+  var session: AVCaptureSession = .init()
+  
+  // MARK: - life cycle
+  
+  // MARK: - private method
+  
+  // MARK: - internal method
+  
+  func startSession() {
+    print("startSession")
+  }
+  
+  func stopSession() {
+    print("stopSession")
+  }
+  
+  func takePhoto() async -> Data? {
+    let sampleImage = UIImage(systemName: "camera")
+    let imageData = sampleImage?.jpegData(compressionQuality: 1.0)
+    return imageData
+  }
+  
+  func switchCamera() {
+    print("switchCamera")
+  }
+  
+}
+
+#else
+
 final class StubCameraRepositoryImplement: NSObject, CameraRepository {
   
   // MARK: private property
-  
+                             
   private var photoOutput = AVCapturePhotoOutput()
   private let sessionQueue = DispatchQueue(label: "cameraSessionQueue")
   private var continuation: CheckedContinuation<Data?, Never>?
@@ -129,3 +168,5 @@ extension StubCameraRepositoryImplement: AVCapturePhotoCaptureDelegate {
     self.continuation?.resume(returning: imageData)
   }
 }
+
+#endif
