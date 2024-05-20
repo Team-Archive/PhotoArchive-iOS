@@ -167,6 +167,7 @@ struct ContentView: View {
             }
           )
           .frame(width: 68, height: 68)
+          PageIndicator(numberOfPages: 10, currentPage: .constant(1))
         }
       }
     }
