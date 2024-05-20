@@ -37,19 +37,40 @@ public struct TakePhotoView: View {
       ZStack {
         ATBackgroundView()
           .edgesIgnoringSafeArea(.all)
+        
         TakePhotoBaseFrameView(
-          contentsView: Color.brown,
+          contentsView: cameraContentsView(),
           store: self.store
         )
-      }
-      .onAppear {
-        viewStore.send(.checkCameraPermission)
+        .onAppear {
+          viewStore.send(.checkCameraPermission)
+        }
       }
     }
     
   }
   
   // MARK: - Private Method
+  
+  @ViewBuilder
+  private func cameraContentsView() -> some View {
+    WithViewStore(store, observe: { $0 }) { viewStore in
+      if let permission = viewStore.cameraPermission {
+        switch permission {
+        case .authorized:
+          Color.brown
+        default:
+          TakePhotoNotPermittedView {
+            ArchiveCommonUtil.openSetting()
+          }
+        }
+      } else {
+        TakePhotoNotPermittedView {
+          ArchiveCommonUtil.openSetting()
+        }
+      }
+    }
+  }
   
   // MARK: - Internal Method
   

@@ -10,6 +10,7 @@ import SwiftUI
 import UIComponents
 import ArchiveFoundation
 import ComposableArchitecture
+import AVFoundation
 
 struct TakePhotoBaseFrameView<Content>: View where Content: View {
   
@@ -93,18 +94,22 @@ struct TakePhotoBaseFrameView<Content>: View where Content: View {
           width: additionalActionButtonSize.width,
           height: additionalActionButtonSize.height
         )
+        
         TakePhotoButtonView {
           takePhotoAction()
         }
+        
         Button(action: {
           switchCameraAction()
         }, label: {
-          Gen.Images.flip.image
+          Gen.Images.flip.image.renderingMode(.template)
+            .foregroundStyle(viewStore.cameraPermission == .authorized ? Gen.Colors.white.color : Gen.Colors.gray300.color)
         })
         .frame(
           width: additionalActionButtonSize.width,
           height: additionalActionButtonSize.height
         )
+        .disabled(!(viewStore.cameraPermission == .authorized))
       }
     }
   }
@@ -116,37 +121,43 @@ struct TakePhotoBaseFrameView<Content>: View where Content: View {
     
     let takePhotoButtonSize: CGSize = .init(width: 72, height: 72)
     let takePhotoInnerButtonSize: CGSize = .init(width: 60, height: 60)
+    let enableStartColor: Color = Gen.Colors.gradationMainStart.color
+    let enableEndColor: Color = Gen.Colors.gradationMainEnd.color
+    let disableColor: Color = Gen.Colors.gray300.color
     
-    Button(action: {
-      takePhotoAction()
-    }, label: {
-      ZStack {
-        Circle()
-          .fill(.clear)
-          .stroke(
-            LinearGradient(
-              gradient: Gradient(
-                colors: [
-                  Gen.Colors.gradationMainStart.color,
-                  Gen.Colors.gradationMainEnd.color
-                ]),
-              startPoint: .top,
-              endPoint: .bottom
-            ),
-            lineWidth: 3
-          )
-          .frame(
-            width: takePhotoButtonSize.width,
-            height: takePhotoButtonSize.height
-          )
-        Circle()
-          .fill(Gen.Colors.white.color)
-          .frame(
-            width: takePhotoInnerButtonSize.width,
-            height: takePhotoInnerButtonSize.height
-          )
-      }
-    })
+    WithViewStore(store, observe: { $0 }) { viewStore in
+      Button(action: {
+        takePhotoAction()
+      }, label: {
+        ZStack {
+          Circle()
+            .fill(.clear)
+            .stroke(
+              LinearGradient(
+                gradient: Gradient(
+                  colors: [
+                    viewStore.cameraPermission == .authorized ? enableStartColor : disableColor,
+                    viewStore.cameraPermission == .authorized ? enableEndColor : disableColor
+                  ]),
+                startPoint: .top,
+                endPoint: .bottom
+              ),
+              lineWidth: 3
+            )
+            .frame(
+              width: takePhotoButtonSize.width,
+              height: takePhotoButtonSize.height
+            )
+          Circle()
+            .fill(viewStore.cameraPermission == .authorized ? Gen.Colors.white.color : disableColor)
+            .frame(
+              width: takePhotoInnerButtonSize.width,
+              height: takePhotoInnerButtonSize.height
+            )
+        }
+      })
+      .disabled(!(viewStore.cameraPermission == .authorized))
+    }
   }
   
   @ViewBuilder

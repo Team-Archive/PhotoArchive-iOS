@@ -9,7 +9,6 @@
 import SwiftUI
 import TakePhoto
 import Domain
-import Data
 
 @main
 struct SampleApp: App {
