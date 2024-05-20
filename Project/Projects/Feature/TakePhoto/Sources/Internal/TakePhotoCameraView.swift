@@ -10,30 +10,33 @@ import SwiftUI
 import UIKit
 import AVFoundation
 
-//struct CameraView: UIViewRepresentable {
-//  
-//  // MARK: private property
-//  
-//  // MARK: internal property
-//  
-//  //  @ObservedObject var cameraManager: CameraManager
-//  
-//  // MARK: lifeCycle
-//  
-//  // MARK: private function
-//  
-//  // MARK: internal function
-//  
-//  func makeUIView(context: Context) -> UIView {
-//    let view = UIView(frame: UIScreen.main.bounds)
-//    let previewLayer = AVCaptureVideoPreviewLayer(session: cameraManager.session)
-//    previewLayer.videoGravity = .resizeAspectFill
-//    previewLayer.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 2)
-//    view.layer.addSublayer(previewLayer)
-//    cameraManager.startSession()
-//    return view
-//  }
-//  
-//  func updateUIView(_ uiView: UIView, context: Context) {}
-//  
-//}
+struct TakePhotoCameraView: UIViewRepresentable {
+  
+  // MARK: private property
+  
+  // MARK: internal property
+  
+  var session: AVCaptureSession
+  
+  // MARK: lifeCycle
+  
+  init(session: AVCaptureSession) {
+    self.session = session
+  }
+  
+  // MARK: private function
+  
+  // MARK: internal function
+  
+  func makeUIView(context: Context) -> UIView {
+    let view = UIView(frame: UIScreen.main.bounds)
+    let previewLayer = AVCaptureVideoPreviewLayer(session: self.session)
+    previewLayer.videoGravity = .resizeAspectFill
+    previewLayer.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 2)
+    view.layer.addSublayer(previewLayer)
+    return view
+  }
+  
+  func updateUIView(_ uiView: UIView, context: Context) {}
+  
+}

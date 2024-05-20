@@ -22,12 +22,21 @@ public struct TakePhotoReducer: Reducer {
     case setError(ArchiveError)
     case checkCameraPermission
     case setAlbumPermission(AVAuthorizationStatus)
+    case takePhoto
+    case switchCamera
+    case setCapturedPhotoData(Data)
   }
   
   public struct State: Equatable {
     var isLoading: Bool = false
     var err: ArchiveError?
     var cameraPermission: AVAuthorizationStatus?
+    var cameraSession: AVCaptureSession
+    var capturedPhotoData: Data?
+    
+    public init(cameraSession: AVCaptureSession) {
+      self.cameraSession = cameraSession
+    }
   }
   
   // MARK: - Private Property
@@ -40,12 +49,15 @@ public struct TakePhotoReducer: Reducer {
   
   // MARK: - Public Property
   
+  public var initialState: State
+  
   // MARK: - LifeCycle
   
   public init(
     cameraUsecase: CameraUsecase
   ) {
     self.cameraUsecase = cameraUsecase
+    self.initialState = State(cameraSession: cameraUsecase.session)
   }
   
   public var body: some ReducerOf<Self> {
@@ -63,8 +75,7 @@ public struct TakePhotoReducer: Reducer {
             let albumPermission = await self.checkCameraPermission()
             switch albumPermission {
             case .authorized:
-              // TODO: 카메라를 켜야할듯? 봐서...
-              break
+              self.cameraUsecase.startSession()
             default:
               break
             }
@@ -74,6 +85,22 @@ public struct TakePhotoReducer: Reducer {
       case .setAlbumPermission(let status):
         state.cameraPermission = status
         return .none
+      case .takePhoto:
+        return .concatenate(
+          .run(operation: { send in
+            if let capturedPhotoData = await self.takePhoto() {
+              await send(.setCapturedPhotoData(capturedPhotoData))
+            } else {
+              await send(.setError(.init(.cameraCaptureFail)))
+            }
+          })
+        )
+      case .switchCamera:
+        self.switchCamera()
+        return .none
+      case .setCapturedPhotoData(let data):
+        state.capturedPhotoData = data
+        return .none
       }
     }
   }
@@ -82,6 +109,14 @@ public struct TakePhotoReducer: Reducer {
   
   private func checkCameraPermission() async -> AVAuthorizationStatus {
     return await self.cameraUsecase.checkCameraAuthorization()
+  }
+  
+  private func takePhoto() async -> Data? {
+    return await self.cameraUsecase.takePhoto()
+  }
+  
+  private func switchCamera() {
+    self.cameraUsecase.switchCamera()
   }
   
   // MARK: - Public Method

@@ -7,8 +7,12 @@
 //
 
 import Foundation
+import AVFoundation
 
 public protocol CameraRepository {
+  
+  var session: AVCaptureSession { get }
+  
   func startSession()
   func stopSession()
   func takePhoto() async -> Data?

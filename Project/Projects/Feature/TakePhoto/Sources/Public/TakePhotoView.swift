@@ -26,7 +26,7 @@ public struct TakePhotoView: View {
   public init(
     reducer: TakePhotoReducer
   ) {
-    self.store = .init(initialState: .init(), reducer: {
+    self.store = .init(initialState: reducer.initialState, reducer: {
       return reducer
     })
   }
@@ -58,7 +58,7 @@ public struct TakePhotoView: View {
       if let permission = viewStore.cameraPermission {
         switch permission {
         case .authorized:
-          Color.brown
+          TakePhotoCameraView(session: viewStore.cameraSession)
         default:
           TakePhotoNotPermittedView {
             ArchiveCommonUtil.openSetting()

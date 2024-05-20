@@ -27,39 +27,34 @@ struct TakePhotoBaseFrameView<Content>: View where Content: View {
   // MARK: - life cycle
   
   var body: some View {
-    GeometryReader { geometry in
-      VStack(spacing: 48) {
-        contentsView
-          .frame(
-            width: geometry.size.width - (.designContentsInset * 2),
-            height: geometry.size.width - (.designContentsInset * 2)
-          )
-          .clipped()
-          .clipShape(.rect(cornerRadius: self.contentsViewCornerRadius))
-          .padding(
-            .init(
-              top: 0,
-              leading: .designContentsInset,
-              bottom: 0,
-              trailing: .designContentsInset
+    WithViewStore(store, observe: { $0 }) { viewStore in
+      GeometryReader { geometry in
+        VStack(spacing: 48) {
+          contentsView
+            .frame(
+              width: geometry.size.width - (.designContentsInset * 2),
+              height: geometry.size.width - (.designContentsInset * 2)
             )
+            .clipped()
+            .clipShape(.rect(cornerRadius: self.contentsViewCornerRadius))
+            .padding(
+              .init(
+                top: 0,
+                leading: .designContentsInset,
+                bottom: 0,
+                trailing: .designContentsInset
+              )
+            )
+          TakePhotoToolbarView(
+            selectPhotoFromAlbumAction: {
+              print("앨범에서 사진 고르기")
+            }, takePhotoAction: {
+              viewStore.send(.takePhoto)
+            }, switchCameraAction: {
+              viewStore.send(.switchCamera)
+            }
           )
-        TakePhotoToolbarView(
-          selectPhotoFromAlbumAction: {
-            print("앨범에서 사진 고르기")
-          }, takePhotoAction: {
-            print("사진 찍기")
-          }, switchCameraAction: {
-            print("카메라 돌리기")
-          }
-        )
-//        EditPhotoToolbarView(
-//          editCompleteAction: {
-//            print("사진 편집 완료")
-//          }, editCancelAction: {
-//            print("사진 편집 취소")
-//          }
-//        )
+        }
       }
     }
   }

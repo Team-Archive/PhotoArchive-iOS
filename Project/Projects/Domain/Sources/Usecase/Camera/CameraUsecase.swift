@@ -10,6 +10,9 @@ import ArchiveFoundation
 import AVFoundation
 
 public protocol CameraUsecase {
+  
+  var session: AVCaptureSession { get }
+  
   func checkCameraAuthorization() async -> AVAuthorizationStatus
   func startSession()
   func stopSession()

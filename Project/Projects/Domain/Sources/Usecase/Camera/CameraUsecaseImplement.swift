@@ -15,7 +15,11 @@ public final class CameraUsecaseImplement: CameraUsecase {
   
   private let repository: CameraRepository
   
-  // MARK: internal property
+  // MARK: public property
+  
+  public var session: AVCaptureSession {
+    return self.repository.session
+  }
   
   // MARK: lifeCycle
   
@@ -27,7 +31,7 @@ public final class CameraUsecaseImplement: CameraUsecase {
   
   // MARK: private function
   
-  // MARK: internal function
+  // MARK: public function
   
   public func checkCameraAuthorization() async -> AVAuthorizationStatus {
     let status = AVCaptureDevice.authorizationStatus(for: .video)
