@@ -40,6 +40,8 @@ public struct TakePhotoReducer: Reducer {
     var cameraPermission: AVAuthorizationStatus?
     var cameraSession: AVCaptureSession
     var selectedPhoto: SelectedPhoto?
+    var selectedPhotoFromCamera: Data?
+    var selectedPhotoFromAlbum: [PHAsset]?
     
     public init(cameraSession: AVCaptureSession) {
       self.cameraSession = cameraSession
@@ -106,10 +108,18 @@ public struct TakePhotoReducer: Reducer {
         self.switchCamera()
         return .none
       case .setSelectedPhoto(let selectedPhoto):
+        switch selectedPhoto {
+        case .fromAlbum(let assets):
+          state.selectedPhotoFromAlbum = assets
+        case .fromCamera(let capturedPhotoData):
+          state.selectedPhotoFromCamera = capturedPhotoData
+        }
         state.selectedPhoto = selectedPhoto
         return .none
       case .clearSelectedPhoto:
         state.selectedPhoto = nil
+        state.selectedPhotoFromAlbum = nil
+        state.selectedPhotoFromCamera = nil
         return .none
       }
     }
