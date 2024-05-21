@@ -32,19 +32,26 @@ public struct TakePhotoReducer: Reducer {
     case switchCamera
     case setSelectedPhoto(SelectedPhoto)
     case clearSelectedPhoto
+    case setCurrentPhotoFromAlbumIndex(UInt?)
   }
   
   public struct State: Equatable {
     var isLoading: Bool = false
     var err: ArchiveError?
+    let cameraSession: AVCaptureSession
+    let maxTextInputCount: UInt
     var cameraPermission: AVAuthorizationStatus?
-    var cameraSession: AVCaptureSession
     var selectedPhoto: SelectedPhoto?
     var selectedPhotoFromCamera: Data?
     var selectedPhotoFromAlbum: [PHAsset]?
+    var currentPhotoFromAlbumIndex: UInt?
     
-    public init(cameraSession: AVCaptureSession) {
+    public init(
+      cameraSession: AVCaptureSession,
+      maxTextInputCount: UInt
+    ) {
       self.cameraSession = cameraSession
+      self.maxTextInputCount = maxTextInputCount
     }
   }
   
@@ -63,10 +70,14 @@ public struct TakePhotoReducer: Reducer {
   // MARK: - LifeCycle
   
   public init(
-    cameraUsecase: CameraUsecase
+    cameraUsecase: CameraUsecase,
+    maxTextInputCount: UInt
   ) {
     self.cameraUsecase = cameraUsecase
-    self.initialState = State(cameraSession: cameraUsecase.session)
+    self.initialState = State(
+      cameraSession: cameraUsecase.session,
+      maxTextInputCount: maxTextInputCount
+    )
   }
   
   public var body: some ReducerOf<Self> {
@@ -120,6 +131,10 @@ public struct TakePhotoReducer: Reducer {
         state.selectedPhoto = nil
         state.selectedPhotoFromAlbum = nil
         state.selectedPhotoFromCamera = nil
+        state.currentPhotoFromAlbumIndex = nil
+        return .none
+      case .setCurrentPhotoFromAlbumIndex(let index):
+        state.currentPhotoFromAlbumIndex = index
         return .none
       }
     }

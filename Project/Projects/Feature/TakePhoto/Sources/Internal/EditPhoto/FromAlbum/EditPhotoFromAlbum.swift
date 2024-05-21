@@ -21,6 +21,7 @@ struct EditPhotoFromAlbum: View {
   
   private let contentsViewCornerRadius: CGFloat = 24
   private let store: StoreOf<TakePhotoReducer>
+  @State private var currentIndex: Int = 0
   
   // MARK: - public properties
   
@@ -29,9 +30,9 @@ struct EditPhotoFromAlbum: View {
   var body: some View {
     WithViewStore(store, observe: { $0 }) { viewStore in
       GeometryReader { geometry in
-        VStack(spacing: 48) {
+        VStack(alignment: .center, spacing: 0) {
           if let assetList = viewStore.selectedPhotoFromAlbum {
-            TabView {
+            TabView(selection: $currentIndex) {
               ForEach(0..<assetList.count, id: \.self) { index in
                 if let asset: PHAsset = assetList[safe: index] {
                   EditPhotoView(asset: asset, index: UInt(index))
@@ -39,6 +40,8 @@ struct EditPhotoFromAlbum: View {
                       width: geometry.size.width - (.designContentsInset * 2),
                       height: geometry.size.width - (.designContentsInset * 2)
                     )
+                    .clipped()
+                    .clipShape(RoundedRectangle(cornerRadius: self.contentsViewCornerRadius))
                 } else {
                   Text("Asset not found :(")
                     .frame(
@@ -49,6 +52,9 @@ struct EditPhotoFromAlbum: View {
               }
             }
             .tabViewStyle(PageTabViewStyle())
+            .onChange(of: currentIndex, initial: true, { oldValue, newValue in
+              viewStore.send(.setCurrentPhotoFromAlbumIndex(UInt(newValue)))
+            })
             .frame(
               width: geometry.size.width - (.designContentsInset * 2),
               height: geometry.size.width - (.designContentsInset * 2)
@@ -65,6 +71,10 @@ struct EditPhotoFromAlbum: View {
             )
           } else {
             Text("Unexpected Error :(")
+          }
+          if let assetList = viewStore.selectedPhotoFromAlbum {
+            ATPageIndicator(numberOfPages: assetList.count, currentPage: $currentIndex)
+              .frame(width: 200, height: 20)
           }
           EditPhotoToolbarView(
             store: self.store,
@@ -85,25 +95,32 @@ struct EditPhotoFromAlbum: View {
     store: StoreOf<TakePhotoReducer>
   ) {
     self.store = store
-    UIPageControl.appearance().currentPageIndicatorTintColor = Gen.Colors.purple.uikitColor
-    UIPageControl.appearance().pageIndicatorTintColor = Gen.Colors.white.uikitColor
+    UIPageControl.appearance().isHidden = true
   }
   
   // MARK: - private method
   
   @ViewBuilder
   private func EditPhotoView(asset: PHAsset, index: UInt) -> some View {
-    VStack(alignment: .leading) {
-      ZStack {
-        ATPHAssetImage(asset: asset, placeholder: Gen.Images.placeholder.image)
-          .resizable()
-          .scaledToFill()
-          .aspectRatio(contentMode: .fill)
-          .clipped()
-          .id(asset.localIdentifier)
+    WithViewStore(store, observe: { $0 }) { viewStore in
+      GeometryReader { geometry in
+        ZStack {
+          ATPHAssetImage(asset: asset, placeholder: Gen.Images.placeholder.image)
+            .resizable()
+            .scaledToFill()
+            .aspectRatio(contentMode: .fill)
+            .clipped()
+          VStack() {
+            Spacer()
+            ATInputView(
+              placeholder: L10n.Localizable.takePhotoEditTextInputPlaceholder,
+              Int(viewStore.maxTextInputCount)
+            )
+            .padding(.bottom, 20)
+          }
+        }
       }
     }
-    .frame(maxHeight: .infinity)
   }
   
   // MARK: - internal method

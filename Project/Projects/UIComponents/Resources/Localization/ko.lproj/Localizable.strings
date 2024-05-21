@@ -17,3 +17,4 @@ e-mail: mobiledev@kakao.com
 "Album_Photo_Select_Complete_Button_Title" = "업로드";
 "Take_Photo_Navi_Title" = "새로운 사진";
 "Take_Photo_Edit_Complete_Button_Title" = "보내기";
+"Take_Photo_Edit_Text_Input_Placeholder" = "텍스트 입력하기";

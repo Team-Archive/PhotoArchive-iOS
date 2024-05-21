@@ -21,7 +21,8 @@ struct SampleApp: App {
         reducer: TakePhotoReducer(
           cameraUsecase: CameraUsecaseImplement(
             repository: StubCameraRepositoryImplement()
-          )
+          ),
+          maxTextInputCount: 30
         )
       )
     }

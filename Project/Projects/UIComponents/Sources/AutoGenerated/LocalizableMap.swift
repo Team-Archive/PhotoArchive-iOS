@@ -47,6 +47,8 @@ public enum L10n {
     public static let signInGoogle = L10n.tr("Localizable", "Sign_In_Google")
     /// 보내기
     public static let takePhotoEditCompleteButtonTitle = L10n.tr("Localizable", "Take_Photo_Edit_Complete_Button_Title")
+    /// 텍스트 입력하기
+    public static let takePhotoEditTextInputPlaceholder = L10n.tr("Localizable", "Take_Photo_Edit_Text_Input_Placeholder")
     /// 새로운 사진
     public static let takePhotoNaviTitle = L10n.tr("Localizable", "Take_Photo_Navi_Title")
   }
