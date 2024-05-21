@@ -21,6 +21,7 @@ struct TakePhotoBaseFrameView<Content>: View where Content: View {
   private let contentsView: Content
   private let contentsViewCornerRadius: CGFloat = 24
   private let store: StoreOf<TakePhotoReducer>
+  private let selectPhotoFromAlbumAction: () -> Void
   
   // MARK: - public properties
   
@@ -47,7 +48,7 @@ struct TakePhotoBaseFrameView<Content>: View where Content: View {
             )
           TakePhotoToolbarView(
             selectPhotoFromAlbumAction: {
-              print("앨범에서 사진 고르기")
+              selectPhotoFromAlbumAction()
             }, takePhotoAction: {
               viewStore.send(.takePhoto)
             }, switchCameraAction: {
@@ -60,11 +61,13 @@ struct TakePhotoBaseFrameView<Content>: View where Content: View {
   }
   
   init(
+    store: StoreOf<TakePhotoReducer>,
     contentsView: Content,
-    store: StoreOf<TakePhotoReducer>
+    selectPhotoFromAlbumAction: @escaping () -> Void
   ) {
-    self.contentsView = contentsView
     self.store = store
+    self.contentsView = contentsView
+    self.selectPhotoFromAlbumAction = selectPhotoFromAlbumAction
   }
   
   // MARK: - private method

@@ -10,12 +10,14 @@ import SwiftUI
 import TakePhoto
 import Domain
 import AVFoundation
+import AppRoute
+import Photos
 
 @main
 struct SampleApp: App {
   var body: some Scene {
     WindowGroup {
-      TakePhotoView(
+      TakePhotoView<StubPhotoPickerView>(
         reducer: TakePhotoReducer(
           cameraUsecase: CameraUsecaseImplement(
             repository: StubCameraRepositoryImplement()
@@ -24,6 +26,43 @@ struct SampleApp: App {
       )
     }
   }
+}
+
+struct StubPhotoPickerView: View, PhotoPicker {
+  
+  var closeAction: (() -> Void)
+  var completeAction: (([PHAsset]) -> Void)
+  
+  init(
+    completeAction: @escaping ([PHAsset]) -> Void,
+    closeAction: @escaping () -> Void
+  ) {
+    self.completeAction = completeAction
+    self.closeAction = closeAction
+  }
+  
+  public var body: some View {
+    VStack(spacing: 20) {
+      Button(action: {
+        completeAction([
+          .init(),
+          .init(),
+          .init()
+        ])
+      }, label: {
+        VStack {
+          Text("This is StubPhotoPickerView")
+          Text("Click here")
+        }
+      })
+      Button(action: {
+        closeAction()
+      }, label: {
+        Text("This is close action")
+      })
+    }
+  }
+  
 }
 
 #if targetEnvironment(simulator)

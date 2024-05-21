@@ -12,12 +12,14 @@ import ComposableArchitecture
 import Photos
 import ArchiveFoundation
 import UIComponents
+import AppRoute
 
-public struct TakePhotoView: View {
+public struct TakePhotoView<PhotoPickerView>: View where PhotoPickerView: PhotoPicker {
   
   // MARK: - Private Property
   
   private let store: StoreOf<TakePhotoReducer>
+  @State private var isShowPhotoPickerView: Bool = false
   
   // MARK: - Internal Property
   
@@ -46,11 +48,22 @@ public struct TakePhotoView: View {
           }
         } else {
           TakePhotoBaseFrameView(
+            store: self.store,
             contentsView: cameraContentsView(),
-            store: self.store
+            selectPhotoFromAlbumAction: {
+              isShowPhotoPickerView = true
+            }
           )
           .onAppear {
             viewStore.send(.checkCameraPermission)
+          }
+          .fullScreenCover(isPresented: $isShowPhotoPickerView) {
+            PhotoPickerView { assetList in
+              isShowPhotoPickerView = false
+              viewStore.send(.setSelectedPhoto(.fromAlbum(assetList)))
+            } closeAction: {
+              isShowPhotoPickerView = false
+            }
           }
         }
       }
