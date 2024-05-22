@@ -51,7 +51,7 @@ struct EditPhotoFromAlbum: View {
                 }
               }
             }
-            .tabViewStyle(PageTabViewStyle())
+            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             .onChange(of: currentIndex, initial: true, { oldValue, newValue in
               viewStore.send(.setCurrentPhotoFromAlbumIndex(UInt(newValue)))
             })
@@ -72,10 +72,14 @@ struct EditPhotoFromAlbum: View {
           } else {
             Text("Unexpected Error :(")
           }
+          Spacer()
+            .frame(height: 12)
           if let assetList = viewStore.selectedPhotoFromAlbum {
             ATPageIndicator(numberOfPages: assetList.count, currentPage: $currentIndex)
-              .frame(width: 200, height: 20)
+              .frame(width: 200)
           }
+          Spacer()
+            .frame(height: 20)
           EditPhotoToolbarView(
             store: self.store,
             editCompleteAction: {
@@ -95,7 +99,6 @@ struct EditPhotoFromAlbum: View {
     store: StoreOf<TakePhotoReducer>
   ) {
     self.store = store
-    UIPageControl.appearance().isHidden = true
   }
   
   // MARK: - private method
