@@ -32,7 +32,7 @@ struct EditPhotoFromAlbum: View {
       GeometryReader { geometry in
         VStack(alignment: .center, spacing: 0) {
           if let assetList = viewStore.selectedPhotoFromAlbum {
-            TabView(selection: $currentIndex) {
+            TabView(selection: $currentIndex) { // TODO: 페이지 넘기는 애니메이션 적용?
               ForEach(0..<assetList.count, id: \.self) { index in
                 if let asset: PHAsset = assetList[safe: index] {
                   EditPhotoView(asset: asset, index: UInt(index))

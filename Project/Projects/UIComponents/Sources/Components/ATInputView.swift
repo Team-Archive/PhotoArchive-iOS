@@ -13,12 +13,16 @@ public struct ATInputView: View {
   // MARK: - public state
   
   // MARK: - private properties
+  
   private let maxLength: Int
+  private let originPlaceholder: String
+  private let submitLabel: SubmitLabel
   
   // MARK: - public properties
   
   // MARK: - life cycle
-  @State var message: String = ""
+  
+  @Binding var message: String
   @State var isMaxText: Color = .clear
   @State var placeholder: String
   @FocusState private var isActivated: Bool
@@ -43,7 +47,7 @@ public struct ATInputView: View {
           if newValue.count > maxLength + 1 {
             message = oldValue
           } else if newValue.count == .zero {
-            placeholder = "텍스트 입력하기"
+            placeholder = self.originPlaceholder
           } else {
             placeholder = ""
           }
@@ -51,6 +55,7 @@ public struct ATInputView: View {
         .font(.fonts(.bodyBold14))
         .foregroundStyle(Gen.Colors.white.color)
         .fixedSize(horizontal: true, vertical: true)
+        .submitLabel(self.submitLabel)
       }
       .padding(.vertical, 6)
       .padding(.horizontal, 12)
@@ -64,8 +69,16 @@ public struct ATInputView: View {
     }.padding()
   }
 
-  public init(placeholder: String, _ maxLength: Int = 30) {
+  public init(
+    placeholder: String,
+    message: Binding<String>,
+    submitLabel: SubmitLabel = .done,
+    _ maxLength: Int = 30
+  ) {
     self.placeholder = placeholder
+    self.originPlaceholder = placeholder
+    self._message = message
+    self.submitLabel = submitLabel
     self.maxLength = maxLength
   }
   

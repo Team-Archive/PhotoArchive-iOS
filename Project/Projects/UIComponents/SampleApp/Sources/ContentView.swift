@@ -34,7 +34,7 @@ struct ContentView: View {
           ATDivider(type: .small)
           ATDivider(type: .medium)
           ATDivider(type: .large)
-          ATInputView(placeholder: "텍스트 입력하기")
+          ATInputView(placeholder: "텍스트 입력하기", message: .constant(""))
           ATGradientView(type: .main, direction: .horizontal)
             .frame(height: 44)
           ATGradientView(type: .morning, direction: .horizontal)
