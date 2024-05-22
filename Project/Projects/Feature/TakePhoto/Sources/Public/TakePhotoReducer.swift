@@ -35,6 +35,7 @@ public struct TakePhotoReducer: Reducer {
     case clearSelectedPhoto
     case setCurrentPhotoFromAlbumIndex(UInt?)
     case setCandidateContentsFromCamera(String)
+    case setCandidateContentsFromAlbum(asset: PHAsset, contents: String)
   }
   
   public struct State: Equatable {
@@ -48,6 +49,7 @@ public struct TakePhotoReducer: Reducer {
     var selectedPhotoFromAlbum: [PHAsset]?
     var currentPhotoFromAlbumIndex: UInt?
     var candidateContentsFromCamera: String = ""
+    var candidateContentsFromAlbum: [PHAsset: String] = [:]
     var isValidContents: Bool = true
     
     public init(
@@ -132,6 +134,9 @@ public struct TakePhotoReducer: Reducer {
         switch selectedPhoto {
         case .fromAlbum(let assets):
           state.selectedPhotoFromAlbum = assets
+          for asset in assets {
+            state.candidateContentsFromAlbum[asset] = ""
+          }
         case .fromCamera(let capturedPhotoData):
           state.selectedPhotoFromCamera = capturedPhotoData
         }
@@ -143,6 +148,7 @@ public struct TakePhotoReducer: Reducer {
         state.selectedPhotoFromCamera = nil
         state.currentPhotoFromAlbumIndex = nil
         state.candidateContentsFromCamera = ""
+        state.candidateContentsFromAlbum = [:]
         state.isValidContents = true
         return .none
       case .setCurrentPhotoFromAlbumIndex(let index):
@@ -151,6 +157,10 @@ public struct TakePhotoReducer: Reducer {
       case .setCandidateContentsFromCamera(let contents):
         state.isValidContents = self.isValidContents(contents: contents)
         state.candidateContentsFromCamera = contents
+        return .none
+      case .setCandidateContentsFromAlbum(let asset, let contents):
+        state.isValidContents = self.isValidContents(contents: contents) && self.isAllValidContents(contents: state.candidateContentsFromAlbum)
+        state.candidateContentsFromAlbum[asset] = contents
         return .none
       }
     }
@@ -168,6 +178,18 @@ public struct TakePhotoReducer: Reducer {
   
   private func switchCamera() {
     self.cameraUsecase.switchCamera()
+  }
+  
+  private func isAllValidContents(contents: [PHAsset: String]) -> Bool {
+    let allKeys = Array(contents.keys)
+    for key in allKeys {
+      if let value = contents[key] {
+        if !isValidContents(contents: value) {
+          return false
+        }
+      }
+    }
+    return true
   }
   
   private func isValidContents(contents: String) -> Bool {

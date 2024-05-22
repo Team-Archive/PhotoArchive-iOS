@@ -117,7 +117,14 @@ struct EditPhotoFromAlbum: View {
             Spacer()
             ATInputView(
               placeholder: L10n.Localizable.takePhotoEditTextInputPlaceholder,
-              message: .constant(""), // FIXME: 개발
+              message: Binding(
+                get: {
+                  viewStore.state.candidateContentsFromAlbum[asset] ?? ""
+                },
+                set: { newValue in
+                  viewStore.send(.setCandidateContentsFromAlbum(asset: asset, contents: newValue))
+                }
+              ),
               Int(viewStore.maxTextInputCount)
             )
             .padding(.bottom, 20)

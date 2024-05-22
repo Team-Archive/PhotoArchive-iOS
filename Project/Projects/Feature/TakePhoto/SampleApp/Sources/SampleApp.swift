@@ -53,9 +53,16 @@ struct StubPhotoPickerView: View, PhotoPicker {
     VStack(spacing: 20) {
       Button(action: {
         completeAction([
-          .init(),
-          .init(),
-          .init()
+          MockPHAsset(),
+          MockPHAsset(),
+          MockPHAsset(),
+          MockPHAsset(),
+          MockPHAsset(),
+          MockPHAsset(),
+          MockPHAsset(),
+          MockPHAsset(),
+          MockPHAsset(),
+          MockPHAsset()
         ])
       }, label: {
         VStack {
@@ -237,3 +244,5 @@ extension StubCameraRepositoryImplement: AVCapturePhotoCaptureDelegate {
 }
 
 #endif
+
+

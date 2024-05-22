@@ -21,7 +21,7 @@ extension PHAsset {
     options.isSynchronous = true
     
     return await withCheckedContinuation { continuation in
-      if self.localIdentifier.hasPrefix("(null)") {
+      if self is MockPHAsset {
         continuation.resume(returning: .failure(.init(.assetLoadingFailed)))
         return
       }
