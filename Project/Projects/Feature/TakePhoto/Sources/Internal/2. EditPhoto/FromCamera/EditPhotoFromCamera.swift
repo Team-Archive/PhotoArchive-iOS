@@ -29,21 +29,29 @@ struct EditPhotoFromCamera: View {
     WithViewStore(store, observe: { $0 }) { viewStore in
       GeometryReader { geometry in
         VStack(spacing: 48) {
-          Color.brown
-            .frame(
-              width: geometry.size.width - (.designContentsInset * 2),
-              height: geometry.size.width - (.designContentsInset * 2)
-            )
-            .clipped()
-            .clipShape(.rect(cornerRadius: self.contentsViewCornerRadius))
-            .padding(
-              .init(
-                top: 0,
-                leading: .designContentsInset,
-                bottom: 0,
-                trailing: .designContentsInset
+          if let photoData = viewStore.selectedPhotoFromCamera {
+            EditPhotoView(photoData: photoData)
+              .frame(
+                width: geometry.size.width - (.designContentsInset * 2),
+                height: geometry.size.width - (.designContentsInset * 2)
               )
-            )
+              .clipped()
+              .clipShape(.rect(cornerRadius: self.contentsViewCornerRadius))
+              .padding(
+                .init(
+                  top: 0,
+                  leading: .designContentsInset,
+                  bottom: 0,
+                  trailing: .designContentsInset
+                )
+              )
+          } else {
+            Text("Photo data not found :(")
+              .frame(
+                width: geometry.size.width - (.designContentsInset * 2),
+                height: geometry.size.width - (.designContentsInset * 2)
+              )
+          }
           EditPhotoToolbarView(
             store: self.store,
             editCompleteAction: {
@@ -65,6 +73,29 @@ struct EditPhotoFromCamera: View {
   }
   
   // MARK: - private method
+  
+  @ViewBuilder
+  private func EditPhotoView(photoData: Data) -> some View {
+    WithViewStore(store, observe: { $0 }) { viewStore in
+      GeometryReader { geometry in
+        ZStack {
+          ATDataImage(data: photoData)
+            .resizable()
+            .scaledToFill()
+            .aspectRatio(contentMode: .fill)
+            .clipped()
+          VStack() {
+            Spacer()
+            ATInputView(
+              placeholder: L10n.Localizable.takePhotoEditTextInputPlaceholder,
+              Int(viewStore.maxTextInputCount)
+            )
+            .padding(.bottom, 20)
+          }
+        }
+      }
+    }
+  }
   
   // MARK: - internal method
   

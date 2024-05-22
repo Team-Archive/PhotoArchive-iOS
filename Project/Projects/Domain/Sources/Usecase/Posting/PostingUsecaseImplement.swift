@@ -28,8 +28,8 @@ public final class PostingUsecaseImplement: PostingUsecase {
   
   // MARK: - internal method
   
-  public func post(accessToken: String, itemList: [PostingItem]) async -> Result<Void, ArchiveError> {
-    return await self.repository.post(accessToken: accessToken, itemList: itemList)
+  public func post(accessToken: String, itemList: [PostingItem], toUserIdList: [String]) async -> Result<Void, ArchiveError> {
+    return await self.repository.post(accessToken: accessToken, itemList: itemList, toUserIdList: toUserIdList)
   }
   
   public func assetListToImageDataList(assetList: [PHAsset]) async -> Result<[Data], ArchiveError> {

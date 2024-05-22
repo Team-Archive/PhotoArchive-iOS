@@ -148,6 +148,14 @@ struct ContentView: View {
           .scaledToFill()
           .frame(width: 100, height: 100)
           .clipped()
+          ATDataImage(
+            data: Gen.Images.allPerson.uikitImage.pngData(),
+            placeholder: .init(systemName: "bolt")
+          )
+          .resizable()
+          .scaledToFill()
+          .frame(width: 100, height: 100)
+          .clipped()
           ATCheckImageButton(
             type: .url(
               url: URL(string: "https://hips.hearstapps.com/hmg-prod/images/little-cute-maltipoo-puppy-royalty-free-image-1652926025.jpg?crop=0.444xw:1.00xh;0.129xw,0&resize=980:*")!,

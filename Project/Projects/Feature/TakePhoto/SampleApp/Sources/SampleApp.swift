@@ -70,7 +70,7 @@ struct StubPhotoPickerView: View, PhotoPicker {
 
 final class StubPostingUsecaseImplement: PostingUsecase {
   
-  func post(accessToken: String, itemList: [PostingItem]) async -> Result<Void, ArchiveError> {
+  func post(accessToken: String, itemList: [PostingItem], toUserIdList: [String]) async -> Result<Void, ArchiveError> {
     return .failure(.init(.commonError))
   }
   

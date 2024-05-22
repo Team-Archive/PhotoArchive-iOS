@@ -1,19 +1,19 @@
 //
-//  ATPHAssetImage.swift
+//  ATDataImage.swift
 //  UIComponents
 //
-//  Created by Aaron Hanwe LEE on 5/13/24.
+//  Created by Aaron Hanwe LEE on 5/22/24.
 //  Copyright © 2024 TeamArchive. All rights reserved.
 //
 
 import SwiftUI
 import Photos
 
-public struct ATPHAssetImage: View {
+public struct ATDataImage: View {
 
   // MARK: - private properties
   
-  private var asset: PHAsset?
+  private var data: Data?
   private let placeholder: Image?
   private var capInsets: EdgeInsets = EdgeInsets()
   private var resizingMode: Image.ResizingMode = .stretch
@@ -22,7 +22,6 @@ public struct ATPHAssetImage: View {
   private var contentMode: ContentMode = .fit
   @State private var isLoadComplete: Bool = false
   @State private var image: Image?
-  @State private var previousAssetIdentifier: String?
   
   // MARK: - public properties
   
@@ -49,42 +48,25 @@ public struct ATPHAssetImage: View {
     }
     .clipped()
     .onAppear {
-      loadImageIfNeeded()
+      loadImage()
     }
     
   }
   
   public init(
-    asset: PHAsset?,
+    data: Data?,
     placeholder: Image? = nil
   ) {
-    self.asset = asset
+    self.data = data
     self.placeholder = placeholder
   }
   
   // MARK: - private method
   
-  private func loadImageIfNeeded() {
-    guard let asset = asset else { return }
-    if previousAssetIdentifier != asset.localIdentifier {
-      loadImage()
-      previousAssetIdentifier = asset.localIdentifier
-    }
-  }
-  
   private func loadImage() {
     Task {
-      if let asset {
-        let result = await asset.toImage(.thumbnail)
-        switch result {
-        case .success(let image):
-          DispatchQueue.main.async {
-            self.isLoadComplete = true
-            self.image = image
-          }
-        case .failure(let err):
-          print("image load err: \(err)")
-        }
+      if let data {
+        self.image = Image(data: data)
       }
     }
   }
@@ -93,24 +75,24 @@ public struct ATPHAssetImage: View {
   
 }
 
-extension ATPHAssetImage {
+extension ATDataImage {
   public func resizable(
     capInsets: EdgeInsets = EdgeInsets(),
     resizingMode: Image.ResizingMode = .stretch
-  ) -> ATPHAssetImage {
+  ) -> ATDataImage {
     var newImage = self
     newImage.capInsets = capInsets
     newImage.resizingMode = resizingMode
     return newImage
   }
   
-  public func renderingMode(_ renderingMode: Image.TemplateRenderingMode?) -> ATPHAssetImage {
+  public func renderingMode(_ renderingMode: Image.TemplateRenderingMode?) -> ATDataImage {
     var newImage = self
     newImage.renderingMode = renderingMode
     return newImage
   }
   
-  public func aspectRatio(_ aspectRatio: CGFloat?, contentMode: ContentMode) -> ATPHAssetImage {
+  public func aspectRatio(_ aspectRatio: CGFloat?, contentMode: ContentMode) -> ATDataImage {
     var newImage = self
     newImage.aspectRatio = aspectRatio
     newImage.contentMode = contentMode
