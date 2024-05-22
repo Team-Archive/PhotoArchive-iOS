@@ -62,6 +62,7 @@ public struct TakePhotoReducer: Reducer {
   }
   
   private let cameraUsecase: CameraUsecase
+  private let postingUsecase: PostingUsecase
   
   // MARK: - Public Property
   
@@ -71,9 +72,11 @@ public struct TakePhotoReducer: Reducer {
   
   public init(
     cameraUsecase: CameraUsecase,
+    postingUsecase: PostingUsecase,
     maxTextInputCount: UInt
   ) {
     self.cameraUsecase = cameraUsecase
+    self.postingUsecase = postingUsecase
     self.initialState = State(
       cameraSession: cameraUsecase.session,
       maxTextInputCount: maxTextInputCount

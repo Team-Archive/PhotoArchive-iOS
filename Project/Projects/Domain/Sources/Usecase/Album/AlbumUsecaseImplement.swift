@@ -140,21 +140,4 @@ public final class AlbumUsecaseImplement: AlbumUsecase {
     }
   }
   
-  public func assetListToImageDataList(assetList: [PHAsset]) async -> Result<[Data], ArchiveError> {
-    var dataList: [Data] = []
-    
-    for asset in assetList {
-      let result = await asset.toData(.detail)
-      switch result {
-      case .success(let data):
-        dataList.append(data)
-      case .failure(let error):
-        print("Error converting asset to data: \(error)")
-        return .failure(.init(.assetToDataFail))
-      }
-    }
-    
-    return .success(dataList)
-  }
-  
 }

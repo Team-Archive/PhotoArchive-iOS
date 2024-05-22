@@ -12,6 +12,7 @@ import Domain
 import AVFoundation
 import AppRoute
 import Photos
+import ArchiveFoundation
 
 @main
 struct SampleApp: App {
@@ -21,7 +22,8 @@ struct SampleApp: App {
         reducer: TakePhotoReducer(
           cameraUsecase: CameraUsecaseImplement(
             repository: StubCameraRepositoryImplement()
-          ),
+          ), 
+          postingUsecase: StubPostingUsecaseImplement(),
           maxTextInputCount: 30
         )
       )
@@ -62,6 +64,18 @@ struct StubPhotoPickerView: View, PhotoPicker {
         Text("This is close action")
       })
     }
+  }
+  
+}
+
+final class StubPostingUsecaseImplement: PostingUsecase {
+  
+  func post(accessToken: String, itemList: [PostingItem]) async -> Result<Void, ArchiveError> {
+    return .failure(.init(.commonError))
+  }
+  
+  func assetListToImageDataList(assetList: [PHAsset]) async -> Result<[Data], ArchiveError> {
+    return .success([])
   }
   
 }
