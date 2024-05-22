@@ -13,6 +13,7 @@ import Domain
 import Combine
 import AVFoundation
 import Photos
+import AppRoute
 
 public struct TakePhotoReducer: Reducer {
   
@@ -33,6 +34,7 @@ public struct TakePhotoReducer: Reducer {
     case setSelectedPhoto(SelectedPhoto)
     case clearSelectedPhoto
     case setCurrentPhotoFromAlbumIndex(UInt?)
+    case setCandidateContentsFromCamera(String)
   }
   
   public struct State: Equatable {
@@ -45,6 +47,8 @@ public struct TakePhotoReducer: Reducer {
     var selectedPhotoFromCamera: Data?
     var selectedPhotoFromAlbum: [PHAsset]?
     var currentPhotoFromAlbumIndex: UInt?
+    var candidateContentsFromCamera: String = ""
+    var isValidContents: Bool = true
     
     public init(
       cameraSession: AVCaptureSession,
@@ -63,6 +67,7 @@ public struct TakePhotoReducer: Reducer {
   
   private let cameraUsecase: CameraUsecase
   private let postingUsecase: PostingUsecase
+  private let myInfo: MyInformation
   
   // MARK: - Public Property
   
@@ -71,10 +76,12 @@ public struct TakePhotoReducer: Reducer {
   // MARK: - LifeCycle
   
   public init(
+    myInfo: MyInformation,
     cameraUsecase: CameraUsecase,
     postingUsecase: PostingUsecase,
     maxTextInputCount: UInt
   ) {
+    self.myInfo = myInfo
     self.cameraUsecase = cameraUsecase
     self.postingUsecase = postingUsecase
     self.initialState = State(
@@ -135,9 +142,15 @@ public struct TakePhotoReducer: Reducer {
         state.selectedPhotoFromAlbum = nil
         state.selectedPhotoFromCamera = nil
         state.currentPhotoFromAlbumIndex = nil
+        state.candidateContentsFromCamera = ""
+        state.isValidContents = true
         return .none
       case .setCurrentPhotoFromAlbumIndex(let index):
         state.currentPhotoFromAlbumIndex = index
+        return .none
+      case .setCandidateContentsFromCamera(let contents):
+        state.isValidContents = self.isValidContents(contents: contents)
+        state.candidateContentsFromCamera = contents
         return .none
       }
     }
@@ -155,6 +168,18 @@ public struct TakePhotoReducer: Reducer {
   
   private func switchCamera() {
     self.cameraUsecase.switchCamera()
+  }
+  
+  private func isValidContents(contents: String) -> Bool {
+    self.postingUsecase.isValidContents(contents: contents)
+  }
+  
+  private func post(itemList: [PostingItem], toUserIdList: [String]) async -> Result<Void, ArchiveError> {
+    return await self.postingUsecase.post(
+      accessToken: self.myInfo.accessToken,
+      itemList: itemList,
+      toUserIdList: toUserIdList
+    )
   }
   
   // MARK: - Public Method

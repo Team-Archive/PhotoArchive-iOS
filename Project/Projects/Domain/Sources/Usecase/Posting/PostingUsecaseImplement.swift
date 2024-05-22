@@ -15,13 +15,15 @@ public final class PostingUsecaseImplement: PostingUsecase {
   // MARK: - private properties
   
   private let repository: PostingRepository
+  private let maxContentsCount: UInt
   
   // MARK: - internal properties
   
   // MARK: - life cycle
   
-  public init(repository: PostingRepository) {
+  public init(repository: PostingRepository, maxContentsCount: UInt) {
     self.repository = repository
+    self.maxContentsCount = maxContentsCount
   }
   
   // MARK: - private method
@@ -47,6 +49,14 @@ public final class PostingUsecaseImplement: PostingUsecase {
     }
     
     return .success(dataList)
+  }
+  
+  public func isValidContents(contents: String?) -> Bool {
+    if let contents {
+      return !(contents.count > self.maxContentsCount)
+    } else {
+      return true
+    }
   }
   
 }

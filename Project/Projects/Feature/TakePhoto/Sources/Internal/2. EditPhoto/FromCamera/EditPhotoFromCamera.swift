@@ -87,7 +87,8 @@ struct EditPhotoFromCamera: View {
           VStack() {
             Spacer()
             ATInputView(
-              placeholder: L10n.Localizable.takePhotoEditTextInputPlaceholder,
+              placeholder: L10n.Localizable.takePhotoEditTextInputPlaceholder, 
+              message: viewStore.binding(get: \.candidateContentsFromCamera, send: TakePhotoReducer.Action.setCandidateContentsFromCamera),
               Int(viewStore.maxTextInputCount)
             )
             .padding(.bottom, 20)

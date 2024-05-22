@@ -127,8 +127,6 @@ public extension TargetDependency {
   static let firebaseDynamicLinks: TargetDependency = .external(name: "FirebaseDynamicLinks")
   static let swiftyJSON: TargetDependency = .external(name: "SwiftyJSON")
   static let lottie: TargetDependency = .external(name: "Lottie")
-  static let quick: TargetDependency = .external(name: "Quick")
-  static let nimble: TargetDependency = .external(name: "Nimble")
   static let tca: TargetDependency = .external(name: "ComposableArchitecture")
   static let imageLoader: TargetDependency = .external(name: "ImageLoader-iOS")
   static let network: TargetDependency = .external(name: "Network-iOS")

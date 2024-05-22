@@ -49,10 +49,15 @@ public struct EditPhotoToolbarView: View {
         })
         .frame(width: 44, height: 44)
         
-        ATBottomActionButton(title: L10n.Localizable.takePhotoEditCompleteButtonTitle, action: {
-          editCompleteAction()
-        })
+        ATBottomActionButton(
+          title: L10n.Localizable.takePhotoEditCompleteButtonTitle,
+          action: {
+            editCompleteAction()
+          },
+          isEnabled: .constant(viewStore.isValidContents)
+        )
         .frame(width: 161)
+        
         
         Color.clear
           .frame(width: 44, height: 44)

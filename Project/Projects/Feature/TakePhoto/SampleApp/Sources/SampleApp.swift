@@ -20,15 +20,20 @@ struct SampleApp: App {
     WindowGroup {
       TakePhotoView<StubPhotoPickerView>(
         reducer: TakePhotoReducer(
+          myInfo: StubMyInfo(),
           cameraUsecase: CameraUsecaseImplement(
             repository: StubCameraRepositoryImplement()
           ), 
           postingUsecase: StubPostingUsecaseImplement(),
-          maxTextInputCount: 30
+          maxTextInputCount: 10
         )
       )
     }
   }
+}
+
+struct StubMyInfo: MyInformation {
+  var accessToken: String = "abc"
 }
 
 struct StubPhotoPickerView: View, PhotoPicker {
@@ -69,6 +74,14 @@ struct StubPhotoPickerView: View, PhotoPicker {
 }
 
 final class StubPostingUsecaseImplement: PostingUsecase {
+  
+  func isValidContents(contents: String?) -> Bool {
+    if let contents {
+      return !(contents.count > 10)
+    } else {
+      return true
+    }
+  }
   
   func post(accessToken: String, itemList: [PostingItem], toUserIdList: [String]) async -> Result<Void, ArchiveError> {
     return .failure(.init(.commonError))
