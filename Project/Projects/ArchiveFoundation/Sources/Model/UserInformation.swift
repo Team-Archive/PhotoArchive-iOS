@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct UserInformation: Identifiable, Equatable {
+public struct UserInformation: Identifiable, Equatable, Hashable {
   
   public var id: String
   public var name: String
@@ -24,6 +24,10 @@ public struct UserInformation: Identifiable, Equatable {
   
   public static func == (lhs: UserInformation, rhs: UserInformation) -> Bool {
     return lhs.id == rhs.id
+  }
+  
+  public func hash(into hasher: inout Hasher) {
+    hasher.combine(id)
   }
   
 }

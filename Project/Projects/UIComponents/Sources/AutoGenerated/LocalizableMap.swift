@@ -51,6 +51,8 @@ public enum L10n {
     public static let takePhotoEditTextInputPlaceholder = L10n.tr("Localizable", "Take_Photo_Edit_Text_Input_Placeholder")
     /// 새로운 사진
     public static let takePhotoNaviTitle = L10n.tr("Localizable", "Take_Photo_Navi_Title")
+    /// 전체
+    public static let takePhotoSendToAllButtonTitle = L10n.tr("Localizable", "Take_Photo_Send_To_All_Button_Title")
     /// 내 소식 보내기
     public static let takePhotoSendToButtonTitle = L10n.tr("Localizable", "Take_Photo_Send_To_Button_Title")
     /// 보낼 사람

@@ -37,6 +37,7 @@ public struct TakePhotoReducer: Reducer {
     case setCandidateContentsFromCamera(String)
     case setCandidateContentsFromAlbum(asset: PHAsset, contents: String)
     case setIsCompleteEditPhoto(Bool)
+    case setSelectedSendDestination([UserInformation]?)
   }
   
   public struct State: Equatable {
@@ -44,6 +45,7 @@ public struct TakePhotoReducer: Reducer {
     var err: ArchiveError?
     let cameraSession: AVCaptureSession
     let maxTextInputCount: UInt
+    let friendsList: [UserInformation]
     var cameraPermission: AVAuthorizationStatus?
     var selectedPhoto: SelectedPhoto?
     var selectedPhotoFromCamera: Data?
@@ -53,13 +55,16 @@ public struct TakePhotoReducer: Reducer {
     var candidateContentsFromAlbum: [PHAsset: String] = [:]
     var isValidContents: Bool = true
     var isCompleteEditPhoto: Bool = false
+    var selectedSendDestination: [UserInformation]?
     
     public init(
       cameraSession: AVCaptureSession,
-      maxTextInputCount: UInt
+      maxTextInputCount: UInt,
+      friendsList: [UserInformation]
     ) {
       self.cameraSession = cameraSession
       self.maxTextInputCount = maxTextInputCount
+      self.friendsList = friendsList
     }
   }
   
@@ -90,7 +95,8 @@ public struct TakePhotoReducer: Reducer {
     self.postingUsecase = postingUsecase
     self.initialState = State(
       cameraSession: cameraUsecase.session,
-      maxTextInputCount: maxTextInputCount
+      maxTextInputCount: maxTextInputCount,
+      friendsList: myInfo.friendsList
     )
   }
   
@@ -166,6 +172,10 @@ public struct TakePhotoReducer: Reducer {
         return .none
       case .setIsCompleteEditPhoto(let isComplete):
         state.isCompleteEditPhoto = isComplete
+        state.selectedSendDestination = nil
+        return .none
+      case .setSelectedSendDestination(let list):
+        state.selectedSendDestination = list
         return .none
       }
     }

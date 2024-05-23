@@ -31,7 +31,7 @@ public struct ATBottomActionButton: View {
     if self.isEnabled {
       return Gen.Colors.gradationMainStart.color
     } else {
-      return Gen.Colors.purpleGray400.color
+      return Gen.Colors.gray300.color
     }
   }
   
@@ -39,7 +39,7 @@ public struct ATBottomActionButton: View {
     if self.isEnabled {
       return Gen.Colors.gradationMainEnd.color
     } else {
-      return Gen.Colors.purpleGray400.color
+      return Gen.Colors.gray300.color
     }
   }
   

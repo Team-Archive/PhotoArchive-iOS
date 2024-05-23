@@ -52,12 +52,12 @@ public struct TakePhotoView<PhotoPickerView>: View where PhotoPickerView: PhotoP
             get: { $0.isCompleteEditPhoto },
             send: { _ in TakePhotoReducer.Action.setIsCompleteEditPhoto(false) })) {
               SendDestinationPickerView(
-                candidateList: [], // FIXME: 데이터 넣기
+                candidateList: viewStore.friendsList,
                 action: { selectedList in
                   print("selected: \(selectedList)")
                 }
               )
-              .presentationDetents([.fraction(0.3), .medium, .large])
+              .presentationDetents([.fraction(0.35), .medium, .large])
               .presentationDragIndicator(.visible)
             }
         } else {

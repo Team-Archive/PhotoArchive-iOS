@@ -6,6 +6,11 @@
 //  Copyright © 2024 TeamArchive. All rights reserved.
 //
 
+import Foundation
+
 public protocol MyInformation {
+  
   var accessToken: String { get }
+  var friendsList: [UserInformation] { get }
+  
 }

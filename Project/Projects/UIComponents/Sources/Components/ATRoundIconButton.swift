@@ -32,7 +32,7 @@ public struct ATRoundIconButton: View {
     if self.isEnabled {
       return self.backgroundStartColorValue
     } else {
-      return Gen.Colors.purpleGray400.color
+      return Gen.Colors.gray300.color
     }
   }
   
@@ -40,7 +40,7 @@ public struct ATRoundIconButton: View {
     if self.isEnabled {
       return self.backgroundEndColorValue
     } else {
-      return Gen.Colors.purpleGray400.color
+      return Gen.Colors.gray300.color
     }
   }
   
