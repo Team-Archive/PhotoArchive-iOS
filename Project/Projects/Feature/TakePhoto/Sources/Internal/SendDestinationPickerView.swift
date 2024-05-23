@@ -59,7 +59,11 @@ struct SendDestinationPickerView: View {
           icon: Gen.Images.send24.image,
           title: L10n.Localizable.takePhotoSendToButtonTitle,
           action: {
-            self.action(self.selectedList)
+            if self.isSelectedSendToAllFriends {
+              self.action(Set<UserInformation>(self.candidateList))
+            } else {
+              self.action(self.selectedList)
+            }
           },
           isEnabled: $isConfirmButtonEnabled
         )
@@ -103,7 +107,7 @@ struct SendDestinationPickerView: View {
               )
             }
           }
-        }
+        }.padding(.bottom, 60)
       }
       .padding(
         .init(
@@ -117,7 +121,7 @@ struct SendDestinationPickerView: View {
   }
   
   @ViewBuilder
-  private func UserView(
+  private func UserView( // TODO: 선택시 아이콘 영역이 뷰 영역을 넘어버림. 수정해야함
     info: PickItemType,
     index: UInt,
     buttonSize: CGSize
@@ -127,9 +131,16 @@ struct SendDestinationPickerView: View {
       case .allFriends:
         ATCheckImageButton(
           type: .image(Gen.Images.user24.image),
-          isChecked: self.isSelectedSendToAllFriends,
+          isHapticEnable: true,
+          isChecked: self.$isSelectedSendToAllFriends,
           action: { isSelected in
-            print("모든친구: \(isSelected)")
+            self.selectedList.removeAll()
+            if isSelected {
+              self.isSelectedSendToAllFriends = true
+            } else {
+              self.isSelectedSendToAllFriends = false
+            }
+            self.isConfirmButtonEnabled = self.isConfirmButtonEnabledState()
           }
         )
         .frame(
@@ -142,9 +153,21 @@ struct SendDestinationPickerView: View {
             url: userInfo.profileSmallUrl,
             placeholder: Gen.Images.placeholderMini.image
           ),
-          isChecked: self.selectedList.contains(userInfo),
+          isHapticEnable: true,
+          isChecked: Binding<Bool>(
+            get: { self.selectedList.contains(userInfo) },
+            set: { _ in }
+          ),
           action: { isSelected in
-            print("\(index)의 친구 : \(isSelected)")
+            if self.isSelectedSendToAllFriends {
+              self.isSelectedSendToAllFriends = false
+            }
+            if isSelected {
+              self.selectedList.remove(userInfo)
+            } else {
+              self.selectedList.insert(userInfo)
+            }
+            self.isConfirmButtonEnabled = self.isConfirmButtonEnabledState()
           }
         )
         .frame(
@@ -157,8 +180,20 @@ struct SendDestinationPickerView: View {
         .foregroundStyle(Gen.Colors.white.color)
         .multilineTextAlignment(.center)
     }
-    .frame(width: buttonSize.width, height: buttonSize.height + 40, alignment: .top)
+    .frame(
+      width: buttonSize.width,
+      height: buttonSize.height + 40,
+      alignment: .top
+    )
     
+  }
+  
+  private func isConfirmButtonEnabledState() -> Bool {
+    if self.isSelectedSendToAllFriends {
+      return true
+    } else {
+      return self.selectedList.count > 0
+    }
   }
   
   // MARK: - internal method

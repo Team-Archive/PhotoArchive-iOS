@@ -17,6 +17,9 @@ struct ContentView: View {
     }
   }
   
+  @State var isSelectedOn: Bool = false
+  @State var isSelectedOn2: Bool = false
+  
   var body: some View {
     ZStack {
       ATBackgroundView()
@@ -161,7 +164,7 @@ struct ContentView: View {
               url: URL(string: "https://hips.hearstapps.com/hmg-prod/images/little-cute-maltipoo-puppy-royalty-free-image-1652926025.jpg?crop=0.444xw:1.00xh;0.129xw,0&resize=980:*")!,
               placeholder: .init(systemName: "bolt")
             ),
-            isChecked: false,
+            isChecked: $isSelectedOn,
             action: { isChecked in
               print("ATCheckImageButton: \(isChecked)")
             }
@@ -169,7 +172,7 @@ struct ContentView: View {
           .frame(width: 68, height: 68)
           ATCheckImageButton(
             type: .image(.init(systemName: "bolt")),
-            isChecked: true,
+            isChecked: $isSelectedOn2,
             action: { isChecked in
               print("ATCheckImageButton: \(isChecked)")
             }
