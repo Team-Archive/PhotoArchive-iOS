@@ -22,6 +22,17 @@ public struct TakePhotoReducer: Reducer {
     case fromAlbum([PHAsset])
   }
   
+  public enum PostContents: Equatable {
+    case fromCamera(photoData: Data, comment: String)
+    case fromAlbum(assetList: [PHAsset], comment: [PHAsset: String])
+  }
+  
+  public enum TakePhotoState: Equatable {
+    case photo
+    case posting
+    case complete
+  }
+  
   // MARK: - TCA Define
   
   public enum Action: Equatable {
@@ -38,6 +49,8 @@ public struct TakePhotoReducer: Reducer {
     case setCandidateContentsFromAlbum(asset: PHAsset, contents: String)
     case setIsCompleteEditPhoto(Bool)
     case setSelectedSendDestination([UserInformation]?)
+    case post(contents: PostContents, destination: [UserInformation])
+    case setTakePhotoState(TakePhotoState)
   }
   
   public struct State: Equatable {
@@ -56,6 +69,7 @@ public struct TakePhotoReducer: Reducer {
     var isValidContents: Bool = true
     var isCompleteEditPhoto: Bool = false
     var selectedSendDestination: [UserInformation]?
+    var takePhotoState: TakePhotoState = .photo
     
     public init(
       cameraSession: AVCaptureSession,
@@ -177,6 +191,26 @@ public struct TakePhotoReducer: Reducer {
       case .setSelectedSendDestination(let list):
         state.selectedSendDestination = list
         return .none
+      case .setTakePhotoState(let stateValue):
+        state.takePhotoState = stateValue
+        return .none
+      case .post(let contents, let destination):
+        state.takePhotoState = .posting
+        return .run { send in
+          let itemListResult = await self.convertPostContentsToPostingItem(contents)
+          switch itemListResult {
+          case .success(let itemList):
+            let postResult = await self.post(itemList: itemList, toUserIdList: destination.map { $0.id })
+            switch postResult {
+            case .success(_):
+              await send(.setTakePhotoState(.complete))
+            case .failure(let err):
+              await send(.setError(err))
+            }
+          case .failure(let err):
+            await send(.setError(err))
+          }
+        }
       }
     }
   }
@@ -209,6 +243,30 @@ public struct TakePhotoReducer: Reducer {
   
   private func isValidContents(contents: String) -> Bool {
     self.postingUsecase.isValidContents(contents: contents)
+  }
+  
+  private func convertPostContentsToPostingItem(_ contents: PostContents) async -> Result<[PostingItem], ArchiveError> {
+    switch contents {
+    case .fromCamera(let photoData, let comment):
+      return .success([.init(
+        imageData: photoData,
+        comment: comment == "" ? nil : comment
+      )])
+    case .fromAlbum(let assetList, let comment):
+      let photoDataListResult = await self.postingUsecase.assetListToImageDataList(assetList: assetList)
+      switch photoDataListResult {
+      case .success(let dataList):
+        var returnValue: [PostingItem] = []
+        for i in 0..<assetList.count {
+          guard let asset = assetList[safe: i] else { continue }
+          guard let photoData = dataList[safe: i] else { continue }
+          returnValue.append(.init(imageData: photoData, comment: comment[asset]))
+        }
+        return .success(returnValue)
+      case .failure(let err):
+        return .failure(err)
+      }
+    }
   }
   
   private func post(itemList: [PostingItem], toUserIdList: [String]) async -> Result<Void, ArchiveError> {

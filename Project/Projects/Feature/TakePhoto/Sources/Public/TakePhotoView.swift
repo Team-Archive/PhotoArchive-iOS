@@ -54,7 +54,18 @@ public struct TakePhotoView<PhotoPickerView>: View where PhotoPickerView: PhotoP
               SendDestinationPickerView(
                 candidateList: viewStore.friendsList,
                 action: { selectedList in
-                  print("selected: \(selectedList)")
+                  viewStore.send(.setSelectedSendDestination(Array(selectedList)))
+                  guard let postContents: TakePhotoReducer.PostContents = {
+                    guard let selectedPhoto = viewStore.selectedPhoto else { return nil }
+                    switch selectedPhoto {
+                    case .fromCamera(let data):
+                      return .fromCamera(photoData: data, comment: viewStore.candidateContentsFromCamera)
+                    case .fromAlbum(let assets):
+                      return .fromAlbum(assetList: assets, comment: viewStore.candidateContentsFromAlbum)
+                    }
+                  }() else { return }
+                  guard let destination = viewStore.selectedSendDestination else { return }
+                  viewStore.send(.post(contents: postContents, destination: destination))
                 }
               )
               .presentationDetents([.fraction(0.35), .medium, .large])

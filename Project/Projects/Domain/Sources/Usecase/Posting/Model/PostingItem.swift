@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct PostingItem {
+public struct PostingItem: Equatable {
   public let imageData: Data
   public let comment: String?
   

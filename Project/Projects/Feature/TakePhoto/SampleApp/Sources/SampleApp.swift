@@ -197,11 +197,12 @@ final class StubPostingUsecaseImplement: PostingUsecase {
   }
   
   func post(accessToken: String, itemList: [PostingItem], toUserIdList: [String]) async -> Result<Void, ArchiveError> {
-    return .failure(.init(.commonError))
+    print("보냈다..")
+    return .success(())
   }
   
   func assetListToImageDataList(assetList: [PHAsset]) async -> Result<[Data], ArchiveError> {
-    return .success([])
+    return .success(assetList.map { _ in .init() })
   }
   
 }
