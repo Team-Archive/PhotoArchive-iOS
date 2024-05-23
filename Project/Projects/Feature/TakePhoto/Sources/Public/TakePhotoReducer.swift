@@ -36,6 +36,7 @@ public struct TakePhotoReducer: Reducer {
     case setCurrentPhotoFromAlbumIndex(UInt?)
     case setCandidateContentsFromCamera(String)
     case setCandidateContentsFromAlbum(asset: PHAsset, contents: String)
+    case setIsCompleteEditPhoto(Bool)
   }
   
   public struct State: Equatable {
@@ -51,6 +52,7 @@ public struct TakePhotoReducer: Reducer {
     var candidateContentsFromCamera: String = ""
     var candidateContentsFromAlbum: [PHAsset: String] = [:]
     var isValidContents: Bool = true
+    var isCompleteEditPhoto: Bool = false
     
     public init(
       cameraSession: AVCaptureSession,
@@ -161,6 +163,9 @@ public struct TakePhotoReducer: Reducer {
       case .setCandidateContentsFromAlbum(let asset, let contents):
         state.isValidContents = self.isValidContents(contents: contents) && self.isAllValidContents(contents: state.candidateContentsFromAlbum)
         state.candidateContentsFromAlbum[asset] = contents
+        return .none
+      case .setIsCompleteEditPhoto(let isComplete):
+        state.isCompleteEditPhoto = isComplete
         return .none
       }
     }

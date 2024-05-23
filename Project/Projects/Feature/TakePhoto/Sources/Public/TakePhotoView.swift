@@ -40,12 +40,26 @@ public struct TakePhotoView<PhotoPickerView>: View where PhotoPickerView: PhotoP
         ATBackgroundView()
           .edgesIgnoringSafeArea(.all)
         if let selectedPhoto = viewStore.selectedPhoto {
-          switch selectedPhoto {
-          case .fromCamera:
-            EditPhotoFromCamera(store: self.store)
-          case .fromAlbum:
-            EditPhotoFromAlbum(store: self.store)
+          VStack {
+            switch selectedPhoto {
+            case .fromCamera:
+              EditPhotoFromCamera(store: self.store)
+            case .fromAlbum:
+              EditPhotoFromAlbum(store: self.store)
+            }
           }
+          .sheet(isPresented: viewStore.binding(
+            get: { $0.isCompleteEditPhoto },
+            send: { _ in TakePhotoReducer.Action.setIsCompleteEditPhoto(false) })) {
+              SendDestinationPickerView(
+                candidateList: [], // FIXME: 데이터 넣기
+                action: { selectedList in
+                  print("selected: \(selectedList)")
+                }
+              )
+              .presentationDetents([.fraction(0.3), .medium, .large])
+              .presentationDragIndicator(.visible)
+            }
         } else {
           TakePhotoBaseFrameView(
             store: self.store,

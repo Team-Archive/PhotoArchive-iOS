@@ -76,14 +76,14 @@ struct EditPhotoFromAlbum: View {
             .frame(height: 12)
           if let assetList = viewStore.selectedPhotoFromAlbum {
             ATPageIndicator(numberOfPages: assetList.count, currentPage: $currentIndex)
-              .frame(width: 200)
+              .frame(width: 200) // TODO: 넓이 조정이 안되네...
           }
           Spacer()
             .frame(height: 20)
           EditPhotoToolbarView(
             store: self.store,
             editCompleteAction: {
-              print("편집완료")
+              viewStore.send(.setIsCompleteEditPhoto(true))
             },
             editCancelAction: {
               viewStore.send(.clearSelectedPhoto)

@@ -55,7 +55,7 @@ struct EditPhotoFromCamera: View {
           EditPhotoToolbarView(
             store: self.store,
             editCompleteAction: {
-              print("편집완료")
+              viewStore.send(.setIsCompleteEditPhoto(true))
             },
             editCancelAction: {
               viewStore.send(.clearSelectedPhoto)
