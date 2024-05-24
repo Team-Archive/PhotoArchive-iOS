@@ -35,7 +35,9 @@ public struct PostingPhotoView: View {
     
     WithViewStore(store, observe: { $0 }) { viewStore in
       VStack {
-        LottieView
+        LottieView {
+          try await LottieAnimation.loadedFrom(url: <#T##URL#>)
+        }
       }
     }
     

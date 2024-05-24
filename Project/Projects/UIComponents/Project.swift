@@ -15,7 +15,8 @@ let project = Project(
         target: "ArchiveFoundation",
         path: "../ArchiveFoundation"
       ),
-      .imageLoader
+      .imageLoader,
+      .lottie
     ],
     testDependencies: [],
     targetScripts: [
@@ -28,6 +29,11 @@ let project = Project(
   schemes: [],
   additionalFiles: [],
   resourceSynthesizers: [
-    .assets()
+    .assets(),
+    .custom(
+      name: "Lottie",
+      parser: .json,
+      extensions: ["lottie"]
+    )
   ]
 )

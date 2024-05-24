@@ -8,6 +8,7 @@
 
 import SwiftUI
 import UIComponents
+import Lottie
 
 struct ContentView: View {
   
@@ -19,6 +20,7 @@ struct ContentView: View {
   
   @State var isSelectedOn: Bool = false
   @State var isSelectedOn2: Bool = false
+  private var playbackMode: LottiePlaybackMode = .playing(.fromProgress(nil, toProgress: 1, loopMode: .loop))
   
   var body: some View {
     ZStack {
@@ -26,6 +28,11 @@ struct ContentView: View {
         .edgesIgnoringSafeArea(.all)
       ScrollView {
         VStack {
+          LottieView(animation: AnimationAsset.upload.animation)
+            .resizable()
+            .playbackMode(playbackMode)
+            .getRealtimeAnimationProgress(.constant(200))
+            .frame(width: 100, height: 100)
           ATNavigationBar(
             type: .default(title: "새로운 사진",
                            trailingIcon: Gen.Images.refresh24.image,
