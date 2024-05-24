@@ -20,7 +20,7 @@ struct ContentView: View {
   
   @State var isSelectedOn: Bool = false
   @State var isSelectedOn2: Bool = false
-  private var playbackMode: LottiePlaybackMode = .playing(.fromProgress(nil, toProgress: 1, loopMode: .loop))
+  private var lottiePlaybackMode: LottiePlaybackMode = .playing(.fromProgress(nil, toProgress: 1, loopMode: .loop))
   
   var body: some View {
     ZStack {
@@ -30,7 +30,7 @@ struct ContentView: View {
         VStack {
           LottieView(animation: AnimationAsset.upload.animation)
             .resizable()
-            .playbackMode(playbackMode)
+            .playbackMode(lottiePlaybackMode)
             .getRealtimeAnimationProgress(.constant(200))
             .frame(width: 100, height: 100)
           ATNavigationBar(

@@ -1,5 +1,5 @@
 //
-//  PostingPhotoView.swift
+//  CompletePostingPhotoView.swift
 //  TakePhoto
 //
 //  Created by Aaron Hanwe LEE on 5/24/24.
@@ -13,23 +13,24 @@ import Photos
 import ArchiveFoundation
 import UIComponents
 import AppRoute
-import Lottie
 
-public struct PostingPhotoView: View {
+public struct CompletePostingPhotoView: View {
   
   // MARK: - Private Property
   
   private let store: StoreOf<TakePhotoReducer>
-  private var lottiePlaybackMode: LottiePlaybackMode = .playing(.fromProgress(nil, toProgress: 1, loopMode: .loop))
+  private let action: () -> Void
   
   // MARK: - Internal Property
   
   // MARK: - Life Cycle
   
   public init(
-    store: StoreOf<TakePhotoReducer>
+    store: StoreOf<TakePhotoReducer>,
+    completeAction: @escaping () -> Void
   ) {
     self.store = store
+    self.action = completeAction
   }
   
   public var body: some View {
@@ -39,7 +40,7 @@ public struct PostingPhotoView: View {
         Color.clear
       }
       .fullScreenCover(isPresented: .constant(true)) {
-        uploadingView()
+        completeUploadView()
       }
     }
     
@@ -48,15 +49,13 @@ public struct PostingPhotoView: View {
   // MARK: - Private Method
   
   @ViewBuilder
-  private func uploadingView() -> some View {
-    VStack {
-      LottieView(animation: AnimationAsset.upload.animation)
-        .resizable()
-        .playbackMode(lottiePlaybackMode)
-        .getRealtimeAnimationProgress(.constant(200))
-        .frame(width: 100, height: 100)
-      Text("업로드 중입니다.")
-    }
+  private func completeUploadView() -> some View {
+    Text("업로드 완료")
+    Button(action: {
+      self.action()
+    }, label: {
+      Text("확인")
+    })
   }
   
   // MARK: - Internal Method

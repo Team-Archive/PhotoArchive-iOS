@@ -43,11 +43,14 @@ public struct TakePhotoView<PhotoPickerView>: View where PhotoPickerView: PhotoP
         case .photo:
           photoStateView()
         case .posting:
-          Text("hi")
-            .foregroundStyle(.white)
+          PostingPhotoView(store: self.store)
         case .complete:
-          Text("hola")
-            .foregroundStyle(.white)
+          CompletePostingPhotoView(
+            store: self.store,
+            completeAction: {
+              print("업로드 완료")
+            }
+          )
         }
 
       }
@@ -69,9 +72,6 @@ public struct TakePhotoView<PhotoPickerView>: View where PhotoPickerView: PhotoP
             EditPhotoFromAlbum(store: self.store)
           }
         }
-//          .fullScreenCover(isPresented: viewStore.binding(get: { $0.takePhotoState == .posting }, send: { _ in TakePhotoReducer.Action.setError(.init(.commonError)) })) {
-//            Text("hi")
-//          }
         .sheet(isPresented: viewStore.binding(
           get: { $0.isCompleteEditPhoto && $0.takePhotoState == .photo },
           send: { _ in TakePhotoReducer.Action.setIsCompleteEditPhoto(false) })
