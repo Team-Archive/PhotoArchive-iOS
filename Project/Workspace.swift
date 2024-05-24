@@ -17,6 +17,7 @@ let workspace = Workspace(
     "Projects/Domain",
     "Projects/Data",
     "Projects/AppRoute",
-    "Projects/Feature/Onboarding"
+    "Projects/Feature/Onboarding",
+    "Projects/Feature/Album"
   ]
 )

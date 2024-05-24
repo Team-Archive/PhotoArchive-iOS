@@ -10,3 +10,8 @@ e-mail: mobiledev@kakao.com
 "Sign_In_Google" = "Login with Google";
 "Sign_In_Facebook" = "Login with Facebook";
 "Album_Recent_Album" = "recent";
+"Album_Not_Permitted_Title" = "Allow access to Photos";
+"Album_Not_Permitted_Contents" = "About Time would like to access your photos to enable you share them with friends on About Time. ";
+"Album_Not_Permitted_Help" = "You can change this anytime in your device settings.";
+"Album_Not_Permitted_Allow_Button_Title" = "Allow Acess";
+"Album_Photo_Select_Complete_Button_Title" = "Upload";

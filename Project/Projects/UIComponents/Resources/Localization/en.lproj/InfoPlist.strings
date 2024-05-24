@@ -3,4 +3,5 @@ created by hanwe lee
 e-mail: mobiledev@kakao.com
 */
 "CFBundleDisplayName" = "About Time";
-"NSCameraUsageDescription" = "위젯에 등록할 사진을 찍기위해 필요합니다.";
+"NSCameraUsageDescription" = "사진을 게시하기위해 카메라 권한이 필요합니다.";
+"NSPhotoLibraryUsageDescription" = "사진을 게시하기위해 사진 보관함 권한이 필요합니다.";

@@ -16,7 +16,7 @@ public struct ATBottomActionButton: View {
   
   // MARK: - private properties
   
-  private let icon: Image
+  private let icon: Image?
   private let title: String
   
   private var textColor: Color {
@@ -75,10 +75,12 @@ public struct ATBottomActionButton: View {
         )
         HStack(spacing: 4) {
           Spacer()
-          self.icon
-            .renderingMode(.template)
-            .tint(self.textColor)
-            .frame(width: 20, height: 20)
+          if let icon {
+            icon
+              .renderingMode(.template)
+              .tint(self.textColor)
+              .frame(width: 20, height: 20)
+          }
           Text(self.title)
             .font(self.font)
             .foregroundStyle(self.textColor)
@@ -94,7 +96,7 @@ public struct ATBottomActionButton: View {
   }
   
   public init(
-    icon: Image,
+    icon: Image? = nil,
     title: String,
     action: @escaping () -> Void,
     isEnabled: Binding<Bool> = .constant(true)

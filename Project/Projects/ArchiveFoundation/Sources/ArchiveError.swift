@@ -14,6 +14,9 @@ public enum ArchiveErrorCode: Int, LocalizedError {
   
   case commonError = 50000
   case dataToJsonFail
+  case assetLoadingFailed
+  case imageConversionFailed
+  case assetToDataFail
   
 }
 
