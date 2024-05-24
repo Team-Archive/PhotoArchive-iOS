@@ -197,7 +197,10 @@ final class StubPostingUsecaseImplement: PostingUsecase {
   }
   
   func post(accessToken: String, itemList: [PostingItem], toUserIdList: [String]) async -> Result<Void, ArchiveError> {
+    
+    try? await Task.sleep(nanoseconds: 3 * 1_000_000_000)
     print("보냈다..")
+    
     return .success(())
   }
   

@@ -39,64 +39,85 @@ public struct TakePhotoView<PhotoPickerView>: View where PhotoPickerView: PhotoP
       ZStack {
         ATBackgroundView()
           .edgesIgnoringSafeArea(.all)
-        if let selectedPhoto = viewStore.selectedPhoto {
-          VStack {
-            switch selectedPhoto {
-            case .fromCamera:
-              EditPhotoFromCamera(store: self.store)
-            case .fromAlbum:
-              EditPhotoFromAlbum(store: self.store)
-            }
-          }
-          .sheet(isPresented: viewStore.binding(
-            get: { $0.isCompleteEditPhoto },
-            send: { _ in TakePhotoReducer.Action.setIsCompleteEditPhoto(false) })) {
-              SendDestinationPickerView(
-                candidateList: viewStore.friendsList,
-                action: { selectedList in
-                  viewStore.send(.setSelectedSendDestination(Array(selectedList)))
-                  guard let postContents: TakePhotoReducer.PostContents = {
-                    guard let selectedPhoto = viewStore.selectedPhoto else { return nil }
-                    switch selectedPhoto {
-                    case .fromCamera(let data):
-                      return .fromCamera(photoData: data, comment: viewStore.candidateContentsFromCamera)
-                    case .fromAlbum(let assets):
-                      return .fromAlbum(assetList: assets, comment: viewStore.candidateContentsFromAlbum)
-                    }
-                  }() else { return }
-                  guard let destination = viewStore.selectedSendDestination else { return }
-                  viewStore.send(.post(contents: postContents, destination: destination))
-                }
-              )
-              .presentationDetents([.fraction(0.35), .medium, .large])
-              .presentationDragIndicator(.visible)
-            }
-        } else {
-          TakePhotoBaseFrameView(
-            store: self.store,
-            contentsView: cameraContentsView(),
-            selectPhotoFromAlbumAction: {
-              isShowPhotoPickerView = true
-            }
-          )
-          .onAppear {
-            viewStore.send(.checkCameraPermission)
-          }
-          .fullScreenCover(isPresented: $isShowPhotoPickerView) {
-            PhotoPickerView { assetList in
-              isShowPhotoPickerView = false
-              viewStore.send(.setSelectedPhoto(.fromAlbum(assetList)))
-            } closeAction: {
-              isShowPhotoPickerView = false
-            }
-          }
+        switch viewStore.takePhotoState {
+        case .photo:
+          photoStateView()
+        case .posting:
+          Text("hi")
+            .foregroundStyle(.white)
+        case .complete:
+          Text("hola")
+            .foregroundStyle(.white)
         }
+
       }
     }
     
   }
   
   // MARK: - Private Method
+  
+  @ViewBuilder
+  private func photoStateView() -> some View {
+    WithViewStore(store, observe: { $0 }) { viewStore in
+      if let selectedPhoto = viewStore.selectedPhoto {
+        VStack {
+          switch selectedPhoto {
+          case .fromCamera:
+            EditPhotoFromCamera(store: self.store)
+          case .fromAlbum:
+            EditPhotoFromAlbum(store: self.store)
+          }
+        }
+//          .fullScreenCover(isPresented: viewStore.binding(get: { $0.takePhotoState == .posting }, send: { _ in TakePhotoReducer.Action.setError(.init(.commonError)) })) {
+//            Text("hi")
+//          }
+        .sheet(isPresented: viewStore.binding(
+          get: { $0.isCompleteEditPhoto && $0.takePhotoState == .photo },
+          send: { _ in TakePhotoReducer.Action.setIsCompleteEditPhoto(false) })
+        ) {
+          SendDestinationPickerView(
+            candidateList: viewStore.friendsList,
+            action: { selectedList in
+              viewStore.send(.setSelectedSendDestination(Array(selectedList)))
+              guard let postContents: TakePhotoReducer.PostContents = {
+                guard let selectedPhoto = viewStore.selectedPhoto else { return nil }
+                switch selectedPhoto {
+                case .fromCamera(let data):
+                  return .fromCamera(photoData: data, comment: viewStore.candidateContentsFromCamera)
+                case .fromAlbum(let assets):
+                  return .fromAlbum(assetList: assets, comment: viewStore.candidateContentsFromAlbum)
+                }
+              }() else { return }
+              guard let destination = viewStore.selectedSendDestination else { return }
+              viewStore.send(.post(contents: postContents, destination: destination))
+            }
+          )
+          .presentationDetents([.fraction(0.35), .medium, .large])
+          .presentationDragIndicator(.visible)
+        }
+      } else {
+        TakePhotoBaseFrameView(
+          store: self.store,
+          contentsView: cameraContentsView(),
+          selectPhotoFromAlbumAction: {
+            isShowPhotoPickerView = true
+          }
+        )
+        .onAppear {
+          viewStore.send(.checkCameraPermission)
+        }
+        .fullScreenCover(isPresented: $isShowPhotoPickerView) {
+          PhotoPickerView { assetList in
+            isShowPhotoPickerView = false
+            viewStore.send(.setSelectedPhoto(.fromAlbum(assetList)))
+          } closeAction: {
+            isShowPhotoPickerView = false
+          }
+        }
+      }
+    }
+  }
   
   @ViewBuilder
   private func cameraContentsView() -> some View {
