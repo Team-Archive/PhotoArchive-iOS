@@ -33,8 +33,8 @@ struct TakePhotoBaseFrameView<Content>: View where Content: View {
         VStack(spacing: 48) {
           contentsView
             .frame(
-              width: geometry.size.width - (.designContentsInset * 2),
-              height: geometry.size.width - (.designContentsInset * 2)
+              width: geometry.size.width == 0 ? 10 : geometry.size.width - (.designContentsInset * 2),
+              height: geometry.size.width == 0 ? 10 : geometry.size.width - (.designContentsInset * 2)
             )
             .clipped()
             .clipShape(.rect(cornerRadius: self.contentsViewCornerRadius))

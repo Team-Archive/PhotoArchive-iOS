@@ -20,17 +20,23 @@ public struct TakePhotoView<PhotoPickerView>: View where PhotoPickerView: PhotoP
   
   private let store: StoreOf<TakePhotoReducer>
   @State private var isShowPhotoPickerView: Bool = false
+  @Binding var path: NavigationPath
+  private let completeAction: () -> Void
   
   // MARK: - Internal Property
   
   // MARK: - Life Cycle
   
   public init(
-    reducer: TakePhotoReducer
+    reducer: TakePhotoReducer,
+    path: Binding<NavigationPath>,
+    completePostAction: @escaping () -> Void
   ) {
     self.store = .init(initialState: reducer.initialState, reducer: {
       return reducer
     })
+    self._path = path
+    self.completeAction = completePostAction
   }
   
   public var body: some View {
@@ -48,12 +54,19 @@ public struct TakePhotoView<PhotoPickerView>: View where PhotoPickerView: PhotoP
           CompletePostingPhotoView(
             store: self.store,
             completeAction: {
-              print("업로드 완료")
+              self.completeAction()
             }
           )
         }
-
       }
+      .toolbar {
+        ToolbarItem(placement: .principal) {
+          Text(L10n.Localizable.takePhotoNaviTitle)
+            .font(.fonts(.body16))
+            .foregroundColor(Gen.Colors.white.color)
+        }
+      }
+      
     }
     
   }

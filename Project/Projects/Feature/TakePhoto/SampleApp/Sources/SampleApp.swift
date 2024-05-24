@@ -18,16 +18,41 @@ import ArchiveFoundation
 struct SampleApp: App {
   var body: some Scene {
     WindowGroup {
-      TakePhotoView<StubPhotoPickerView>(
-        reducer: TakePhotoReducer(
-          myInfo: StubMyInfo(),
-          cameraUsecase: CameraUsecaseImplement(
-            repository: StubCameraRepositoryImplement()
-          ), 
-          postingUsecase: StubPostingUsecaseImplement(),
-          maxTextInputCount: 10
+      ContentView()
+    }
+  }
+}
+
+struct ContentView: View {
+  @State private var stackPath: NavigationPath = NavigationPath()
+
+  var body: some View {
+    NavigationStack(path: $stackPath) {
+      VStack {
+        Button(action: {
+          self.stackPath.append("Detail View")
+        }, label: {
+          Text("테스트")
+        })
+      }
+      .navigationTitle("테스트입니다.")
+      .toolbarTitleDisplayMode(.inline)
+      .navigationDestination(for: String.self) { value in
+        TakePhotoView<StubPhotoPickerView>(
+          reducer: TakePhotoReducer(
+            myInfo: StubMyInfo(),
+            cameraUsecase: CameraUsecaseImplement(
+              repository: StubCameraRepositoryImplement()
+            ),
+            postingUsecase: StubPostingUsecaseImplement(),
+            maxTextInputCount: 10
+          ),
+          path: $stackPath, 
+          completePostAction: {
+            print("업로드 완료")
+          }
         )
-      )
+      }
     }
   }
 }

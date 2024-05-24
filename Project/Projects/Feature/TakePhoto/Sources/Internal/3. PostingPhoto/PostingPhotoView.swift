@@ -22,6 +22,8 @@ public struct PostingPhotoView: View {
   private let store: StoreOf<TakePhotoReducer>
   private var lottiePlaybackMode: LottiePlaybackMode = .playing(.fromProgress(nil, toProgress: 1, loopMode: .loop))
   
+  @State var isOnAppear: Bool = false
+  
   // MARK: - Internal Property
   
   // MARK: - Life Cycle
@@ -38,8 +40,17 @@ public struct PostingPhotoView: View {
       VStack {
         Color.clear
       }
-      .fullScreenCover(isPresented: .constant(true)) {
+      .onAppear {
+        DispatchQueue.main.async {
+          UIView.setAnimationsEnabled(false)
+          self.isOnAppear = true
+        }
+      }
+      .fullScreenCover(isPresented: $isOnAppear) {
         uploadingView()
+          .onAppear {
+            UIView.setAnimationsEnabled(true)
+          }
       }
     }
     
