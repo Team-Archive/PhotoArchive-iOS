@@ -35,6 +35,7 @@ struct SendDestinationPickerView: View {
   @State private var isSelectedSendToAllFriends: Bool = false
   @State private var isConfirmButtonEnabled: Bool = false
   private let itemInset: CGFloat = 16
+  private let itemCorrectionValue: CGFloat = 3
   
   // MARK: - public properties
   
@@ -85,7 +86,7 @@ struct SendDestinationPickerView: View {
   private func ContentsView() -> some View {
     GeometryReader { geometry in
       ScrollView {
-        let columns: [GridItem] = Array(repeating: .init(.flexible(), spacing: self.itemInset), count: 4)
+        let columns: [GridItem] = Array(repeating: .init(.flexible(), spacing: self.itemInset - self.itemCorrectionValue), count: 4)
         LazyVGrid(columns: columns, spacing: self.itemInset) {
           UserView(
             info: .allFriends,
@@ -107,7 +108,14 @@ struct SendDestinationPickerView: View {
               )
             }
           }
-        }.padding(.bottom, 60)
+        }.padding(
+          .init(
+            top: self.itemCorrectionValue,
+            leading: 0,
+            bottom: 60,
+            trailing: 0
+          )
+        )
       }
       .padding(
         .init(
@@ -121,7 +129,7 @@ struct SendDestinationPickerView: View {
   }
   
   @ViewBuilder
-  private func UserView( // TODO: 선택시 아이콘 영역이 뷰 영역을 넘어버림. 수정해야함
+  private func UserView(
     info: PickItemType,
     index: UInt,
     buttonSize: CGSize
