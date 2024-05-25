@@ -22,17 +22,22 @@ struct EditPhotoFromAlbum: View {
   private let contentsViewCornerRadius: CGFloat = 24
   private let store: StoreOf<TakePhotoReducer>
   @State private var currentIndex: Int = 0
+  @State private var rotationAngleList: [Double] = []
   
   // MARK: - public properties
   
   // MARK: - life cycle
+  
+  init(store: StoreOf<TakePhotoReducer>) {
+    self.store = store
+  }
   
   var body: some View {
     WithViewStore(store, observe: { $0 }) { viewStore in
       GeometryReader { geometry in
         VStack(alignment: .center, spacing: 0) {
           if let assetList = viewStore.selectedPhotoFromAlbum {
-            TabView(selection: $currentIndex) { // TODO: 페이지 넘기는 애니메이션 적용?
+            TabView(selection: $currentIndex) {
               ForEach(0..<assetList.count, id: \.self) { index in
                 if let asset: PHAsset = assetList[safe: index] {
                   EditPhotoView(asset: asset, index: UInt(index))
@@ -42,6 +47,11 @@ struct EditPhotoFromAlbum: View {
                     )
                     .clipped()
                     .clipShape(RoundedRectangle(cornerRadius: self.contentsViewCornerRadius))
+                    .rotation3DEffect(
+                      Angle(degrees: rotationAngleList[safe: index] ?? 0),
+                      axis: (x: 0, y: 1, z: 0)
+                    )
+                    .animation(.easeInOut(duration: 0.4), value: rotationAngleList[safe: index])
                 } else {
                   Text("Asset not found :(")
                     .frame(
@@ -52,9 +62,6 @@ struct EditPhotoFromAlbum: View {
               }
             }
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-            .onChange(of: currentIndex, initial: true, { oldValue, newValue in
-              viewStore.send(.setCurrentPhotoFromAlbumIndex(UInt(newValue)))
-            })
             .frame(
               width: geometry.size.width - (.designContentsInset * 2),
               height: geometry.size.width - (.designContentsInset * 2)
@@ -69,6 +76,27 @@ struct EditPhotoFromAlbum: View {
                 trailing: .designContentsInset
               )
             )
+            .onChange(of: currentIndex, initial: true, { oldValue, newValue in
+              if self.rotationAngleList.count > newValue {
+                if oldValue < newValue {
+                  rotationAngleList[newValue] = 0
+                  rotationAngleList[oldValue] = 45
+                } else if oldValue > newValue {
+                  rotationAngleList[newValue] = 0
+                  rotationAngleList[oldValue] = -45
+                }
+              }
+              viewStore.send(.setCurrentPhotoFromAlbumIndex(UInt(newValue)))
+            })
+            .onAppear {
+              self.rotationAngleList = {
+                var returnValue: [Double] = [0]
+                for _ in 0..<(viewStore.selectedPhotoFromAlbum?.count ?? 0) - 1 {
+                  returnValue.append(-45)
+                }
+                return returnValue
+              }()
+            }
           } else {
             Text("Unexpected Error :(")
           }
@@ -91,14 +119,7 @@ struct EditPhotoFromAlbum: View {
           )
         }
       }
-      
     }
-  }
-  
-  init(
-    store: StoreOf<TakePhotoReducer>
-  ) {
-    self.store = store
   }
   
   // MARK: - private method
