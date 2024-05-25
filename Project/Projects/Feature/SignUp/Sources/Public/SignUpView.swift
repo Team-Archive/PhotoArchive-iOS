@@ -17,6 +17,7 @@ public struct SignUpView: View {
   // MARK: - Private Property
   
   private let store: StoreOf<SignUpReducer>
+  @State private var stackPath: NavigationPath = .init()
   
   // MARK: - Internal Property
   
@@ -33,7 +34,9 @@ public struct SignUpView: View {
   public var body: some View {
     
     WithViewStore(store, observe: { $0 }) { viewStore in
-      Text("Hola")
+      NavigationStack(path: $stackPath) {
+        
+      }
     }
   }
   

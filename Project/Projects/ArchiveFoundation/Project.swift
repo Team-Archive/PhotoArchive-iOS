@@ -17,5 +17,7 @@ let project = Project(
   ),
   schemes: [],
   additionalFiles: [],
-  resourceSynthesizers: []
+  resourceSynthesizers: [
+    .json()
+  ]
 )
