@@ -19,6 +19,7 @@ extension Project {
     ],
     coreDataModel: [CoreDataModel],
     resources: ResourceFileElements = ["Resources/**"],
+    sampleAppBundleName: String? = nil,
     sampleAppAdditionalDependencies: [TargetDependency] = [],
     additionalSourcePaths: [String] = []
   ) -> [Target] {
@@ -30,6 +31,7 @@ extension Project {
       targetScripts: targetScripts,
       coreDataModel: coreDataModel,
       resources: resources,
+      sampleAppBundleName: sampleAppBundleName,
       sampleAppAdditionalDependencies: sampleAppAdditionalDependencies,
       additionalSourcePaths: additionalSourcePaths,
       product: .staticFramework
@@ -46,6 +48,7 @@ extension Project {
     ],
     coreDataModel: [CoreDataModel],
     resources: ResourceFileElements = ["Resources/**"],
+    sampleAppBundleName: String? = nil,
     sampleAppAdditionalDependencies: [TargetDependency] = [],
     additionalSourcePaths: [String] = []
   ) -> [Target] {
@@ -57,6 +60,7 @@ extension Project {
       targetScripts: targetScripts,
       coreDataModel: coreDataModel,
       resources: resources,
+      sampleAppBundleName: sampleAppBundleName,
       sampleAppAdditionalDependencies: sampleAppAdditionalDependencies,
       additionalSourcePaths: additionalSourcePaths,
       product: .framework
@@ -73,6 +77,7 @@ extension Project {
     ],
     coreDataModel: [CoreDataModel],
     resources: ResourceFileElements = ["Resources/**"],
+    sampleAppBundleName: String? = nil,
     sampleAppAdditionalDependencies: [TargetDependency] = [],
     additionalSourcePaths: [String] = [],
     product: Product
@@ -125,11 +130,18 @@ extension Project {
       "UILaunchScreen": "LaunchScreen"
     ]
     
+    let sampleAppBundleNameValue = {
+      if let sampleAppBundleName {
+        return sampleAppBundleName
+      } else {
+        return "com.archive.\(name)SampleApp"
+      }
+    }()
     let sampleApp = Target(
       name: "\(name)SampleApp",
       destinations: destinations,
       product: .app,
-      bundleId: "com.archive.\(name)SampleApp",
+      bundleId: sampleAppBundleNameValue,
       deploymentTargets: .iOS("17.0"),
       infoPlist: .extendingDefault(with: sampleAppInfoPlist),
       sources: ["SampleApp/Sources/**"],
