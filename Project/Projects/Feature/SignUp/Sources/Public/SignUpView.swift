@@ -34,10 +34,23 @@ public struct SignUpView: View {
   public var body: some View {
     
     WithViewStore(store, observe: { $0 }) { viewStore in
-      NavigationStack(path: $stackPath) {
-        
+      ZStack {
+        ATBackgroundView()
+          .ignoresSafeArea(.all)
+        VStack(spacing: 0) {
+          SignUpFakeNavigationView(requestBackAction: {
+            print("뒤로가기 요청")
+          })
+          .frame(height: 56)
+          SignUpProgressView()
+            .frame(height: 4)
+          NavigationStack(path: $stackPath) {
+            SignUpSetCityView(store: self.store)
+          }
+        }
       }
     }
+    
   }
   
   // MARK: - Private Method
