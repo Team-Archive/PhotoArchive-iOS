@@ -8,6 +8,7 @@
 
 import SwiftUI
 import UIComponents
+import Lottie
 
 struct ContentView: View {
   
@@ -17,12 +18,21 @@ struct ContentView: View {
     }
   }
   
+  @State var isSelectedOn: Bool = false
+  @State var isSelectedOn2: Bool = false
+  private var lottiePlaybackMode: LottiePlaybackMode = .playing(.fromProgress(nil, toProgress: 1, loopMode: .loop))
+  
   var body: some View {
     ZStack {
       ATBackgroundView()
         .edgesIgnoringSafeArea(.all)
       ScrollView {
         VStack {
+          LottieView(animation: AnimationAsset.upload.animation)
+            .resizable()
+            .playbackMode(lottiePlaybackMode)
+            .getRealtimeAnimationProgress(.constant(200))
+            .frame(width: 100, height: 100)
           ATNavigationBar(
             type: .default(title: "새로운 사진",
                            trailingIcon: Gen.Images.refresh24.image,
@@ -34,7 +44,7 @@ struct ContentView: View {
           ATDivider(type: .small)
           ATDivider(type: .medium)
           ATDivider(type: .large)
-          ATInputView(placeholder: "텍스트 입력하기")
+          ATInputView(placeholder: "텍스트 입력하기", message: .constant(""))
           ATGradientView(type: .main, direction: .horizontal)
             .frame(height: 44)
           ATGradientView(type: .morning, direction: .horizontal)
@@ -148,12 +158,20 @@ struct ContentView: View {
           .scaledToFill()
           .frame(width: 100, height: 100)
           .clipped()
+          ATDataImage(
+            data: Gen.Images.allPerson.uikitImage.pngData(),
+            placeholder: .init(systemName: "bolt")
+          )
+          .resizable()
+          .scaledToFill()
+          .frame(width: 100, height: 100)
+          .clipped()
           ATCheckImageButton(
             type: .url(
               url: URL(string: "https://hips.hearstapps.com/hmg-prod/images/little-cute-maltipoo-puppy-royalty-free-image-1652926025.jpg?crop=0.444xw:1.00xh;0.129xw,0&resize=980:*")!,
               placeholder: .init(systemName: "bolt")
             ),
-            isChecked: false,
+            isChecked: $isSelectedOn,
             action: { isChecked in
               print("ATCheckImageButton: \(isChecked)")
             }
@@ -161,12 +179,13 @@ struct ContentView: View {
           .frame(width: 68, height: 68)
           ATCheckImageButton(
             type: .image(.init(systemName: "bolt")),
-            isChecked: true,
+            isChecked: $isSelectedOn2,
             action: { isChecked in
               print("ATCheckImageButton: \(isChecked)")
             }
           )
           .frame(width: 68, height: 68)
+          ATPageIndicator(numberOfPages: 10, currentPage: .constant(1))
         }
       }
     }

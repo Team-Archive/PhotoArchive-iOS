@@ -17,7 +17,7 @@ public struct ATCheckImageButton: View {
   
   // MARK: - public state
   
-  @State public var isChecked: Bool
+  @Binding public var isChecked: Bool
   let type: ButtonType
   
   // MARK: - private properties
@@ -63,6 +63,9 @@ public struct ATCheckImageButton: View {
     }
   }
   
+  private let isHapticEnable: Bool
+  private let generator = UISelectionFeedbackGenerator()
+  
   // MARK: - public properties
   
   public var action: (_ isChecked: Bool) -> Void
@@ -74,6 +77,9 @@ public struct ATCheckImageButton: View {
     Button(action: {
       self.isChecked = !self.isChecked
       self.action(self.isChecked)
+      if self.isHapticEnable {
+        generator.selectionChanged()
+      }
     }, label: {
       ZStack {
         ZStack {
@@ -105,11 +111,13 @@ public struct ATCheckImageButton: View {
   
   public init(
     type: ButtonType,
-    isChecked: Bool,
+    isHapticEnable: Bool = false,
+    isChecked: Binding<Bool>,
     action: @escaping (_ isChecked: Bool) -> Void
   ) {
     self.type = type
-    self.isChecked = isChecked
+    self.isHapticEnable = isHapticEnable
+    self._isChecked = isChecked
     self.action = action
   }
   
@@ -126,7 +134,7 @@ public struct ATCheckImageButton: View {
         url: URL(string: "https://hips.hearstapps.com/hmg-prod/images/little-cute-maltipoo-puppy-royalty-free-image-1652926025.jpg?crop=0.444xw:1.00xh;0.129xw,0&resize=980:*")!,
         placeholder: .init(systemName: "bolt")
       ),
-      isChecked: false,
+      isChecked: .constant(false),
       action: { isChecked in
         print("hola: \(isChecked)")
       }

@@ -14,9 +14,7 @@ let dependencies = Dependencies(
     [
       .remote(url: "https://github.com/firebase/firebase-ios-sdk.git", requirement: .exact("8.9.1")),
       .remote(url: "https://github.com/SwiftyJSON/SwiftyJSON.git", requirement: .exact("5.0.1")),
-      .remote(url: "https://github.com/airbnb/lottie-ios.git", requirement: .exact("4.0.1")),
-      .remote(url: "https://github.com/Quick/Quick.git", requirement: .exact("6.1.0")),
-      .remote(url: "https://github.com/Quick/Nimble.git", requirement: .exact("11.2.1")),
+      .remote(url: "https://github.com/airbnb/lottie-ios.git", requirement: .exact("4.4.3")),
       .remote(url: "https://github.com/pointfreeco/swift-composable-architecture.git", requirement: .exact("1.7.1")),
       .remote(url: "https://github.com/Team-Archive/ImageLoader-iOS.git", requirement: .branch("master")),
       .remote(url: "https://github.com/Team-Archive/Network-iOS.git", requirement: .exact("0.4"))
@@ -29,8 +27,6 @@ let dependencies = Dependencies(
       "FirebaseAppDistribution-Beta": .framework,
       "SwiftyJSON": .framework,
       "Lottie": .framework,
-      "Quick": .framework,
-      "Nimble": .framework,
       "ComposableArchitecture": .framework,
       "ImageLoader-iOS": .framework,
       "Network-iOS": .framework
@@ -41,10 +37,7 @@ let dependencies = Dependencies(
         .release(name: .release)
       ]
     ),
-    targetSettings: [
-      "Quick": ["ENABLE_TESTING_SEARCH_PATHS":"Yes"],
-      "Nimble": ["ENABLE_TESTING_SEARCH_PATHS":"Yes"]
-    ]
+    targetSettings: [:]
   ),
   platforms: [.iOS]
 )

@@ -17,6 +17,7 @@ public enum ArchiveErrorCode: Int, LocalizedError {
   case assetLoadingFailed
   case imageConversionFailed
   case assetToDataFail
+  case cameraCaptureFail
   
 }
 

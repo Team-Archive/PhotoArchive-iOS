@@ -21,6 +21,10 @@ extension PHAsset {
     options.isSynchronous = true
     
     return await withCheckedContinuation { continuation in
+      if self is MockPHAsset {
+        continuation.resume(returning: .failure(.init(.assetLoadingFailed)))
+        return
+      }
       PHImageManager.default().requestImage(for: self, targetSize: size, contentMode: .aspectFit, options: options) { uiImage, _ in
         if let uiImage = uiImage {
           let image = Image(uiImage: uiImage)

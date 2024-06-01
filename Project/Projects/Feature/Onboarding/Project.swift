@@ -23,6 +23,10 @@ let project = Project.makeFeature(
       target: "Domain",
       path: "../../Domain"
     ),
+    .project(
+      target: "AppRoute",
+      path: "../../AppRoute"
+    ),
     .tca,
     .swiftyJSON,
     .imageLoader

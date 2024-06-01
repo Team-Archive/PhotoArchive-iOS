@@ -30,7 +30,7 @@ public struct ATBottomButton: View {
     if self.isEnabled {
       return Gen.Colors.purpleGray200.color
     } else {
-      return Gen.Colors.purpleGray400.color
+      return Gen.Colors.gray300.color
     }
   }
   

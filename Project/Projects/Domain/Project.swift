@@ -25,8 +25,6 @@ let project = Project(
       .swiftyJSON
     ],
     testDependencies: [
-      .nimble,
-      .quick
     ],
     targetScripts: [
       .pre(script: "${PROJECT_DIR}/../../Tools/swiftlint --config \"${PROJECT_DIR}/../App/Resources/swiftlint.yml\"", name: "Lint")
