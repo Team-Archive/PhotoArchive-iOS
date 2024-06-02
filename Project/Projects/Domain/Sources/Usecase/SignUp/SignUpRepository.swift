@@ -1,5 +1,5 @@
 //
-//  SignUpUsecase.swift
+//  SignUpRepository.swift
 //  Domain
 //
 //  Created by Aaron Hanwe LEE on 5/27/24.
@@ -9,6 +9,6 @@
 import ArchiveFoundation
 import Foundation
 
-public protocol SignUpUsecase {
+public protocol SignUpRepository {
   func signUp(name: String, cityId: String, preferTime: [DaysOfTheWeek: [ActivityTime]]) async -> Result<String, ArchiveError>
 }

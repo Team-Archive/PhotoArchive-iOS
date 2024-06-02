@@ -27,14 +27,19 @@ public struct SignUpReducer: Reducer {
   
   // MARK: - Private Property
   
+  private let updateProfileUsecase: UpdateProfileUsecase
+  private let SignUpUsecase: SignUpUsecase
+  
   // MARK: - Public Property
   
   // MARK: - LifeCycle
   
   public init(
-    
+    updateProfileUsecase: UpdateProfileUsecase,
+    signUpUsecase: SignUpUsecase
   ) {
-    
+    self.updateProfileUsecase = updateProfileUsecase
+    self.SignUpUsecase = signUpUsecase
   }
   
   public var body: some ReducerOf<Self> {
