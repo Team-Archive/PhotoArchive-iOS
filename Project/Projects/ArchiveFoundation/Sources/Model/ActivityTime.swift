@@ -8,10 +8,15 @@
 
 public struct ActivityTime {
   
-  public let start: Double // 데이터 구조 대충 잡아놓은것. 개발할떄 변경 될 가능성 높음
-  public let end: Double
+  public struct Time {
+    public let hour: UInt
+    public let minute: UInt
+  }
   
-  public init(start: Double, end: Double) {
+  public let start: Time
+  public let end: Time
+  
+  public init(start: Time, end: Time) {
     self.start = start
     self.end = end
   }

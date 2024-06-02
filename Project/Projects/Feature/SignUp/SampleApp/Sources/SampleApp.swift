@@ -44,7 +44,7 @@ final class StubUpdateProfileRepositoryImplement: UpdateProfileRepository {
 
 final class StubSignUpRepositoryImplement: SignUpRepository {
   
-  func signUp(name: String, cityId: String, preferTime: [DaysOfTheWeek : [ActivityTime]]) async -> Result<String, ArchiveError> {
+  func signUp(name: String, cityId: String, preferTime: [DaysOfTheWeek: [ActivityTime]]) async -> Result<String, ArchiveError> {
     return .success("token")
   }
   

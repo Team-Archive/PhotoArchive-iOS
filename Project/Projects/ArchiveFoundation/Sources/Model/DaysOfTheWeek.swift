@@ -6,7 +6,7 @@
 //  Copyright © 2024 TeamArchive. All rights reserved.
 //
 
-public enum DaysOfTheWeek: Equatable {
+public enum DaysOfTheWeek: Equatable, Codable {
   
   case monday
   case tuesday

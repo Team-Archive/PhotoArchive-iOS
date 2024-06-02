@@ -18,6 +18,7 @@ public enum ArchiveErrorCode: Int, LocalizedError {
   case imageConversionFailed
   case assetToDataFail
   case cameraCaptureFail
+  case endOfResults
   
   
   case commonOAuth = 51000
