@@ -38,7 +38,7 @@ Xcode -> Settings -> Text Editing -> Indentation -> Indent Width
  - [Swift Composable Architecture](https://github.com/pointfreeco/swift-composable-architecture)
   
 ## Package Dependency Structure
-![AboutTimeStruct](https://github.com/Team-Archive/AboutTime-iOS/assets/60125719/402505a8-3c7e-4399-92c8-701c91f54749)
+![AboutTimeStruct drawio](https://github.com/Team-Archive/AboutTime-iOS/assets/60125719/7458ea3e-37a0-4dc0-a226-8d1a79431fc9)
 ## Package Description
 > 패키지들은 각자의 샘플 프로젝트와 유닛테스트를 소유하고있습니다.
 ### App
