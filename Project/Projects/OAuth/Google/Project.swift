@@ -14,7 +14,8 @@ let project = Project.makeOAuth(
     .project(
       target: "ArchiveFoundation",
       path: "../../ArchiveFoundation"
-    )
+    ),
+    .googleSignIn
   ],
   testDependencies: []
 )

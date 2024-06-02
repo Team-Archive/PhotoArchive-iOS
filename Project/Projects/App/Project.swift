@@ -44,6 +44,8 @@ let project = Project.app(
     )
   ],
   additionalTargets: [],
-  additionalSourcePaths: ["../Sources/**"],
-  additionalResourcePaths: []
+  additionalSourcePaths: [],
+  additionalResourcePaths: [
+    "../../Private/**"
+  ]
 )
