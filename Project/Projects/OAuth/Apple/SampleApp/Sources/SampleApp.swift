@@ -7,20 +7,49 @@
 //
 
 import SwiftUI
-import Album
-import Domain
+import OAuthApple
+import ArchiveFoundation
 
 @main
 struct SampleApp: App {
   var body: some Scene {
     WindowGroup {
-      AlbumView(
-        reducer: AlbumReducer(albumUsecase: AlbumUsecaseImplement(recentAlbumName: "최근", favoriteAlbumName: "즐겨찾는 항목")),
-        complete: { imageList in
-          print("selected: \(imageList)")
-        }, close: {
-          print("close")
-        })
+      ContentView()
     }
   }
+}
+
+struct ContentView: View {
+  var body: some View {
+    VStack {
+      CustomSignInWithAppleButton()
+        .frame(width: 200, height: 45)
+        .cornerRadius(8)
+        .padding()
+    }
+  }
+}
+
+struct CustomSignInWithAppleButton: View {
+  
+  @State private var currentNonce: String?
+  private let module = OAuthApple()
+  
+  var body: some View {
+    Button(action: {
+      Task {
+        let result = await module.oauthSignIn()
+        print("result: \(result)")
+      }
+    }) {
+      Text("Sign in with Apple")
+        .foregroundColor(.white)
+        .frame(width: 200, height: 45)
+        .background(Color.black)
+        .cornerRadius(8)
+    }
+  }
+  
+
+  
 }

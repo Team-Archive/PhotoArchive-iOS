@@ -19,6 +19,12 @@ public enum ArchiveErrorCode: Int, LocalizedError {
   case assetToDataFail
   case cameraCaptureFail
   
+  
+  case commonOAuth = 51000
+  case tokenNotExsitAppleSignIn
+  case tokenAsciiToStringFailAppleSignIn
+  case unexpectedAppleSignIn
+  
 }
 
 public final class ArchiveError: Error, Equatable {
@@ -27,6 +33,7 @@ public final class ArchiveError: Error, Equatable {
     case own
     case server
     case network
+    case appleOAuth
   }
   
   // MARK: - private property
