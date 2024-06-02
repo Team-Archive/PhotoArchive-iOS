@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct UserInformation: Identifiable, Equatable, Hashable {
+public struct UserInformation: Identifiable, Hashable {
   
   public var id: String
   public var name: String
