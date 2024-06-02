@@ -99,6 +99,7 @@ extension Project {
       infoPlist: .extendingDefault(with: infoPlist),
       sources: ["Sources/**"],
       resources: ["Resources/**"],
+      entitlements: .file(path: "${PROJECT_DIR}/../../../Tools/AboutTime.entitlements"),
       scripts: targetScripts,
       dependencies: dependencies
     )

@@ -50,6 +50,7 @@ extension Project {
     resources: ResourceFileElements = ["Resources/**"],
     sampleAppBundleName: String? = nil,
     sampleAppAdditionalDependencies: [TargetDependency] = [],
+    sampleAppEntitlements: Entitlements? = nil,
     additionalSourcePaths: [String] = []
   ) -> [Target] {
     return Project.frameworkTargets(
@@ -62,6 +63,7 @@ extension Project {
       resources: resources,
       sampleAppBundleName: sampleAppBundleName,
       sampleAppAdditionalDependencies: sampleAppAdditionalDependencies,
+      sampleAppEntitlements: sampleAppEntitlements,
       additionalSourcePaths: additionalSourcePaths,
       product: .framework
     )
@@ -79,6 +81,7 @@ extension Project {
     resources: ResourceFileElements = ["Resources/**"],
     sampleAppBundleName: String? = nil,
     sampleAppAdditionalDependencies: [TargetDependency] = [],
+    sampleAppEntitlements: Entitlements? = nil,
     additionalSourcePaths: [String] = [],
     product: Product
   ) -> [Target] {
@@ -146,6 +149,7 @@ extension Project {
       infoPlist: .extendingDefault(with: sampleAppInfoPlist),
       sources: ["SampleApp/Sources/**"],
       resources: ["SampleApp/Resources/**"],
+      entitlements: sampleAppEntitlements,
       dependencies: [.target(name: name)] + sampleAppAdditionalDependencies
     )
     

@@ -29,6 +29,7 @@ extension Project {
         coreDataModel: [],
         resources: ["Resources/**"],
         sampleAppBundleName: "com.archive.AboutTime",
+        sampleAppEntitlements: .file(path: "${PROJECT_DIR}/../../../../Tools/AboutTime.entitlements"),
         additionalSourcePaths: []
       ),
       schemes: [],
