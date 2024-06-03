@@ -10,6 +10,11 @@ import SwiftUI
 
 public struct ATBottomActionButton: View {
   
+  public enum ButtonDesignType {
+    case primary
+    case secondary
+  }
+  
   // MARK: - public state
   
   @Binding var isEnabled: Bool
@@ -18,10 +23,16 @@ public struct ATBottomActionButton: View {
   
   private let icon: Image?
   private let title: String
+  private let designType: ButtonDesignType
   
   private var textColor: Color {
     if self.isEnabled {
-      return Gen.Colors.white.color
+      switch self.designType {
+      case .primary:
+        return Gen.Colors.white.color
+      case .secondary:
+        return Gen.Colors.purpleGray500.color
+      }
     } else {
       return Gen.Colors.gray200.color
     }
@@ -29,7 +40,12 @@ public struct ATBottomActionButton: View {
   
   private var backgroundStartColor: Color {
     if self.isEnabled {
-      return Gen.Colors.gradationMainStart.color
+      switch self.designType {
+      case .primary:
+        return Gen.Colors.gradationMainStart.color
+      case .secondary:
+        return Gen.Colors.white.color
+      }
     } else {
       return Gen.Colors.gray300.color
     }
@@ -37,7 +53,12 @@ public struct ATBottomActionButton: View {
   
   private var backgroundEndColor: Color {
     if self.isEnabled {
-      return Gen.Colors.gradationMainEnd.color
+      switch self.designType {
+      case .primary:
+        return Gen.Colors.gradationMainEnd.color
+      case .secondary:
+        return Gen.Colors.white.color
+      }
     } else {
       return Gen.Colors.gray300.color
     }
@@ -96,11 +117,13 @@ public struct ATBottomActionButton: View {
   }
   
   public init(
+    designType: ButtonDesignType = .primary,
     icon: Image? = nil,
     title: String,
     action: @escaping () -> Void,
     isEnabled: Binding<Bool> = .constant(true)
   ) {
+    self.designType = designType
     self.icon = icon
     self.title = title
     self._isEnabled = isEnabled

@@ -78,6 +78,9 @@ struct ContentView: View {
           ATBottomButton(title: "ATBottomButton", action: {
             print("Button")
           }, isEnabled: .constant(false))
+          ATBottomActionButton(designType: .secondary, icon: Gen.Images.send24.image, title: "ATBottomActionButton", action: {
+            print("Button")
+          })
           ATBottomActionButton(icon: Gen.Images.send24.image, title: "ATBottomActionButton", action: {
             print("Button")
           })
