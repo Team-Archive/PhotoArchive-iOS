@@ -11,25 +11,34 @@ import UIComponents
 import ArchiveFoundation
 import ComposableArchitecture
 
-struct SignUpSetCityView: View {
+struct SignUpSetCityView: View, SignUpStepView {
   
   // MARK: - internal state
   
   // MARK: - private properties
   
   private let store: StoreOf<SignUpReducer>
+  private var nextAction: () -> Void
   
   // MARK: - public properties
   
   // MARK: - life cycle
   
-  init(store: StoreOf<SignUpReducer>) {
+  init(
+    store: StoreOf<SignUpReducer>,
+    nextAction: @escaping () -> Void
+  ) {
+    self.nextAction = nextAction
     self.store = store
   }
   
   var body: some View {
     WithViewStore(store, observe: { $0 }) { viewStore in
-      Text("SignUpSetCityView")
+      Button(action: {
+        self.nextAction()
+      }, label: {
+        Text("SignUpSetCityView")
+      })
     }
   }
   
