@@ -27,7 +27,7 @@ struct SignUpStepFactory {
   
   init(
     store: StoreOf<SignUpReducer>
-  ) { // 사진 선택 뷰 받아야할듯
+  ) { // TODO: 사진 선택 뷰 받아야할듯
     self.store = store
   }
   

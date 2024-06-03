@@ -32,11 +32,11 @@ struct SignUpFakeNavigationView: View {
     ZStack {
       Color.brown
       VStack {
-        Button(action: {
+        Button.throttledAction(throttleTime: 1) {
           self.requestBackAction()
-        }, label: {
+        } label: {
           Text("뒤로가기")
-        })
+        }
       }
     }
   }

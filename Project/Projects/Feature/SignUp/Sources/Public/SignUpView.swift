@@ -48,7 +48,7 @@ public struct SignUpView: View {
           SignUpProgressView()
             .frame(height: 4)
           NavigationStack(path: $stackPath) {
-            SignUpStepFactory(store: store).stepView(step: .setProfile, nextAction: {
+            SignUpStepFactory(store: store).stepView(step: SignUpStep.allCases.first ?? .setProfile, nextAction: {
               stackPath.append(SignUpStep.setCity)
             })
             .navigationDestination(for: SignUpStep.self) { step in
