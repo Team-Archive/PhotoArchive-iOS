@@ -22,6 +22,7 @@ struct ContentView: View {
   @State var isSelectedOn2: Bool = false
   private var lottiePlaybackMode: LottiePlaybackMode = .playing(.fromProgress(nil, toProgress: 1, loopMode: .loop))
   @State private var currentProgressStep: UInt = 0
+  @State private var message: String = ""
   
   var body: some View {
     ZStack {
@@ -29,6 +30,8 @@ struct ContentView: View {
         .edgesIgnoringSafeArea(.all)
       ScrollView {
         VStack {
+          ATUnderlineInputView(leftIconImage: Image(systemName: "bolt"), placeholderMessage: "ATUnderlineInputView", message: $message, maxLength: 10)
+            .padding()
           LottieView(animation: AnimationAsset.upload.animation)
             .resizable()
             .playbackMode(lottiePlaybackMode)
