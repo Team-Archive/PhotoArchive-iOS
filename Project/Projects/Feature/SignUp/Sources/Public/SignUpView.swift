@@ -39,10 +39,12 @@ public struct SignUpView: View {
         ATBackgroundView()
           .ignoresSafeArea(.all)
         VStack(spacing: 0) {
-          SignUpFakeNavigationView(requestBackAction: {
-            if self.stackPath.count > 0 {
-              self.stackPath.removeLast()
-            }
+          SignUpFakeNavigationView(
+            path: self.$stackPath,
+            requestBackAction: {
+              if self.stackPath.count > 0 {
+                self.stackPath.removeLast()
+              }
           })
           .frame(height: 56)
           SignUpProgressView()

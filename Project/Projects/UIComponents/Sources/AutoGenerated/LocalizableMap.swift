@@ -45,6 +45,8 @@ public enum L10n {
     public static let signInFacebook = L10n.tr("Localizable", "Sign_In_Facebook")
     /// Login with Google
     public static let signInGoogle = L10n.tr("Localizable", "Sign_In_Google")
+    /// 회원가입
+    public static let signUpNaviTitle = L10n.tr("Localizable", "Sign_Up_Navi_Title")
     /// 보내기
     public static let takePhotoEditCompleteButtonTitle = L10n.tr("Localizable", "Take_Photo_Edit_Complete_Button_Title")
     /// 텍스트 입력하기

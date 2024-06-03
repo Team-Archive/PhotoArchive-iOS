@@ -17,27 +17,37 @@ struct SignUpFakeNavigationView: View {
   // MARK: - private properties
   
   private let requestBackAction: () -> Void
+  @Binding private var path: NavigationPath
   
   // MARK: - public properties
   
   // MARK: - life cycle
   
   init(
+    path: Binding<NavigationPath>,
     requestBackAction: @escaping () -> Void
   ) {
+    self._path = path
     self.requestBackAction = requestBackAction
   }
   
   var body: some View {
     ZStack {
-      Color.brown
-      VStack {
-        Button.throttledAction(throttleTime: 1) {
-          self.requestBackAction()
-        } label: {
-          Text("뒤로가기")
+      Text(L10n.Localizable.signUpNaviTitle)
+        .font(.fonts(.bodyBold16))
+        .foregroundStyle(Gen.Colors.white.color)
+        .frame(alignment: .center)
+      HStack {
+        if path.count > 0 {
+          Button.throttledAction(throttleTime: 1) {
+            self.requestBackAction()
+          } label: {
+            Gen.Images.back.image
+          }
         }
+        Spacer()
       }
+      .padding(.designContentsInset)
     }
   }
   

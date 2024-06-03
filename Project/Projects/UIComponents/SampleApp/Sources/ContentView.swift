@@ -21,6 +21,7 @@ struct ContentView: View {
   @State var isSelectedOn: Bool = false
   @State var isSelectedOn2: Bool = false
   private var lottiePlaybackMode: LottiePlaybackMode = .playing(.fromProgress(nil, toProgress: 1, loopMode: .loop))
+  @State private var currentProgressStep: UInt = 0
   
   var body: some View {
     ZStack {
@@ -186,6 +187,24 @@ struct ContentView: View {
           )
           .frame(width: 68, height: 68)
           ATPageIndicator(numberOfPages: 10, currentPage: .constant(1))
+          HStack {
+            Button(action: {
+              if 0 < currentProgressStep {
+                currentProgressStep -= 1
+              }
+            }, label: {
+              Text("before")
+            })
+            ATStepProgressView(totalStep: 5, currentStep: $currentProgressStep)
+            Button(action: {
+              if currentProgressStep < 5 {
+                currentProgressStep += 1
+              }
+            }, label: {
+              Text("next")
+            })
+          }
+          .frame(height: 12)
         }
       }
     }
