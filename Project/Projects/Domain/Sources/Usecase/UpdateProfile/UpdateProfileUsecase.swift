@@ -12,6 +12,6 @@ import Photos
 
 public protocol UpdateProfileUsecase {
   func updateProfilePhoto(asset: PHAsset) async -> Result<Void, ArchiveError>
-  func isDuplicatedName(_ name: String) async -> Result<Bool, ArchiveError>
+  func isValidateNickname(nickName: String, maxLength: Int) async -> Result<ValidNicknameResponse, ArchiveError>
   func updateName(_ name: String) async -> Result<Void, ArchiveError>
 }

@@ -27,7 +27,7 @@ public struct SignUpView: View {
   public init(
     reducer: SignUpReducer
   ) {
-    self.store = .init(initialState: .init(), reducer: {
+    self.store = .init(initialState: reducer.initialState, reducer: {
       return reducer
     })
   }

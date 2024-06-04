@@ -10,6 +10,7 @@ import ComposableArchitecture
 import Foundation
 import ArchiveFoundation
 import Domain
+import Photos
 
 public struct SignUpReducer: Reducer {
   
@@ -18,17 +19,28 @@ public struct SignUpReducer: Reducer {
   public enum Action: Equatable {
     case setIsLoading(Bool)
     case setError(ArchiveError)
+    case setNickname(String)
+    case setIsValidNickname(ValidNicknameResponse)
+    case checkValidateNickname(String)
   }
   
   public struct State: Equatable {
     var isLoading: Bool = false
     var err: ArchiveError?
+    let nicknameMaxLength: Int
+    var nicknameCandidate: String = ""
+    var profilePhotoAsset: PHAsset?
+    var isValidNickname: ValidNicknameResponse = .invalid(.empty)
   }
   
   // MARK: - Private Property
   
   private let updateProfileUsecase: UpdateProfileUsecase
-  private let SignUpUsecase: SignUpUsecase
+  private let signUpUsecase: SignUpUsecase
+  
+  // MARK: - Internal Property
+  
+  var initialState: State
   
   // MARK: - Public Property
   
@@ -36,10 +48,12 @@ public struct SignUpReducer: Reducer {
   
   public init(
     updateProfileUsecase: UpdateProfileUsecase,
-    signUpUsecase: SignUpUsecase
+    signUpUsecase: SignUpUsecase,
+    nicknameMaxLength: Int
   ) {
+    self.initialState = .init(nicknameMaxLength: nicknameMaxLength)
     self.updateProfileUsecase = updateProfileUsecase
-    self.SignUpUsecase = signUpUsecase
+    self.signUpUsecase = signUpUsecase
   }
   
   public var body: some ReducerOf<Self> {
@@ -51,11 +65,37 @@ public struct SignUpReducer: Reducer {
       case .setError(let err):
         state.err = err
         return .none
+      case .setNickname(let nicknameCandidate):
+        state.nicknameCandidate = nicknameCandidate
+        state.isValidNickname = .invalid(.none)
+        return .none
+      case .setIsValidNickname(let isValid):
+        state.isValidNickname = isValid
+        return .none
+      case .checkValidateNickname(let nicknameCandidate):
+        let maxLength = state.nicknameMaxLength
+        return .concatenate(
+          .run(operation: { send in
+            await send(.setIsLoading(true))
+            let result = await self.isValidNickName(nickName: nicknameCandidate, maxLength: maxLength)
+            switch result {
+            case .success(let isValid):
+              await send(.setIsValidNickname(isValid))
+            case .failure(let err):
+              await send(.setError(err))
+            }
+            await send(.setIsLoading(false))
+          })
+        )
       }
     }
   }
   
   // MARK: - Private Method
+  
+  private func isValidNickName(nickName: String, maxLength: Int) async -> Result<ValidNicknameResponse, ArchiveError> {
+    return await self.updateProfileUsecase.isValidateNickname(nickName: nickName, maxLength: maxLength)
+  }
   
   // MARK: - Public Method
   

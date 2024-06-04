@@ -30,7 +30,7 @@ struct ContentView: View {
         .edgesIgnoringSafeArea(.all)
       ScrollView {
         VStack {
-          ATUnderlineInputView(leftIconImage: Image(systemName: "bolt"), placeholderMessage: "ATUnderlineInputView", message: $message, maxLength: 10)
+          ATUnderlineInputView(leftIconImage: Image(systemName: "bolt"), placeholderMessage: "ATUnderlineInputView", message: $message, isValidMessage: .constant(true), maxLength: 10)
             .padding()
           LottieView(animation: AnimationAsset.upload.animation)
             .resizable()

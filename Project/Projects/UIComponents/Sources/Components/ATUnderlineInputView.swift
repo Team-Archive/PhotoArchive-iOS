@@ -22,6 +22,7 @@ public struct ATUnderlineInputView: View {
   private let warningUnderlineColor: Color = Gen.Colors.red.color
   
   @Binding private var message: String
+  @Binding private var isValidMessage: Bool
   @FocusState private var isActivated: Bool
   @State private var isOverTextLength: Bool = false
   
@@ -68,7 +69,7 @@ public struct ATUnderlineInputView: View {
         .frame(width: 24, height: 24)
       }
       Rectangle()
-        .foregroundStyle(self.isOverTextLength ? self.warningUnderlineColor : self.defaultUnderlineColor)
+        .foregroundStyle(self.isOverTextLength || !self.isValidMessage ? self.warningUnderlineColor : self.defaultUnderlineColor)
         .frame(height: 1)
     }
   }
@@ -77,12 +78,14 @@ public struct ATUnderlineInputView: View {
     leftIconImage: Image? = nil,
     placeholderMessage: String,
     message: Binding<String>,
+    isValidMessage: Binding<Bool>,
     submitLabel: SubmitLabel = .done,
     maxLength: Int = .max
   ) {
     self.leftIconImage = leftIconImage
     self.placeholderMessage = placeholderMessage
     self._message = message
+    self._isValidMessage = isValidMessage
     self.submitLabel = submitLabel
     self.maxLength = maxLength
   }

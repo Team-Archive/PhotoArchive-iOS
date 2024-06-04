@@ -19,7 +19,7 @@ struct SampleApp: App {
       SignUpView(
         reducer: SignUpReducer(
           updateProfileUsecase: UpdateProfileUsecaseImplement(repository: StubUpdateProfileRepositoryImplement()),
-          signUpUsecase: SignUpUsecaseImplement(repository: StubSignUpRepositoryImplement())
+          signUpUsecase: SignUpUsecaseImplement(repository: StubSignUpRepositoryImplement()), nicknameMaxLength: 24
         )
       )
     }
@@ -33,7 +33,7 @@ final class StubUpdateProfileRepositoryImplement: UpdateProfileRepository {
   }
   
   func isDuplicatedName(_ name: String) async -> Result<Bool, ArchiveError> {
-    return .success(name == "test")
+    return .success(name == "Test")
   }
   
   func updateName(_ name: String) async -> Result<Void, ArchiveError> {

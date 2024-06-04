@@ -51,6 +51,10 @@ public enum L10n {
     public static let signUpNaviTitle = L10n.tr("Localizable", "Sign_Up_Navi_Title")
     /// 친구들에게 불릴 이름과 프로필 사진을 설정해 주세요
     public static let signUpSetProfileContents = L10n.tr("Localizable", "Sign_Up_Set_Profile_Contents")
+    /// 중복된 이름입니다.
+    public static let signUpSetProfileNicknameDuplicated = L10n.tr("Localizable", "Sign_Up_Set_Profile_Nickname_Duplicated")
+    /// 24자 이내로 입력해주세요.
+    public static let signUpSetProfileNicknameOverLength = L10n.tr("Localizable", "Sign_Up_Set_Profile_Nickname_Over_Length")
     /// 이름 또는 별명
     public static let signUpSetProfilePlaceholder = L10n.tr("Localizable", "Sign_Up_Set_Profile_Placeholder")
     /// 프로필을 완성해 주세요
