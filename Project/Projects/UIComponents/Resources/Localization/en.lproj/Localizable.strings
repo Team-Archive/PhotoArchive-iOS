@@ -6,6 +6,7 @@ e-mail: mobiledev@kakao.com
 "Common_Error_Title_From_Server" = "서버오류";
 "Common_Error_Title_From_Network" = "네트워크오류";
 "Common_Error_Message" = "예상하지 못한 오류가 발생하였습니다.";
+"Common_Next" = "다음";
 "Sign_In_Apple" = "Login with Apple";
 "Sign_In_Google" = "Login with Google";
 "Sign_In_Facebook" = "Login with Facebook";
@@ -22,3 +23,6 @@ e-mail: mobiledev@kakao.com
 "Take_Photo_Send_To_Button_Title" = "내 소식 보내기";
 "Take_Photo_Send_To_All_Button_Title" = "전체";
 "Sign_Up_Navi_Title" = "회원가입";
+"Sign_Up_Set_Profile_Title" = "프로필을 완성해 주세요";
+"Sign_Up_Set_Profile_Contents" = "친구들에게 불릴 이름과 프로필 사진을 설정해 주세요";
+"Sign_Up_Set_Profile_Placeholder" = "Name or Nickname";

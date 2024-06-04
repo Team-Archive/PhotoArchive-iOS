@@ -36,7 +36,7 @@ public struct SignUpView: View {
     
     WithViewStore(store, observe: { $0 }) { viewStore in
       ZStack {
-        ATBackgroundView()
+        Gen.Colors.backgroundSignUp.color
           .ignoresSafeArea(.all)
         VStack(spacing: 0) {
           SignUpFakeNavigationView(

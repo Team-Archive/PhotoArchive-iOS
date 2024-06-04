@@ -14,6 +14,8 @@ public struct ATBackgroundView: View {
   
   // MARK: - private properties
   
+  private let startColor: Color
+  private let endColor: Color
   
   // MARK: - public properties
   
@@ -34,8 +36,12 @@ public struct ATBackgroundView: View {
     
   }
   
-  public init() {
-    
+  public init(
+    startColor: Color = Gen.Colors.backgroundStart.color,
+    endColor: Color = Gen.Colors.backgroundEnd.color
+  ) {
+    self.startColor = startColor
+    self.endColor = endColor
   }
   
   // MARK: - internal method

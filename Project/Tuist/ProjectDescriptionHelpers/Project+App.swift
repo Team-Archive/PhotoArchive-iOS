@@ -141,5 +141,6 @@ public extension TargetDependency {
   static let tca: TargetDependency = .external(name: "ComposableArchitecture")
   static let imageLoader: TargetDependency = .external(name: "ImageLoader-iOS")
   static let network: TargetDependency = .external(name: "Network-iOS")
+  static let swiftuiIntrospect: TargetDependency = .external(name: "SwiftUIIntrospect")
   
 }

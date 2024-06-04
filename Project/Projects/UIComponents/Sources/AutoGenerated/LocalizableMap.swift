@@ -39,6 +39,8 @@ public enum L10n {
     public static let commonErrorTitleFromNetwork = L10n.tr("Localizable", "Common_Error_Title_From_Network")
     /// 서버오류
     public static let commonErrorTitleFromServer = L10n.tr("Localizable", "Common_Error_Title_From_Server")
+    /// 다음
+    public static let commonNext = L10n.tr("Localizable", "Common_Next")
     /// Login with Apple
     public static let signInApple = L10n.tr("Localizable", "Sign_In_Apple")
     /// Login with Facebook
@@ -47,6 +49,12 @@ public enum L10n {
     public static let signInGoogle = L10n.tr("Localizable", "Sign_In_Google")
     /// 회원가입
     public static let signUpNaviTitle = L10n.tr("Localizable", "Sign_Up_Navi_Title")
+    /// 친구들에게 불릴 이름과 프로필 사진을 설정해 주세요
+    public static let signUpSetProfileContents = L10n.tr("Localizable", "Sign_Up_Set_Profile_Contents")
+    /// 이름 또는 별명
+    public static let signUpSetProfilePlaceholder = L10n.tr("Localizable", "Sign_Up_Set_Profile_Placeholder")
+    /// 프로필을 완성해 주세요
+    public static let signUpSetProfileTitle = L10n.tr("Localizable", "Sign_Up_Set_Profile_Title")
     /// 보내기
     public static let takePhotoEditCompleteButtonTitle = L10n.tr("Localizable", "Take_Photo_Edit_Complete_Button_Title")
     /// 텍스트 입력하기

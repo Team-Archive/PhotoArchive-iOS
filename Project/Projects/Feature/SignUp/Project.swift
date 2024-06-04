@@ -27,7 +27,8 @@ let project = Project.makeFeature(
       target: "AppRoute",
       path: "../../AppRoute"
     ),
-    .tca
+    .tca,
+    .swiftuiIntrospect
   ],
   testDependencies: []
 )

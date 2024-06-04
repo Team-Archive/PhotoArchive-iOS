@@ -34,11 +34,20 @@ struct SignUpSetProfileView: View, SignUpStepView {
   
   var body: some View {
     WithViewStore(store, observe: { $0 }) { viewStore in
-      Button(action: {
-        self.nextAction()
-      }, label: {
-        Text("SignUpSetProfileView")
-      })
+      ZStack {
+        Gen.Colors.backgroundSignUp.color
+          .ignoresSafeArea(.all)
+        VStack {
+          ATBottomActionButton(
+            designType: .secondary,
+            title: L10n.Localizable.commonNext,
+            action: {
+              nextAction()
+            },
+            isEnabled: .constant(true)
+          )
+        }
+      }
     }
   }
   
