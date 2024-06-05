@@ -10,8 +10,9 @@ import SwiftUI
 import UIComponents
 import ArchiveFoundation
 import ComposableArchitecture
+import AppRoute
 
-struct SignUpSetProfileView: View, SignUpStepView {
+struct SignUpSetProfileView<PhotoPickerView>: View, SignUpStepView where PhotoPickerView: PhotoPicker {
   
   // MARK: - internal state
   
@@ -19,6 +20,7 @@ struct SignUpSetProfileView: View, SignUpStepView {
   
   private let store: StoreOf<SignUpReducer>
   private var nextAction: () -> Void
+  @State private var isShowPhotoPickerView: Bool = false
   
   // MARK: - public properties
   
@@ -71,13 +73,24 @@ struct SignUpSetProfileView: View, SignUpStepView {
             
             
             Button(action: {
-              print("사진선택하기")
+              self.isShowPhotoPickerView = true
             }, label: {
-              ATPHAssetImage(
-                asset: nil,
-                placeholder: Gen.Images.setProfilePlaceholder.image
-              )
-              .resizable()
+              ZStack {
+                ATPHAssetImage(
+                  asset: viewStore.profilePhotoAsset,
+                  placeholder: Gen.Images.setProfilePlaceholder.image
+                )
+                .resizable()
+                .id(viewStore.profilePhotoAsset?.localIdentifier)
+                VStack {
+                  Spacer()
+                  HStack {
+                    Spacer()
+                    Gen.Images.setProfileButton.image
+                      .frame(width: 52, height: 52)
+                  }
+                }
+              }
               .frame(width: 160, height: 160)
               .padding(
                 .init(
@@ -130,6 +143,15 @@ struct SignUpSetProfileView: View, SignUpStepView {
             isEnabled: Binding(get: { viewStore.isValidNickname == .valid }, set: { _ in })
           )
           
+        }
+      }
+      .fullScreenCover(isPresented: $isShowPhotoPickerView) {
+        PhotoPickerView { assetList in
+          isShowPhotoPickerView = false
+          guard let asset = assetList.first else { return }
+          viewStore.send(.setProfilePhotoAsset(asset))
+        } closeAction: {
+          isShowPhotoPickerView = false
         }
       }
     }

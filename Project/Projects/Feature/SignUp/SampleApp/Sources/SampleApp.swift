@@ -11,12 +11,13 @@ import SignUp
 import Domain
 import ArchiveFoundation
 import Photos
+import AppRoute
 
 @main
 struct SampleApp: App {
   var body: some Scene {
     WindowGroup {
-      SignUpView(
+      SignUpView<StubPhotoPickerView>(
         reducer: SignUpReducer(
           updateProfileUsecase: UpdateProfileUsecaseImplement(repository: StubUpdateProfileRepositoryImplement()),
           signUpUsecase: SignUpUsecaseImplement(repository: StubSignUpRepositoryImplement()), nicknameMaxLength: 24
@@ -50,4 +51,37 @@ final class StubSignUpRepositoryImplement: SignUpRepository {
   
 }
 
-
+struct StubPhotoPickerView: View, PhotoPicker {
+  
+  var closeAction: (() -> Void)
+  var completeAction: (([PHAsset]) -> Void)
+  
+  init(
+    completeAction: @escaping ([PHAsset]) -> Void,
+    closeAction: @escaping () -> Void
+  ) {
+    self.completeAction = completeAction
+    self.closeAction = closeAction
+  }
+  
+  public var body: some View {
+    VStack(spacing: 20) {
+      Button(action: {
+        completeAction([
+          MockPHAsset(),
+        ])
+      }, label: {
+        VStack {
+          Text("This is StubPhotoPickerView")
+          Text("Click here")
+        }
+      })
+      Button(action: {
+        closeAction()
+      }, label: {
+        Text("This is close action")
+      })
+    }
+  }
+  
+}

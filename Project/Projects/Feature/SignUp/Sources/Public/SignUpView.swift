@@ -11,13 +11,14 @@ import SwiftUI
 import ComposableArchitecture
 import ArchiveFoundation
 import UIComponents
+import AppRoute
 
-public struct SignUpView: View {
+public struct SignUpView<PhotoPickerView>: View where PhotoPickerView: PhotoPicker {
   
   // MARK: - Private Property
   
   private let store: StoreOf<SignUpReducer>
-  private lazy var signUpStepFactory: SignUpStepFactory = .init(store: self.store)
+  private lazy var signUpStepFactory: SignUpStepFactory<PhotoPickerView> = .init(store: self.store)
   @State private var stackPath: NavigationPath = .init()
   
   // MARK: - Internal Property
@@ -50,11 +51,11 @@ public struct SignUpView: View {
           SignUpProgressView(path: self.$stackPath)
             .frame(height: 4)
           NavigationStack(path: $stackPath) {
-            SignUpStepFactory(store: store).stepView(step: SignUpStep.allCases.first ?? .setProfile, nextAction: {
+            SignUpStepFactory<PhotoPickerView>(store: store).stepView(step: SignUpStep.allCases.first ?? .setProfile, nextAction: {
               stackPath.append(SignUpStep.setCity)
             })
             .navigationDestination(for: SignUpStep.self) { step in
-              SignUpStepFactory(store: store).stepView(step: step, nextAction: {
+              SignUpStepFactory<PhotoPickerView>(store: store).stepView(step: step, nextAction: {
                 if let nextStep = SignUpStep(rawValue: step.rawValue + 1) {
                   stackPath.append(nextStep)
                 } else {

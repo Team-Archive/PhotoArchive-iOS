@@ -22,6 +22,7 @@ public struct SignUpReducer: Reducer {
     case setNickname(String)
     case setIsValidNickname(ValidNicknameResponse)
     case checkValidateNickname(String)
+    case setProfilePhotoAsset(PHAsset)
   }
   
   public struct State: Equatable {
@@ -89,6 +90,9 @@ public struct SignUpReducer: Reducer {
             await send(.setIsLoading(false))
           })
         )
+      case .setProfilePhotoAsset(let asset):
+        state.profilePhotoAsset = asset
+        return .none
       }
     }
   }

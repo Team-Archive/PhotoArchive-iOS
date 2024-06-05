@@ -8,6 +8,7 @@
 
 import SwiftUI
 import ComposableArchitecture
+import AppRoute
 
 enum SignUpStep: Int, CaseIterable, Hashable {
   case setProfile
@@ -15,7 +16,7 @@ enum SignUpStep: Int, CaseIterable, Hashable {
   case setActivityTime
 }
 
-struct SignUpStepFactory {
+struct SignUpStepFactory<PhotoPickerView> where PhotoPickerView: PhotoPicker {
   
   // MARK: - private properties
   
@@ -27,7 +28,7 @@ struct SignUpStepFactory {
   
   init(
     store: StoreOf<SignUpReducer>
-  ) { // TODO: 사진 선택 뷰 받아야할듯
+  ) {
     self.store = store
   }
   
@@ -39,7 +40,7 @@ struct SignUpStepFactory {
   func stepView(step: SignUpStep, nextAction: @escaping () -> Void) -> some View {
     switch step {
     case .setProfile:
-      SignUpSetProfileView(
+      SignUpSetProfileView<PhotoPickerView>(
         store: self.store,
         nextAction: nextAction
       )

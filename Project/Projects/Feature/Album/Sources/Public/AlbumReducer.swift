@@ -135,10 +135,6 @@ public struct AlbumReducer: Reducer {
     return await self.albumUsecase.checkAlbumPermission()
   }
   
-  private func convertAssetListToDataList(list: [PHAsset]) async -> Result<[Data], ArchiveError> {
-    return await self.albumUsecase.assetListToImageDataList(assetList: list)
-  }
-  
   // MARK: - Public Method
   
 }
