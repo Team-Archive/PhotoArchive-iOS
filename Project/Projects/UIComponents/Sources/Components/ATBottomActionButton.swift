@@ -24,6 +24,12 @@ public struct ATBottomActionButton: View {
   private let icon: Image?
   private let title: String
   private let designType: ButtonDesignType
+  private let buttonHeight: CGFloat = 52
+  private var defaultButtonCornerRadius: CGFloat {
+    return self.buttonHeight/2
+  }
+  @State private var leftRightPadding: CGFloat = .designContentsInset
+  @State private var buttonCornerRadius: CGFloat = 26
   
   private var textColor: Color {
     if self.isEnabled {
@@ -108,11 +114,29 @@ public struct ATBottomActionButton: View {
           Spacer()
         }
       }
-      .frame(height: 52)
-      .clipShape(.rect(cornerRadius: 26))
-      .padding([.leading, .trailing], .designContentsInset)
+      .frame(height: self.buttonHeight)
+      .clipShape(.rect(cornerRadius: self.buttonCornerRadius))
+      .padding([.leading, .trailing], self.leftRightPadding)
     })
     .disabled(!self.isEnabled)
+    .onAppear {
+      NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { _ in
+        withAnimation {
+          self.leftRightPadding = 0
+          self.buttonCornerRadius = 0
+        }
+      }
+      NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { _ in
+        withAnimation {
+          self.leftRightPadding = .designContentsInset
+          self.buttonCornerRadius = self.defaultButtonCornerRadius
+        }
+      }
+    }
+    .onDisappear {
+      NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+      NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
 
   }
   

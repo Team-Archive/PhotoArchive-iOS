@@ -66,8 +66,10 @@ public struct SignUpReducer: Reducer {
         state.err = err
         return .none
       case .setNickname(let nicknameCandidate):
+        if state.nicknameCandidate != nicknameCandidate {
+          state.isValidNickname = .invalid(.none)
+        }
         state.nicknameCandidate = nicknameCandidate
-        state.isValidNickname = .invalid(.none)
         return .none
       case .setIsValidNickname(let isValid):
         state.isValidNickname = isValid

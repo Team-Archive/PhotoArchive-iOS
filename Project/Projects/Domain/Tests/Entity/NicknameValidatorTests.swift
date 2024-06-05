@@ -36,7 +36,7 @@ final class NicknameValidatorTests: XCTestCase {
     let isValid = validator.isValidate(nickname, maxLength: maxLength)
     
     // Then
-    XCTAssertEqual(isValid, .invalid(.empty) , "Empty string should be invalid")
+    XCTAssertEqual(isValid, .invalid(.empty), "Empty string should be invalid")
   }
   
   func test_isValidate_withWhitespaceOnlyString_shouldReturnFalse() {
