@@ -7,6 +7,12 @@ e-mail: mobiledev@kakao.com
 "Common_Error_Title_From_Network" = "네트워크오류";
 "Common_Error_Message" = "예상하지 못한 오류가 발생하였습니다.";
 "Common_Next" = "다음";
+"Common_Morning" = "아침";
+"Common_Forenoon" = "오전";
+"Common_Afternoon" = "오후";
+"Common_Evening" = "저녁";
+"Common_Night" = "밤";
+"Common_Dawn" = "새벽";
 "Sign_In_Apple" = "Login with Apple";
 "Sign_In_Google" = "Login with Google";
 "Sign_In_Facebook" = "Login with Facebook";
@@ -33,3 +39,7 @@ e-mail: mobiledev@kakao.com
 "Sign_Up_Set_City_Search_Placeholder" = "도시 검색";
 "Sign_Up_Set_City_Search_No_Result_Title" = "검색 결과가 없어요";
 "Sign_Up_Set_City_Search_No_Result_Contents" = "도시 또는 나라 스펠링을 정확하게\n입력하셨는지 확인해 보세요";
+"Sign_Up_Set_Activity_Time_Title" = "%@에서 연락하기 편한\n시간대와 요일을 선택해 주세요";
+"Sign_Up_Set_Activity_Time_Contents" = "친구, 가족과 연락하기 편한 시간대를 현재 계신 도시 시간\n기준으로 선택해 주세요.";
+"Sign_Up_Set_Activity_Time_All_Select_Title" = "전체 시간 선택";
+"Sign_Up_Set_Activity_Time_Done_Button_Title" = "시작하기";

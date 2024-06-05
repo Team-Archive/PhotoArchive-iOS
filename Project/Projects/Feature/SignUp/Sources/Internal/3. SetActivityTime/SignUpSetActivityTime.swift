@@ -38,13 +38,47 @@ struct SignUpSetActivityTime: View, SignUpStepView {
         Gen.Colors.backgroundSignUp.color
           .ignoresSafeArea(.all)
         VStack {
+          ScrollView {
+            HStack {
+              Text(L10n.Localizable.signUpSetActivityTimeTitle(viewStore.selectedCity?.name ?? "-"))
+                .font(.fonts(.title24))
+                .foregroundStyle(Gen.Colors.white.color)
+                .padding(
+                  .init(
+                    top: 28,
+                    leading: .designContentsInset,
+                    bottom: 0,
+                    trailing: .designContentsInset
+                  )
+                )
+              Spacer()
+            }
+            
+            HStack {
+              Text(L10n.Localizable.signUpSetActivityTimeContents)
+                .font(.fonts(.body14))
+                .foregroundStyle(Gen.Colors.gray300.color)
+                .padding(
+                  .init(
+                    top: 4,
+                    leading: .designContentsInset,
+                    bottom: 0,
+                    trailing: .designContentsInset
+                  )
+                )
+              Spacer()
+            }
+            
+            ContentsView()
+          }
+          
           ATBottomActionButton(
             designType: .secondary,
-            title: L10n.Localizable.commonNext,
+            title: L10n.Localizable.signUpSetActivityTimeDoneButtonTitle,
             action: {
               nextAction()
             },
-            isEnabled: .constant(true)
+            isEnabled: .constant(false)
           )
         }
       }
@@ -52,6 +86,17 @@ struct SignUpSetActivityTime: View, SignUpStepView {
   }
   
   // MARK: - private method
+  
+  @ViewBuilder
+  private func ContentsView() -> some View {
+    
+    WithViewStore(store, observe: { $0 }) { viewStore in
+      ZStack {
+        
+      }
+    }
+    
+  }
   
   // MARK: - internal method
   
