@@ -10,12 +10,12 @@ import Foundation
 
 public struct City: Equatable {
   
-  let id: String
-  let name: String
-  let country: Country
-  let greenwichMeanTime: Int
+  public let id: String
+  public let name: String
+  public let country: Country
+  public let greenwichMeanTime: GreenwichMeanTime
   
-  public init(id: String, name: String, country: Country, greenwichMeanTime: Int) {
+  public init(id: String, name: String, country: Country, greenwichMeanTime: GreenwichMeanTime) {
     self.id = id
     self.name = name
     self.country = country

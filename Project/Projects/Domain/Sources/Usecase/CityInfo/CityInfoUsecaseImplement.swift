@@ -26,7 +26,7 @@ public final class CityInfoUsecaseImplement: CityInfoUsecase {
   // MARK: - life cycle
   
   public init(
-    countOfResponsesPerQuestion: UInt = 10,
+    countOfResponsesPerQuestion: UInt = 20,
     repository: CityInfoRepository
   ) {
     self.countOfResponsesPerQuestion = countOfResponsesPerQuestion

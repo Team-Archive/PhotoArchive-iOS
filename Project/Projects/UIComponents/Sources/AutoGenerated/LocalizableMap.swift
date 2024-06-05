@@ -51,6 +51,11 @@ public enum L10n {
     public static let signUpNaviTitle = L10n.tr("Localizable", "Sign_Up_Navi_Title")
     /// 지금 계신 도시를 선택해 주세요.
     public static let signUpSetCityContents = L10n.tr("Localizable", "Sign_Up_Set_City_Contents")
+    /// 도시 또는 나라 스펠링을 정확하게
+    /// 입력하셨는지 확인해 보세요
+    public static let signUpSetCitySearchNoResultContents = L10n.tr("Localizable", "Sign_Up_Set_City_Search_No_Result_Contents")
+    /// 검색 결과가 없어요
+    public static let signUpSetCitySearchNoResultTitle = L10n.tr("Localizable", "Sign_Up_Set_City_Search_No_Result_Title")
     /// 도시 검색
     public static let signUpSetCitySearchPlaceholder = L10n.tr("Localizable", "Sign_Up_Set_City_Search_Placeholder")
     /// 지금 어디에 있나요?
