@@ -38,14 +38,57 @@ struct SignUpSetCityView: View, SignUpStepView {
         Gen.Colors.backgroundSignUp.color
           .ignoresSafeArea(.all)
         VStack {
-          ATBottomActionButton(
-            designType: .secondary,
-            title: L10n.Localizable.commonNext,
-            action: {
-              nextAction()
-            },
-            isEnabled: .constant(true)
+          HStack {
+            Text(L10n.Localizable.signUpSetCityTitle)
+              .font(.fonts(.title24))
+              .foregroundStyle(Gen.Colors.white.color)
+              .padding(
+                .init(
+                  top: 28,
+                  leading: .designContentsInset,
+                  bottom: 0,
+                  trailing: .designContentsInset
+                )
+              )
+            Spacer()
+          }
+          
+          HStack {
+            Text(L10n.Localizable.signUpSetCityContents)
+              .font(.fonts(.body14))
+              .foregroundStyle(Gen.Colors.gray300.color)
+              .padding(
+                .init(
+                  top: 4,
+                  leading: .designContentsInset,
+                  bottom: 0,
+                  trailing: .designContentsInset
+                )
+              )
+            Spacer()
+          }
+          
+          ATUnderlineInputView(
+            leftIconImage: Gen.Images.search.image,
+            placeholderMessage: L10n.Localizable.signUpSetCitySearchPlaceholder,
+            message: Binding(get: { viewStore.searchCityKeyword }, set: { text in viewStore.send(.setSearchCityKeyword(keyword: text)) }),
+            isValidMessage: Binding(get: { viewStore.isValidNickname != .invalid(.duplicated) }, set: { _ in }),
+            submitLabel: .done,
+            maxLength: viewStore.nicknameMaxLength
           )
+          .onDebouncedChange(of: viewStore.searchCityKeyword, debounceTime: 0.5, perform: { keyword in
+            viewStore.send(.searchCity(keyword: keyword))
+          })
+          .padding(
+            .init(
+              top: 32,
+              leading: .designContentsInset,
+              bottom: 0,
+              trailing: .designContentsInset
+            )
+          )
+          
+          
         }
       }
     }

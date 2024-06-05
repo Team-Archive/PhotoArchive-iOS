@@ -28,3 +28,6 @@ e-mail: mobiledev@kakao.com
 "Sign_Up_Set_Profile_Placeholder" = "이름 또는 별명";
 "Sign_Up_Set_Profile_Nickname_Over_Length" = "24자 이내로 입력해주세요.";
 "Sign_Up_Set_Profile_Nickname_Duplicated" = "중복된 이름입니다.";
+"Sign_Up_Set_City_Title" = "지금 어디에 있나요?";
+"Sign_Up_Set_City_Contents" = "지금 계신 도시를 선택해 주세요.";
+"Sign_Up_Set_City_Search_Placeholder" = "도시 검색";

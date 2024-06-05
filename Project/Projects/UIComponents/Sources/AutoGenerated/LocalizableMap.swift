@@ -49,6 +49,12 @@ public enum L10n {
     public static let signInGoogle = L10n.tr("Localizable", "Sign_In_Google")
     /// 회원가입
     public static let signUpNaviTitle = L10n.tr("Localizable", "Sign_Up_Navi_Title")
+    /// 지금 계신 도시를 선택해 주세요.
+    public static let signUpSetCityContents = L10n.tr("Localizable", "Sign_Up_Set_City_Contents")
+    /// 도시 검색
+    public static let signUpSetCitySearchPlaceholder = L10n.tr("Localizable", "Sign_Up_Set_City_Search_Placeholder")
+    /// 지금 어디에 있나요?
+    public static let signUpSetCityTitle = L10n.tr("Localizable", "Sign_Up_Set_City_Title")
     /// 친구들에게 불릴 이름과 프로필 사진을 설정해 주세요
     public static let signUpSetProfileContents = L10n.tr("Localizable", "Sign_Up_Set_Profile_Contents")
     /// 중복된 이름입니다.

@@ -13,13 +13,13 @@ public struct City: Equatable {
   let id: String
   let name: String
   let country: Country
-  let gmt: UInt
+  let greenwichMeanTime: Int
   
-  public init(id: String, name: String, country: Country, gmt: UInt) {
+  public init(id: String, name: String, country: Country, greenwichMeanTime: Int) {
     self.id = id
     self.name = name
     self.country = country
-    self.gmt = gmt
+    self.greenwichMeanTime = greenwichMeanTime
   }
   
   public static func == (lhs: City, rhs: City) -> Bool {

@@ -34,9 +34,9 @@ final class CityInfoUsecaseImplementTests: XCTestCase {
   func testSearchCityList_Success() async {
     // Given
     let expectedCities = [
-      City(id: "1", name: "New York", country: Country(name: "USA", code: "US", emoji: "🇺🇸"), gmt: 5),
-      City(id: "2", name: "Los Angeles", country: Country(name: "USA", code: "US", emoji: "🇺🇸"), gmt: 8),
-      City(id: "3", name: "Chicago", country: Country(name: "USA", code: "US", emoji: "🇺🇸"), gmt: 6)
+      City(id: "1", name: "New York", country: Country(name: "USA", code: "US", emoji: "🇺🇸"), greenwichMeanTime: 5),
+      City(id: "2", name: "Los Angeles", country: Country(name: "USA", code: "US", emoji: "🇺🇸"), greenwichMeanTime: 8),
+      City(id: "3", name: "Chicago", country: Country(name: "USA", code: "US", emoji: "🇺🇸"), greenwichMeanTime: 6)
     ]
     repositoryStub.cities = expectedCities
     
@@ -57,8 +57,8 @@ final class CityInfoUsecaseImplementTests: XCTestCase {
   func testSearchCityListButEndOfReach_Success() async {
     // Given
     let expectedCities = [
-      City(id: "1", name: "New York", country: Country(name: "USA", code: "US", emoji: "🇺🇸"), gmt: 5),
-      City(id: "2", name: "Los Angeles", country: Country(name: "USA", code: "US", emoji: "🇺🇸"), gmt: 8)
+      City(id: "1", name: "New York", country: Country(name: "USA", code: "US", emoji: "🇺🇸"), greenwichMeanTime: 5),
+      City(id: "2", name: "Los Angeles", country: Country(name: "USA", code: "US", emoji: "🇺🇸"), greenwichMeanTime: 8)
     ]
     repositoryStub.cities = expectedCities
     
@@ -79,14 +79,14 @@ final class CityInfoUsecaseImplementTests: XCTestCase {
   func testMoreCityList_Success() async {
     // Given
     let initialCities = [
-      City(id: "1", name: "New York", country: Country(name: "USA", code: "US", emoji: "🇺🇸"), gmt: 5),
-      City(id: "2", name: "Los Angeles", country: Country(name: "USA", code: "US", emoji: "🇺🇸"), gmt: 8),
-      City(id: "3", name: "Chicago", country: Country(name: "USA", code: "US", emoji: "🇺🇸"), gmt: 6)
+      City(id: "1", name: "New York", country: Country(name: "USA", code: "US", emoji: "🇺🇸"), greenwichMeanTime: 5),
+      City(id: "2", name: "Los Angeles", country: Country(name: "USA", code: "US", emoji: "🇺🇸"), greenwichMeanTime: 8),
+      City(id: "3", name: "Chicago", country: Country(name: "USA", code: "US", emoji: "🇺🇸"), greenwichMeanTime: 6)
     ]
     let moreCities = [
-      City(id: "4", name: "Houston", country: Country(name: "USA", code: "US", emoji: "🇺🇸"), gmt: 6),
-      City(id: "5", name: "Phoenix", country: Country(name: "USA", code: "US", emoji: "🇺🇸"), gmt: 7),
-      City(id: "6", name: "Philadelphia", country: Country(name: "USA", code: "US", emoji: "🇺🇸"), gmt: 5)
+      City(id: "4", name: "Houston", country: Country(name: "USA", code: "US", emoji: "🇺🇸"), greenwichMeanTime: 6),
+      City(id: "5", name: "Phoenix", country: Country(name: "USA", code: "US", emoji: "🇺🇸"), greenwichMeanTime: 7),
+      City(id: "6", name: "Philadelphia", country: Country(name: "USA", code: "US", emoji: "🇺🇸"), greenwichMeanTime: 5)
     ]
     repositoryStub.cities = initialCities
     await _ = sut.searchCityList(keyword: "a")

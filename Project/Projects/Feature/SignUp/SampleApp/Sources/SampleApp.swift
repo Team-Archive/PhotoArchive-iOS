@@ -20,12 +20,50 @@ struct SampleApp: App {
       SignUpView<StubPhotoPickerView>(
         reducer: SignUpReducer(
           updateProfileUsecase: UpdateProfileUsecaseImplement(repository: StubUpdateProfileRepositoryImplement()),
-          signUpUsecase: SignUpUsecaseImplement(repository: StubSignUpRepositoryImplement()), nicknameMaxLength: 24
+          signUpUsecase: SignUpUsecaseImplement(repository: StubSignUpRepositoryImplement()), 
+          cityInfoUsecase: CityInfoUsecaseImplement(repository: StubCityInfoRepositoryImplement()),
+          nicknameMaxLength: 24
         )
       )
     }
   }
 }
+
+final class StubCityInfoRepositoryImplement: CityInfoRepository {
+  
+  func searchCityList(keyword: String?, page: UInt) async -> Result<[City], ArchiveError> {
+    usleep(1 * 1000 * 1000)
+    let countries = [
+      Country(name: "United States", code: "US", emoji: "🇺🇸"),
+      Country(name: "United Kingdom", code: "GB", emoji: "🇬🇧"),
+      Country(name: "France", code: "FR", emoji: "🇫🇷"),
+      Country(name: "Japan", code: "JP", emoji: "🇯🇵"),
+      Country(name: "Australia", code: "AU", emoji: "🇦🇺"),
+      Country(name: "Germany", code: "DE", emoji: "🇩🇪"),
+      Country(name: "Canada", code: "CA", emoji: "🇨🇦"),
+      Country(name: "Italy", code: "IT", emoji: "🇮🇹"),
+      Country(name: "South Korea", code: "KR", emoji: "🇰🇷"),
+      Country(name: "Brazil", code: "BR", emoji: "🇧🇷")
+    ]
+    
+    let cities = [
+      City(id: "1", name: "New York", country: countries[0], greenwichMeanTime: 4),
+      City(id: "2", name: "London", country: countries[1], greenwichMeanTime: 0),
+      City(id: "3", name: "Paris", country: countries[2], greenwichMeanTime: 1),
+      City(id: "4", name: "Tokyo", country: countries[3], greenwichMeanTime: 9),
+      City(id: "5", name: "Sydney", country: countries[4], greenwichMeanTime: 10),
+      City(id: "6", name: "Berlin", country: countries[5], greenwichMeanTime: 1),
+      City(id: "7", name: "Toronto", country: countries[6], greenwichMeanTime: 4),
+      City(id: "8", name: "Rome", country: countries[7], greenwichMeanTime: 1),
+      City(id: "9", name: "Seoul", country: countries[8], greenwichMeanTime: 9),
+      City(id: "10", name: "São Paulo", country: countries[9], greenwichMeanTime: -3)
+    ]
+    
+    return .success(cities)
+  }
+  
+}
+
 
 final class StubUpdateProfileRepositoryImplement: UpdateProfileRepository {
   
