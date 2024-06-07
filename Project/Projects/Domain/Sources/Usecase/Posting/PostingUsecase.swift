@@ -13,5 +13,5 @@ import Photos
 public protocol PostingUsecase {
   func assetListToImageDataList(assetList: [PHAsset]) async -> Result<[Data], ArchiveError>
   func isValidContents(contents: String?) -> Bool
-  func post(accessToken: String, itemList: [PostingItem], toUserIdList: [String]) async -> Result<Void, ArchiveError>
+  func post(signInToken: SignInToken, itemList: [PostingItem], toUserIdList: [String]) async -> Result<Void, ArchiveError>
 }

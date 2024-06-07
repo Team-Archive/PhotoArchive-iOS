@@ -27,16 +27,8 @@ public final class SignUpUsecaseImplement: SignUpUsecase {
   
   // MARK: - public method
   
-  public func signUp(
-    name: String,
-    cityId: String,
-    preferTime: [DaysOfTheWeek: [ActivityTime]]
-  ) async -> Result<String, ArchiveError> {
-    return await self.repository.signUp(
-      name: name,
-      cityId: cityId,
-      preferTime: preferTime
-    )
+  public func signUp(oauthData: OAuthSignInData) async -> Result<SignInToken, ArchiveError> {
+    return await self.repository.signUp(oauthData: oauthData)
   }
   
 }

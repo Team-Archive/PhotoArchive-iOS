@@ -10,5 +10,5 @@ import ArchiveFoundation
 import Foundation
 
 public protocol PostingRepository {
-  func post(accessToken: String, itemList: [PostingItem], toUserIdList: [String]) async -> Result<Void, ArchiveError>
+  func post(signInToken: SignInToken, itemList: [PostingItem], toUserIdList: [String]) async -> Result<Void, ArchiveError>
 }

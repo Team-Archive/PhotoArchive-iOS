@@ -11,7 +11,9 @@ import Foundation
 import Photos
 
 public protocol UpdateProfileRepository {
-  func updateProfilePhoto(asset: PHAsset) async -> Result<Void, ArchiveError>
+  func updateProfilePhoto(signInToken: SignInToken, asset: PHAsset) async -> Result<Void, ArchiveError>
   func isDuplicatedName(_ name: String) async -> Result<Bool, ArchiveError>
-  func updateName(_ name: String) async -> Result<Void, ArchiveError>
+  func updateName(signInToken: SignInToken, name: String) async -> Result<Void, ArchiveError>
+  func updateLocation(signInToken: SignInToken, city: City) async -> Result<Void, ArchiveError>
+  func updateAvtivityTime(signInToken: SignInToken, city: City, activityTime: [DaysOfTheWeek: [ActivityTimeInterval]]) async -> Result<Void, ArchiveError>
 }

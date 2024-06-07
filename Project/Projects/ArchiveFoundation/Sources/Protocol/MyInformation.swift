@@ -10,7 +10,7 @@ import Foundation
 
 public protocol MyInformation {
   
-  var accessToken: String { get }
+  var signInToken: SignInToken { get }
   var friendsList: [UserInformation] { get }
   
 }

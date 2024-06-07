@@ -10,5 +10,5 @@ import ArchiveFoundation
 import Foundation
 
 public protocol SignUpRepository {
-  func signUp(name: String, cityId: String, preferTime: [DaysOfTheWeek: [ActivityTime]]) async -> Result<String, ArchiveError>
+  func signUp(oauthData: OAuthSignInData) async -> Result<SignInToken, ArchiveError>
 }

@@ -31,8 +31,8 @@ public final class UpdateProfileUsecaseImplement: UpdateProfileUsecase {
   
   // MARK: - public method
   
-  public func updateProfilePhoto(asset: PHAsset) async -> Result<Void, ArchiveError> {
-    return await self.repository.updateProfilePhoto(asset: asset)
+  public func updateProfilePhoto(signInToken: SignInToken, asset: PHAsset) async -> Result<Void, ArchiveError> {
+    return await self.repository.updateProfilePhoto(signInToken: signInToken, asset: asset)
   }
   
   public func isValidateNickname(nickName: String, maxLength: Int) async -> Result<ValidNicknameResponse, ArchiveError> {
@@ -59,8 +59,26 @@ public final class UpdateProfileUsecaseImplement: UpdateProfileUsecase {
     }
   }
   
-  public func updateName(_ name: String) async -> Result<Void, ArchiveError> {
-    return await self.repository.updateName(name)
+  public func updateName(signInToken: SignInToken, name: String) async -> Result<Void, ArchiveError> {
+    return await self.repository.updateName(signInToken: signInToken, name: name)
+  }
+  
+  
+  public func updateLocation(signInToken: SignInToken, city: City) async -> Result<Void, ArchiveError> {
+    return await self.repository.updateLocation(signInToken: signInToken, city: city)
+  }
+  
+  public func updateAvtivityTime(
+    signInToken: SignInToken,
+    city: City,
+    activityTime: [DaysOfTheWeek: [ActivityTimeInterval]]
+  ) async -> Result<Void, ArchiveError> {
+    // TODO: 시간을 합쳐줘야 할 수 있음..
+    return await self.repository.updateAvtivityTime(
+      signInToken: signInToken,
+      city: city,
+      activityTime: activityTime
+    )
   }
 
 }

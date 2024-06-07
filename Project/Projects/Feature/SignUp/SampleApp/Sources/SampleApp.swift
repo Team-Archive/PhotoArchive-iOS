@@ -134,7 +134,19 @@ final class StubCityInfoRepositoryImplement: CityInfoRepository {
 
 final class StubUpdateProfileRepositoryImplement: UpdateProfileRepository {
   
-  func updateProfilePhoto(asset: PHAsset) async -> Result<Void, ArchiveError> {
+  func updateProfilePhoto(signInToken: SignInToken, asset: PHAsset) async -> Result<Void, ArchiveError> {
+    return .success(())
+  }
+  
+  func updateName(signInToken: SignInToken, name: String) async -> Result<Void, ArchiveError> {
+    return .success(())
+  }
+  
+  func updateLocation(signInToken: SignInToken, city: City) async -> Result<Void, ArchiveError> {
+    return .success(())
+  }
+  
+  func updateAvtivityTime(signInToken: SignInToken, city: City, activityTime: [DaysOfTheWeek: [ActivityTimeInterval]]) async -> Result<Void, ArchiveError> {
     return .success(())
   }
   
@@ -142,18 +154,17 @@ final class StubUpdateProfileRepositoryImplement: UpdateProfileRepository {
     return .success(name == "Test")
   }
   
-  func updateName(_ name: String) async -> Result<Void, ArchiveError> {
-    return .success(())
-  }
-  
 }
 
 final class StubSignUpRepositoryImplement: SignUpRepository {
-  
-  func signUp(name: String, cityId: String, preferTime: [DaysOfTheWeek: [ActivityTime]]) async -> Result<String, ArchiveError> {
-    return .success("token")
+  func signUp(oauthData: OAuthSignInData) async -> Result<SignInToken, ArchiveError> {
+    return .success(
+      .init(
+        accessToken: "AccessToken",
+        refreshToken: "RefreshToken"
+      )
+    )
   }
-  
 }
 
 struct StubPhotoPickerView: View, PhotoPicker {
