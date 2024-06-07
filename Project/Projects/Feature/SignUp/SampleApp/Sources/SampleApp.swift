@@ -184,7 +184,7 @@ struct StubPhotoPickerView: View, PhotoPicker {
     VStack(spacing: 20) {
       Button(action: {
         completeAction([
-          MockPHAsset(),
+          MockPHAsset()
         ])
       }, label: {
         VStack {

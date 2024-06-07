@@ -103,8 +103,7 @@ public struct ATSelectableButton<Content>: View where Content: View {
     ATSelectableButton(
       contentsView: Text("hola"),
       isSelected: .constant(false),
-      action: {
-        isSelected in
+      action: { isSelected in
         print("Button: \(isSelected)")
       })
   }

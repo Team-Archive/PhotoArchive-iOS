@@ -10,7 +10,7 @@ import ArchiveFoundation
 import Foundation
 import UIComponents
 
-enum SignUpActivityTime: Hashable {
+public enum SignUpActivityTime: Hashable, CaseIterable {
   case morning
   case forenoon
   case afternoon

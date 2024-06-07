@@ -29,6 +29,7 @@ public struct SignUpReducer: Reducer {
     case moreSearchCity
     case setCityList([City])
     case appendCityList([City])
+    case selectActiveTime(willSelected: Bool, daysOfTheWeek: DaysOfTheWeek, signUpActivityTime: SignUpActivityTime)
   }
   
   public struct State: Equatable {
@@ -146,6 +147,13 @@ public struct SignUpReducer: Reducer {
         return .none
       case .appendCityList(let list):
         state.candidateCityList += list
+        return .none
+      case .selectActiveTime(let willSelected, let daysOfTheWeek, let signUpActivityTime):
+        if willSelected {
+          state.activityTime[daysOfTheWeek]?.insert(signUpActivityTime)
+        } else {
+          state.activityTime[daysOfTheWeek]?.remove(signUpActivityTime)
+        }
         return .none
       }
     }
