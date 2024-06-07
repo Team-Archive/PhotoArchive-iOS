@@ -46,6 +46,8 @@ public struct ATCheckBoxView: View {
     return .fonts(.body14)
   }
   
+  private let isHapticEnable: Bool
+  private let generator = UISelectionFeedbackGenerator()
   
   // MARK: - public properties
   
@@ -56,6 +58,9 @@ public struct ATCheckBoxView: View {
   public var body: some View {
     
     Button(action: {
+      if self.isHapticEnable {
+        generator.selectionChanged()
+      }
       self.action(self.isChecked)
     }, label: {
       HStack(spacing: 4) {
@@ -86,10 +91,12 @@ public struct ATCheckBoxView: View {
   
   public init(
     title: String?,
+    isHapticEnable: Bool = false,
     isChecked: Binding<Bool>,
     action: @escaping (_ isChecked: Bool) -> Void
   ) {
     self.title = title
+    self.isHapticEnable = isHapticEnable
     self._isChecked = isChecked
     self.action = action
   }

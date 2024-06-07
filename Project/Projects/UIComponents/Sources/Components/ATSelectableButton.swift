@@ -42,6 +42,9 @@ public struct ATSelectableButton<Content>: View where Content: View {
     }
   }
   
+  private let isHapticEnable: Bool
+  private let generator = UISelectionFeedbackGenerator()
+  
   // MARK: - public properties
   
   public var action: (_ isSelected: Bool) -> Void
@@ -51,6 +54,9 @@ public struct ATSelectableButton<Content>: View where Content: View {
   public var body: some View {
     
     Button(action: {
+      if self.isHapticEnable {
+        generator.selectionChanged()
+      }
       self.action(self.isSelected)
     }, label: {
       ZStack {
@@ -74,6 +80,7 @@ public struct ATSelectableButton<Content>: View where Content: View {
   
   public init(
     contentsView: Content,
+    isHapticEnable: Bool = false,
     backgroundColor: Color = Gen.Colors.purpleGray200.color,
     selectedBackgroundColor: Color = Gen.Colors.purple.color.opacity(0.3),
     selectedBorderColor: Color = Gen.Colors.purple.color,
@@ -82,6 +89,7 @@ public struct ATSelectableButton<Content>: View where Content: View {
     isEnabled: Binding<Bool> = .constant(true)
   ) {
     self.contentsView = contentsView
+    self.isHapticEnable = isHapticEnable
     self._isSelected = isSelected
     self.selectedBorderColor = selectedBorderColor
     self.selectedBackgroundColor = selectedBackgroundColor

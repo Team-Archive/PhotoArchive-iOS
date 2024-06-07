@@ -59,6 +59,7 @@ public struct ActivityTimeSetView: View {
     HStack(spacing: 8) {
       ATCheckBoxView(
         title: nil,
+        isHapticEnable: true,
         isChecked: self.$isAllChecked,
         action: { isChecked in
           self.allSelectAction(isChecked, self.activityTime)
@@ -83,6 +84,7 @@ public struct ActivityTimeSetView: View {
           let item: DaysOfTheWeek = DaysOfTheWeek.allCases[safe: index] ?? .sunday
           ATSelectableTextButton(
             text: item.localizedName,
+            isHapticEnable: true,
             isSelected: Binding(get: { self.daysOfTheWeekSet.contains(item) }, set: { _ in }),
             action: { isSelected in
               self.daySelectAction(isSelected, item, self.activityTime)

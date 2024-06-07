@@ -20,6 +20,7 @@ public struct ATSelectableTextButton: View {
   // MARK: - private properties
   
   private let text: String
+  private let isHapticEnable: Bool
   
   // MARK: - public properties
   
@@ -31,6 +32,7 @@ public struct ATSelectableTextButton: View {
     
     ATSelectableButton(
       contentsView: ATSelectableTextContentsView(text: text),
+      isHapticEnable: self.isHapticEnable,
       isSelected: $isSelected
     ) { isSelected in
       self.action(isSelected)
@@ -40,11 +42,13 @@ public struct ATSelectableTextButton: View {
   
   public init(
     text: String,
+    isHapticEnable: Bool = false,
     isSelected: Binding<Bool>,
     action: @escaping (_ isSelected: Bool) -> Void,
     isEnabled: Binding<Bool> = .constant(true)
   ) {
     self.text = text
+    self.isHapticEnable = isHapticEnable
     self._isSelected = isSelected
     self._isEnabled = isEnabled
     self.action = action

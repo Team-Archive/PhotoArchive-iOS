@@ -96,10 +96,12 @@ struct SignUpSetActivityTime: View, SignUpStepView {
         HStack(spacing: 8) {
           ATCheckBoxView(
             title: nil,
+            isHapticEnable: true,
             isChecked: Binding(
               get: { isAllTimeChecked(activityTime: viewStore.activityTime) },
               set: { _ in }),
             action: { isChecked in
+              
               for time in SignUpActivityTime.allCases {
                 for day in DaysOfTheWeek.allCases {
                   viewStore.send(.selectActiveTime(
@@ -132,6 +134,7 @@ struct SignUpSetActivityTime: View, SignUpStepView {
               get: { transformActivityTime(activityTime: viewStore.activityTime, filter: item) },
               set: { _ in })
           ) { isSelected, signUpActivityTime in
+            
             for day in DaysOfTheWeek.allCases {
               viewStore.send(.selectActiveTime(
                 willSelected: !isSelected,
@@ -140,6 +143,7 @@ struct SignUpSetActivityTime: View, SignUpStepView {
               ))
             }
           } daySelectAction: { isSelected, daysOfTheWeek, signUpActivityTime in
+            
             viewStore.send(.selectActiveTime(
               willSelected: !isSelected,
               daysOfTheWeek: daysOfTheWeek,
