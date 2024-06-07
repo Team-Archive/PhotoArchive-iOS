@@ -78,7 +78,7 @@ struct SignUpSetActivityTime: View, SignUpStepView {
             action: {
               nextAction()
             },
-            isEnabled: .constant(false)
+            isEnabled: Binding(get: { viewStore.activityTime.values.contains(where: { !$0.isEmpty }) }, set: { _ in })
           )
         }
       }

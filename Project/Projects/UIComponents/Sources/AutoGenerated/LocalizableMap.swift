@@ -68,11 +68,25 @@ public enum L10n {
     public static let signUpSetActivityTimeContents = L10n.tr("Localizable", "Sign_Up_Set_Activity_Time_Contents")
     /// 시작하기
     public static let signUpSetActivityTimeDoneButtonTitle = L10n.tr("Localizable", "Sign_Up_Set_Activity_Time_Done_Button_Title")
+    /// 금
+    public static let signUpSetActivityTimeFriday = L10n.tr("Localizable", "Sign_Up_Set_Activity_Time_Friday")
+    /// 월
+    public static let signUpSetActivityTimeMonday = L10n.tr("Localizable", "Sign_Up_Set_Activity_Time_Monday")
+    /// 토
+    public static let signUpSetActivityTimeSaturday = L10n.tr("Localizable", "Sign_Up_Set_Activity_Time_Saturday")
+    /// 일
+    public static let signUpSetActivityTimeSunday = L10n.tr("Localizable", "Sign_Up_Set_Activity_Time_Sunday")
+    /// 목
+    public static let signUpSetActivityTimeThursday = L10n.tr("Localizable", "Sign_Up_Set_Activity_Time_Thursday")
     /// %@에서 연락하기 편한
     /// 시간대와 요일을 선택해 주세요
     public static func signUpSetActivityTimeTitle(_ p1: Any) -> String {
       return L10n.tr("Localizable", "Sign_Up_Set_Activity_Time_Title", String(describing: p1))
     }
+    /// 화
+    public static let signUpSetActivityTimeTuesday = L10n.tr("Localizable", "Sign_Up_Set_Activity_Time_Tuesday")
+    /// 수
+    public static let signUpSetActivityTimeWednesday = L10n.tr("Localizable", "Sign_Up_Set_Activity_Time_Wednesday")
     /// 지금 계신 도시를 선택해 주세요.
     public static let signUpSetCityContents = L10n.tr("Localizable", "Sign_Up_Set_City_Contents")
     /// 도시 또는 나라 스펠링을 정확하게

@@ -41,6 +41,7 @@ public struct SignUpReducer: Reducer {
     var selectedCity: City?
     var candidateCityList: [City] = []
     var searchCityKeyword: String = ""
+    var activityTime: [DaysOfTheWeek: Set<SignUpActivityTime>] = .init(uniqueKeysWithValues: DaysOfTheWeek.allCases.map { ($0, Set<SignUpActivityTime>()) })
   }
   
   // MARK: - Private Property

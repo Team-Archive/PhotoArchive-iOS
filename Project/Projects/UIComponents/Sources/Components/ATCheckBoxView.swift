@@ -12,11 +12,11 @@ public struct ATCheckBoxView: View {
   
   // MARK: - public state
   
-  @State public var isChecked: Bool
+  @Binding public var isChecked: Bool
   
   // MARK: - private properties
   
-  private let title: String
+  private let title: String?
   
   private var textColor: Color {
     return Gen.Colors.white.color
@@ -56,7 +56,6 @@ public struct ATCheckBoxView: View {
   public var body: some View {
     
     Button(action: {
-      self.isChecked = !self.isChecked
       self.action(self.isChecked)
     }, label: {
       HStack(spacing: 4) {
@@ -75,21 +74,23 @@ public struct ATCheckBoxView: View {
             .opacity(1)
         )
         .frame(width: 24, height: 24)
-        Text(self.title)
-          .font(self.font)
-          .foregroundStyle(self.textColor)
+        if let title = self.title {
+          Text(title)
+            .font(self.font)
+            .foregroundStyle(self.textColor)
+        }
       }
     })
-
+    
   }
   
   public init(
-    title: String,
-    isChecked: Bool,
+    title: String?,
+    isChecked: Binding<Bool>,
     action: @escaping (_ isChecked: Bool) -> Void
   ) {
     self.title = title
-    self.isChecked = isChecked
+    self._isChecked = isChecked
     self.action = action
   }
   
@@ -101,7 +102,7 @@ public struct ATCheckBoxView: View {
 
 #Preview {
   VStack {
-    ATCheckBoxView(title: "hola", isChecked: false, action: { isChecked in
+    ATCheckBoxView(title: "hola", isChecked: .constant(false), action: { isChecked in
       print("isChecked: \(isChecked)")
     })
   }

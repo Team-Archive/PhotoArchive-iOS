@@ -43,3 +43,10 @@ e-mail: mobiledev@kakao.com
 "Sign_Up_Set_Activity_Time_Contents" = "친구, 가족과 연락하기 편한 시간대를 현재 계신 도시 시간\n기준으로 선택해 주세요.";
 "Sign_Up_Set_Activity_Time_All_Select_Title" = "전체 시간 선택";
 "Sign_Up_Set_Activity_Time_Done_Button_Title" = "시작하기";
+"Sign_Up_Set_Activity_Time_Monday" = "Mon";
+"Sign_Up_Set_Activity_Time_Tuesday" = "Tue";
+"Sign_Up_Set_Activity_Time_Wednesday" = "Wed";
+"Sign_Up_Set_Activity_Time_Thursday" = "Thu";
+"Sign_Up_Set_Activity_Time_Friday" = "Fri";
+"Sign_Up_Set_Activity_Time_Saturday" = "Sat";
+"Sign_Up_Set_Activity_Time_Sunday" = "Sun";

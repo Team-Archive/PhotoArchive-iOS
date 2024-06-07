@@ -11,6 +11,11 @@ public struct ActivityTimeInterval {
   public struct Time {
     public let hour: UInt
     public let minute: UInt
+    
+    public init(hour: UInt, minute: UInt) {
+      self.hour = hour
+      self.minute = minute
+    }
   }
   
   public let start: Time

@@ -23,6 +23,9 @@ struct ContentView: View {
   private var lottiePlaybackMode: LottiePlaybackMode = .playing(.fromProgress(nil, toProgress: 1, loopMode: .loop))
   @State private var currentProgressStep: UInt = 0
   @State private var message: String = ""
+  @State private var isCheckboxChecked: Bool = false
+  @State private var isSelectableButtonSelected: Bool = false
+  @State private var isSelectableEmojiButtonSelected: Bool = false
   
   var body: some View {
     ZStack {
@@ -38,13 +41,14 @@ struct ContentView: View {
             .getRealtimeAnimationProgress(.constant(200))
             .frame(width: 100, height: 100)
           ATNavigationBar(
-            type: .default(title: "새로운 사진",
-                           trailingIcon: Gen.Images.refresh24.image,
-                           backAction: {
-                             print("ATNavigationBar Back Action")
-                           }, trailingAction: {
-                             print("ATNavigationBar Trailing Action")
-                           }))
+            type: .default(
+              title: "새로운 사진",
+              trailingIcon: Gen.Images.refresh24.image,
+              backAction: {
+                print("ATNavigationBar Back Action")
+              }, trailingAction: {
+                print("ATNavigationBar Trailing Action")
+              }))
           ATDivider(type: .small)
           ATDivider(type: .medium)
           ATDivider(type: .large)
@@ -62,7 +66,7 @@ struct ContentView: View {
           ATBadge(text: "99")
           ATToast(icon: .check, message: "사진 업로드가 완료되었습니다.")
           ATTooltip(title: "Be the first to share the news!")
-
+          
           ATSignInButton(type: .apple, action: {
             print("apple")
           })
@@ -126,15 +130,20 @@ struct ContentView: View {
             }
           )
           .frame(width: 40, height: 30)
-          ATSelectableButton(contentsView: Text("ATSelectableButton"), action: { isSelected in
-            print("Button: \(isSelected)")
-          })
+          ATSelectableButton(
+            contentsView: Text("ATSelectableButton"),
+            isSelected: self.$isSelectableButtonSelected,
+            action: { isSelected in
+              self.isSelectableButtonSelected.toggle()
+              print("Button: \(self.isSelectableButtonSelected)")
+            })
           ATSelectableEmojiButton(
             emoji: .heart,
             selectedCount: 100,
-            isSelected: true,
+            isSelected: self.$isSelectableEmojiButtonSelected,
             action: { isSelected, count in
-              print("Button: \(isSelected) \(count)")
+              self.isSelectableEmojiButtonSelected.toggle()
+              print("Button: \(self.isSelectableEmojiButtonSelected) \(count)")
             }
           )
           Toggle("", isOn: $isToggleOn)
@@ -154,8 +163,9 @@ struct ContentView: View {
             .init(icon: .init(systemName: "bolt"), title: "Bolt"),
             .init(icon: .init(systemName: "heart"), title: "Heart")
           ])
-          ATCheckBoxView(title: "ATCheckBoxView", isChecked: false, action: { isChecked in
-            print("isChecked: \(isChecked)")
+          ATCheckBoxView(title: "ATCheckBoxView", isChecked: $isCheckboxChecked, action: { isChecked in
+            self.isCheckboxChecked.toggle()
+            print("isChecked: \(self.isCheckboxChecked)")
           })
           ATUrlImage(
             url: URL(string: "https://hips.hearstapps.com/hmg-prod/images/little-cute-maltipoo-puppy-royalty-free-image-1652926025.jpg?crop=0.444xw:1.00xh;0.129xw,0&resize=980:*")!,
