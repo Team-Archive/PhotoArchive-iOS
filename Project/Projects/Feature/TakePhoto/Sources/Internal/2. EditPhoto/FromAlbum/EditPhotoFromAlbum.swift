@@ -68,14 +68,7 @@ struct EditPhotoFromAlbum: View {
             )
             .clipped()
             .clipShape(RoundedRectangle(cornerRadius: self.contentsViewCornerRadius))
-            .padding(
-              .init(
-                top: 0,
-                leading: .designContentsInset,
-                bottom: 0,
-                trailing: .designContentsInset
-              )
-            )
+            .padding(.designContentsSideInsets)
             .onChange(of: currentIndex, initial: true, { oldValue, newValue in
               if self.rotationAngleList.count > newValue {
                 if oldValue < newValue {

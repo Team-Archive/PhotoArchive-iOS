@@ -89,14 +89,7 @@ struct SignUpSetCityView: View, SignUpStepView {
           )
           
           SearchContentsView()
-            .padding(
-            .init(
-              top: 0,
-              leading: .designContentsInset,
-              bottom: 0,
-              trailing: .designContentsInset
-            )
-          )
+            .padding(.designContentsSideInsets)
           
         }
       }

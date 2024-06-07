@@ -36,14 +36,7 @@ struct SignUpProgressView: View {
         set: { _ in }
       )
     )
-    .padding(
-      .init(
-        top: 0,
-        leading: .designContentsInset,
-        bottom: 0,
-        trailing: .designContentsInset
-      )
-    )
+    .padding(.designContentsSideInsets)
   }
   
   // MARK: - private method

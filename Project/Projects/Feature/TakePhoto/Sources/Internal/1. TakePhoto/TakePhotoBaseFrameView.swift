@@ -38,14 +38,7 @@ struct TakePhotoBaseFrameView<Content>: View where Content: View {
             )
             .clipped()
             .clipShape(.rect(cornerRadius: self.contentsViewCornerRadius))
-            .padding(
-              .init(
-                top: 0,
-                leading: .designContentsInset,
-                bottom: 0,
-                trailing: .designContentsInset
-              )
-            )
+            .padding(.designContentsSideInsets)
           TakePhotoToolbarView(
             selectPhotoFromAlbumAction: {
               selectPhotoFromAlbumAction()
