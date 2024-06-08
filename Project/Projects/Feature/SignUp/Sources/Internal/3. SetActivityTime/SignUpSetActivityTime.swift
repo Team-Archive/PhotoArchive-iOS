@@ -101,7 +101,6 @@ struct SignUpSetActivityTime: View, SignUpStepView {
               get: { isAllTimeChecked(activityTime: viewStore.activityTime) },
               set: { _ in }),
             action: { isChecked in
-              
               for time in SignUpActivityTime.allCases {
                 for day in DaysOfTheWeek.allCases {
                   viewStore.send(.selectActiveTime(
@@ -176,10 +175,8 @@ struct SignUpSetActivityTime: View, SignUpStepView {
   }
   
   private func isAllTimeChecked(activityTime: [DaysOfTheWeek: Set<SignUpActivityTime>]) -> Bool {
-    for time in SignUpActivityTime.allCases {
-      if !self.isActivityTimeIsAllChecked(activityTime: activityTime, filter: time) {
-        return false
-      }
+    for time in SignUpActivityTime.allCases where !self.isActivityTimeIsAllChecked(activityTime: activityTime, filter: time) {
+      return false
     }
     return true
   }
