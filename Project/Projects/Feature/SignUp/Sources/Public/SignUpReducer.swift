@@ -30,12 +30,14 @@ public struct SignUpReducer: Reducer {
     case setCityList([City])
     case appendCityList([City])
     case selectActiveTime(willSelected: Bool, daysOfTheWeek: DaysOfTheWeek, signUpActivityTime: SignUpActivityTime)
+    case signUp
   }
   
   public struct State: Equatable {
     var isLoading: Bool = false
     var err: ArchiveError?
     let nicknameMaxLength: Int
+    let oauthSignInData: OAuthSignInData
     var nicknameCandidate: String = ""
     var profilePhotoAsset: PHAsset?
     var isValidNickname: ValidNicknameResponse = .invalid(.empty)
@@ -63,16 +65,20 @@ public struct SignUpReducer: Reducer {
     updateProfileUsecase: UpdateProfileUsecase,
     signUpUsecase: SignUpUsecase,
     cityInfoUsecase: CityInfoUsecase,
-    nicknameMaxLength: Int
+    nicknameMaxLength: Int,
+    oauthSignInData: OAuthSignInData
   ) {
-    self.initialState = .init(nicknameMaxLength: nicknameMaxLength)
+    self.initialState = .init(
+      nicknameMaxLength: nicknameMaxLength,
+      oauthSignInData: oauthSignInData
+    )
     self.updateProfileUsecase = updateProfileUsecase
     self.signUpUsecase = signUpUsecase
     self.cityInfoUsecase = cityInfoUsecase
   }
   
   public var body: some ReducerOf<Self> {
-    Reduce { state, action in
+    Reduce {state, action in
       switch action {
       case .setIsLoading(let isLoading):
         state.isLoading = isLoading
@@ -155,6 +161,35 @@ public struct SignUpReducer: Reducer {
           state.activityTime[daysOfTheWeek]?.remove(signUpActivityTime)
         }
         return .none
+      case .signUp:
+        let oauthSignInData = state.oauthSignInData
+        guard let city = state.selectedCity else { return .send(.setError(.init(.requiredDataIsNotExist))) }
+        let activityTimeValue = state.activityTime
+        let photo = state.profilePhotoAsset
+        if state.nicknameCandidate == "" { return .send(.setError(.init(.requiredDataIsNotExist))) }
+        let nickname = state.nicknameCandidate
+        return .concatenate(
+          .run(operation: { send in
+            await send(.setIsLoading(true))
+            let signUpResult = await self.signUp(oauthData: oauthSignInData)
+            switch signUpResult {
+            case .success(let signInInfo):
+              _ = await self.updateLocation(signInToken: signInInfo, city: city)
+              _ = await self.updateAvtivityTime(
+                signInToken: signInInfo,
+                city: city,
+                activityTime: activityTimeValue.mapValues { $0.map { $0.rawValue } }
+              )
+              _ = await self.updateName(signInToken: signInInfo, name: nickname)
+              if let photo {
+                _ = await self.updateProfilePhoto(signInToken: signInInfo, asset: photo)
+              }
+            case .failure(let err):
+              await send(.setError(err))
+            }
+            await send(.setIsLoading(false))
+          })
+        )
       }
     }
   }
@@ -171,6 +206,43 @@ public struct SignUpReducer: Reducer {
   
   private func moreCityList() async -> Result<[City], ArchiveError> {
     return await self.cityInfoUsecase.moreCityList()
+  }
+  
+  private func signUp(oauthData: OAuthSignInData) async -> Result<SignInToken, ArchiveError> {
+    return await self.signUpUsecase.signUp(oauthData: oauthData)
+  }
+  
+  private func updateLocation(signInToken: SignInToken, city: City) async -> Result<Void, ArchiveError> {
+    return await self.updateProfileUsecase.updateLocation(
+      signInToken: signInToken,
+      city: city
+    )
+  }
+  
+  private func updateAvtivityTime(
+    signInToken: SignInToken,
+    city: City,
+    activityTime: [DaysOfTheWeek: [ActivityTimeInterval]]
+  ) async -> Result<Void, ArchiveError> {
+    return await self.updateProfileUsecase.updateAvtivityTime(
+      signInToken: signInToken,
+      city: city,
+      activityTime: activityTime
+    )
+  }
+  
+  private func updateName(signInToken: SignInToken, name: String) async -> Result<Void, ArchiveError> {
+    return await self.updateProfileUsecase.updateName(
+      signInToken: signInToken,
+      name: name
+    )
+  }
+  
+  private func updateProfilePhoto(signInToken: SignInToken, asset: PHAsset) async -> Result<Void, ArchiveError> {
+    return await self.updateProfileUsecase.updateProfilePhoto(
+      signInToken: signInToken,
+      asset: asset
+    )
   }
   
   // MARK: - Public Method

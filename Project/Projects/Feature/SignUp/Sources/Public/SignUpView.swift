@@ -59,7 +59,7 @@ public struct SignUpView<PhotoPickerView>: View where PhotoPickerView: PhotoPick
                 if let nextStep = SignUpStep(rawValue: step.rawValue + 1) {
                   stackPath.append(nextStep)
                 } else {
-                  print("완료처리")
+                  viewStore.send(.signUp)
                 }
               })
             }

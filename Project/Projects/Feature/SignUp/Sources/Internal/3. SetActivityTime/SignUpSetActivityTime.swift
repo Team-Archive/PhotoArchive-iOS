@@ -79,7 +79,7 @@ struct SignUpSetActivityTime: View, SignUpStepView {
             action: {
               nextAction()
             },
-            isEnabled: Binding(get: { viewStore.activityTime.values.contains(where: { !$0.isEmpty }) }, set: { _ in })
+            isEnabled: Binding(get: { viewStore.activityTime.values.contains(where: { !$0.isEmpty }) && !viewStore.isLoading }, set: { _ in })
           )
         }
       }

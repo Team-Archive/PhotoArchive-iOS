@@ -22,7 +22,8 @@ struct SampleApp: App {
           updateProfileUsecase: UpdateProfileUsecaseImplement(repository: StubUpdateProfileRepositoryImplement()),
           signUpUsecase: SignUpUsecaseImplement(repository: StubSignUpRepositoryImplement()), 
           cityInfoUsecase: CityInfoUsecaseImplement(repository: StubCityInfoRepositoryImplement()),
-          nicknameMaxLength: 24
+          nicknameMaxLength: 24, 
+          oauthSignInData: .apple(token: "123")
         )
       )
     }
