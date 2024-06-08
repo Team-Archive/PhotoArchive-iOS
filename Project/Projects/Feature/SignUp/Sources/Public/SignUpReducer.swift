@@ -52,6 +52,7 @@ public struct SignUpReducer: Reducer {
   private let updateProfileUsecase: UpdateProfileUsecase
   private let signUpUsecase: SignUpUsecase
   private let cityInfoUsecase: CityInfoUsecase
+  private let signUpCompletion: (SignInToken) -> Void
   
   // MARK: - Internal Property
   
@@ -66,7 +67,8 @@ public struct SignUpReducer: Reducer {
     signUpUsecase: SignUpUsecase,
     cityInfoUsecase: CityInfoUsecase,
     nicknameMaxLength: Int,
-    oauthSignInData: OAuthSignInData
+    oauthSignInData: OAuthSignInData,
+    completion: @escaping (SignInToken) -> Void
   ) {
     self.initialState = .init(
       nicknameMaxLength: nicknameMaxLength,
@@ -75,6 +77,7 @@ public struct SignUpReducer: Reducer {
     self.updateProfileUsecase = updateProfileUsecase
     self.signUpUsecase = signUpUsecase
     self.cityInfoUsecase = cityInfoUsecase
+    self.signUpCompletion = completion
   }
   
   public var body: some ReducerOf<Self> {
@@ -174,16 +177,17 @@ public struct SignUpReducer: Reducer {
             let signUpResult = await self.signUp(oauthData: oauthSignInData)
             switch signUpResult {
             case .success(let signInInfo):
+              _ = await self.updateName(signInToken: signInInfo, name: nickname)
               _ = await self.updateLocation(signInToken: signInInfo, city: city)
               _ = await self.updateAvtivityTime(
                 signInToken: signInInfo,
                 city: city,
                 activityTime: activityTimeValue.mapValues { $0.map { $0.rawValue } }
               )
-              _ = await self.updateName(signInToken: signInInfo, name: nickname)
               if let photo {
                 _ = await self.updateProfilePhoto(signInToken: signInInfo, asset: photo)
               }
+              self.signUpCompletion(signInInfo)
             case .failure(let err):
               await send(.setError(err))
             }

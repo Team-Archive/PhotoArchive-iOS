@@ -23,7 +23,10 @@ struct SampleApp: App {
           signUpUsecase: SignUpUsecaseImplement(repository: StubSignUpRepositoryImplement()), 
           cityInfoUsecase: CityInfoUsecaseImplement(repository: StubCityInfoRepositoryImplement()),
           nicknameMaxLength: 24, 
-          oauthSignInData: .apple(token: "123")
+          oauthSignInData: .apple(token: "123"),
+          completion: { token in
+            print("token: \(token)")
+          }
         )
       )
     }
