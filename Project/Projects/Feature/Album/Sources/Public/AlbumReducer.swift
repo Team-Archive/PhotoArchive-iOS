@@ -17,7 +17,7 @@ public struct AlbumReducer: Reducer {
   
   public enum AlbumType: Equatable {
     case single(navigationTitle: String, completeButtonTitle: String)
-    case multi
+    case multi(maxSelectableCount: UInt)
   }
   
   // MARK: - TCA Define

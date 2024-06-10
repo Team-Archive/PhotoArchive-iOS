@@ -24,7 +24,11 @@ struct AlbumSingleSelectPhotoView: View {
   private let store: StoreOf<AlbumReducer>
   private let itemInset: CGFloat = 3
   private let selectedItemWidthHeight: CGFloat = 24
-  @Binding var isShowAlbumSelector: Bool
+  private let navigationTitle: String
+  private let completeButtonTitle: String
+  @Binding private var isShowAlbumSelector: Bool
+  private var closeAction: () -> Void
+  private var completeAction: ([PHAsset]) -> Void
   
   // MARK: - public properties
   
@@ -44,16 +48,27 @@ struct AlbumSingleSelectPhotoView: View {
           PhotoListView()
         }
       }
+      .toolbar {
+        selectToolBar(viewStore: viewStore)
+      }
     }
     
   }
   
   init(
     store: StoreOf<AlbumReducer>,
-    isShowAlbumSelector: Binding<Bool>
+    isShowAlbumSelector: Binding<Bool>,
+    navigationTitle: String,
+    completeButtonTitle: String,
+    complete: @escaping ([PHAsset]) -> Void,
+    close: @escaping () -> Void
   ) {
     self.store = store
     self._isShowAlbumSelector = isShowAlbumSelector
+    self.navigationTitle = navigationTitle
+    self.completeButtonTitle = completeButtonTitle
+    self.completeAction = complete
+    self.closeAction = close
   }
   
   // MARK: - private method
@@ -160,6 +175,54 @@ struct AlbumSingleSelectPhotoView: View {
       })
     }
     
+  }
+  
+  @ToolbarContentBuilder
+  private func selectToolBar(viewStore: ViewStore<AlbumReducer.State, AlbumReducer.Action>) -> some ToolbarContent {
+    if let permission = viewStore.albumPermission {
+      switch permission {
+      case .authorized, .limited:
+        ToolbarItem(placement: .topBarLeading) {
+          Button(action: {
+            closeAction()
+          }) {
+            Gen.Images.close.image
+              .renderingMode(.template)
+              .foregroundStyle(Gen.Colors.white.color)
+          }
+        }
+        
+        ToolbarItem(placement: .topBarTrailing) {
+          WithViewStore(store, observe: { $0 }) { viewStore in
+            Button(action: {
+              self.completeAction(viewStore.selectedAssetList)
+            }) {
+              if viewStore.selectedAssetList.count > 0 {
+                Text(completeButtonTitle)
+                  .font(.fonts(.buttonSemiBold14))
+                  .foregroundStyle(Gen.Colors.purple.color)
+              } else {
+                Text(completeButtonTitle)
+                  .font(.fonts(.body14))
+                  .foregroundStyle(Gen.Colors.gray600.color)
+              }
+            }
+            .disabled(!(viewStore.selectedAssetList.count > 0))
+          }
+        }
+        
+        ToolbarItem(placement: .principal) {
+          Text(navigationTitle)
+            .font(.fonts(.bodyBold16))
+            .foregroundColor(Gen.Colors.white.color)
+        }
+        
+      default:
+        ToolbarItem(content: {})
+      }
+    } else {
+      ToolbarItem(content: {})
+    }
   }
   
   // MARK: - internal method
