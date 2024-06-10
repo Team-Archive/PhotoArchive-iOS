@@ -9,16 +9,21 @@
 import SwiftUI
 import Album
 import Domain
+import UIComponents
 
 @main
 struct SampleApp: App {
   var body: some Scene {
     WindowGroup {
       AlbumView(
-        reducer: AlbumReducer(albumUsecase: AlbumUsecaseImplement(recentAlbumName: "최근", favoriteAlbumName: "즐겨찾는 항목")),
+        reducer: AlbumReducer(
+          albumType: .single(navigationTitle: L10n.Localizable.signUpSetProfilePhotoSelectTitle, completeButtonTitle: L10n.Localizable.commonComplete),
+          albumUsecase: AlbumUsecaseImplement(recentAlbumName: "최근", favoriteAlbumName: "즐겨찾는 항목")
+        ),
         complete: { imageList in
           print("selected: \(imageList)")
-        }, close: {
+        },
+        close: {
           print("close")
         })
     }

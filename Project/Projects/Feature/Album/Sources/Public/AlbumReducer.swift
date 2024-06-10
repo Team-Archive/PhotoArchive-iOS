@@ -15,6 +15,11 @@ import Photos
 
 public struct AlbumReducer: Reducer {
   
+  public enum AlbumType: Equatable {
+    case single(navigationTitle: String, completeButtonTitle: String)
+    case multi
+  }
+  
   // MARK: - TCA Define
   
   public enum Action: Equatable {
@@ -31,6 +36,7 @@ public struct AlbumReducer: Reducer {
   }
   
   public struct State: Equatable {
+    let albumType: AlbumType
     var isLoading: Bool = false
     var err: ArchiveError?
     var albumList: [Album] = []
@@ -44,18 +50,18 @@ public struct AlbumReducer: Reducer {
   
   private let albumUsecase: AlbumUsecase
   
-  private enum CancelId {
-    case search
-  }
-  
   // MARK: - Public Property
+  
+  public var initialState: State
   
   // MARK: - LifeCycle
   
   public init(
+    albumType: AlbumType,
     albumUsecase: AlbumUsecase
   ) {
     self.albumUsecase = albumUsecase
+    self.initialState = State(albumType: albumType)
   }
   
   public var body: some ReducerOf<Self> {
@@ -133,10 +139,6 @@ public struct AlbumReducer: Reducer {
   
   private func checkAlbumPermission() async -> PHAuthorizationStatus {
     return await self.albumUsecase.checkAlbumPermission()
-  }
-  
-  private func convertAssetListToDataList(list: [PHAsset]) async -> Result<[Data], ArchiveError> {
-    return await self.albumUsecase.assetListToImageDataList(assetList: list)
   }
   
   // MARK: - Public Method

@@ -34,7 +34,7 @@ public struct AlbumView: View {
     complete: @escaping ([PHAsset]) -> Void,
     close: @escaping () -> Void
   ) {
-    self.store = .init(initialState: .init(), reducer: {
+    self.store = .init(initialState: reducer.initialState, reducer: {
       return reducer
     })
     self.completeAction = complete
@@ -47,13 +47,22 @@ public struct AlbumView: View {
     WithViewStore(store, observe: { $0 }) { viewStore in
       NavigationStack(path: $stackPath) {
         ZStack {
+          ATBackgroundView()
+            .edgesIgnoringSafeArea(.all)
           if let permission = viewStore.albumPermission {
             switch permission {
             case .authorized, .limited:
               if let _ = viewStore.selectedAlbum {
-                AlbumMultiSelectPhotoView(
-                  store: store
-                )
+                switch viewStore.albumType {
+                case .multi:
+                  AlbumMultiSelectPhotoView(
+                    store: store
+                  )
+                case .single:
+                  AlbumSingleSelectPhotoView(
+                    store: store
+                  )
+                }
               } else {
                 Text("Unexpected Error.. :(\nNot Exist Album")
               }
@@ -69,44 +78,15 @@ public struct AlbumView: View {
           }
         }
         .toolbar {
-          if let permission = viewStore.albumPermission {
-            switch permission {
-            case .authorized, .limited:
-              ToolbarItem(placement: .topBarLeading) {
-                Button(action: {
-                  closeAction()
-                }) {
-                  Gen.Images.close.image
-                    .renderingMode(.template)
-                    .foregroundStyle(Gen.Colors.white.color)
-                }
-              }
-              
-              ToolbarItem(placement: .topBarTrailing) {
-                CompleteButtonView {
-                  self.completeAction(viewStore.selectedAssetList)
-                }
-              }
-              
-              ToolbarItem(placement: .principal) {
-                ReplaceAlbumButtonView(action: {
-                  isShowAlbumSelect = true
-                })
-                .fullScreenCover(isPresented: $isShowAlbumSelect) {
-                  AlbumListView(
-                    albumList: viewStore.albumList,
-                    isPresented: self.$isShowAlbumSelect
-                  ) { album in
-                    self.isShowAlbumSelect = false
-                    viewStore.send(.setSelectedAlbum(album))
-                  }
-                }
-              }
-            default:
-              ToolbarItem(content: {})
-            }
-          } else {
-            ToolbarItem(content: {})
+          switch viewStore.albumType {
+          case .multi:
+            MultiSelectToolBar(viewStore: viewStore)
+          case .single(let navigationTitle, let buttonTitle):
+            SingleSelectToolBar(
+              viewStore: viewStore,
+              navigationTitle: navigationTitle,
+              completeButtonTitle: buttonTitle
+            )
           }
         }
         .navigationBarTitleDisplayMode(.inline)
@@ -120,8 +100,103 @@ public struct AlbumView: View {
   
   // MARK: - Private Method
   
+  @ToolbarContentBuilder
+  private func MultiSelectToolBar(viewStore: ViewStore<AlbumReducer.State, AlbumReducer.Action>) -> some ToolbarContent {
+    if let permission = viewStore.albumPermission {
+      switch permission {
+      case .authorized, .limited:
+        ToolbarItem(placement: .topBarLeading) {
+          Button(action: {
+            closeAction()
+          }) {
+            Gen.Images.close.image
+              .renderingMode(.template)
+              .foregroundStyle(Gen.Colors.white.color)
+          }
+        }
+        
+        ToolbarItem(placement: .topBarTrailing) {
+          MultiSelectCompleteButtonView {
+            self.completeAction(viewStore.selectedAssetList)
+          }
+        }
+        
+        ToolbarItem(placement: .principal) {
+          ReplaceAlbumButtonView(action: {
+            isShowAlbumSelect = true
+          })
+          .fullScreenCover(isPresented: $isShowAlbumSelect) {
+            AlbumListView(
+              albumList: viewStore.albumList,
+              isPresented: self.$isShowAlbumSelect
+            ) { album in
+              self.isShowAlbumSelect = false
+              viewStore.send(.setSelectedAlbum(album))
+            }
+          }
+        }
+      default:
+        ToolbarItem(content: {})
+      }
+    } else {
+      ToolbarItem(content: {})
+    }
+  }
+  
+  @ToolbarContentBuilder
+  private func SingleSelectToolBar(
+    viewStore: ViewStore<AlbumReducer.State, AlbumReducer.Action>,
+    navigationTitle: String,
+    completeButtonTitle: String
+  ) -> some ToolbarContent {
+    if let permission = viewStore.albumPermission {
+      switch permission {
+      case .authorized, .limited:
+        ToolbarItem(placement: .topBarLeading) {
+          Button(action: {
+            closeAction()
+          }) {
+            Gen.Images.close.image
+              .renderingMode(.template)
+              .foregroundStyle(Gen.Colors.white.color)
+          }
+        }
+        
+        ToolbarItem(placement: .topBarTrailing) {
+          WithViewStore(store, observe: { $0 }) { viewStore in
+            Button(action: {
+              self.completeAction(viewStore.selectedAssetList)
+            }) {
+              if viewStore.selectedAssetList.count > 0 {
+                Text(completeButtonTitle)
+                  .font(.fonts(.buttonSemiBold14))
+                  .foregroundStyle(Gen.Colors.purple.color)
+              } else {
+                Text(completeButtonTitle)
+                  .font(.fonts(.body14))
+                  .foregroundStyle(Gen.Colors.gray600.color)
+              }
+            }
+            .disabled(!(viewStore.selectedAssetList.count > 0))
+          }
+        }
+        
+        ToolbarItem(placement: .principal) {
+          Text(navigationTitle)
+            .font(.fonts(.body16))
+            .foregroundColor(Gen.Colors.white.color)
+        }
+        
+      default:
+        ToolbarItem(content: {})
+      }
+    } else {
+      ToolbarItem(content: {})
+    }
+  }
+  
   @ViewBuilder
-  private func CompleteButtonView(action: @escaping () -> Void) -> some View {
+  private func MultiSelectCompleteButtonView(action: @escaping () -> Void) -> some View {
     WithViewStore(store, observe: { $0 }) { viewStore in
       Button(action: {
         action()
@@ -135,7 +210,6 @@ public struct AlbumView: View {
       .disabled(!(viewStore.selectedAssetList.count > 0))
     }
   }
-  
   
   @ViewBuilder
   private func EnableCompleteButtonView(count: UInt) -> some View {

@@ -34,19 +34,15 @@ struct AlbumMultiSelectPhotoView: View {
   var body: some View {
     
     WithViewStore(store, observe: { $0 }) { viewStore in
-      ZStack {
-        ATBackgroundView()
-          .edgesIgnoringSafeArea(.all)
-        ScrollView {
-          let columns: [GridItem] = Array(repeating: .init(.flexible(), spacing: self.itemInset), count: 3)
-          LazyVGrid(columns: columns, spacing: self.itemInset) {
-            ForEach(0..<viewStore.albumAssetList.count, id: \.self) { index in
-              if let asset: PHAsset = viewStore.albumAssetList[safe: index] {
-                ThumbnailView(
-                  asset: asset,
-                  index: UInt(index)
-                )
-              }
+      ScrollView {
+        let columns: [GridItem] = Array(repeating: .init(.flexible(), spacing: self.itemInset), count: 3)
+        LazyVGrid(columns: columns, spacing: self.itemInset) {
+          ForEach(0..<viewStore.albumAssetList.count, id: \.self) { index in
+            if let asset: PHAsset = viewStore.albumAssetList[safe: index] {
+              ThumbnailView(
+                asset: asset,
+                index: UInt(index)
+              )
             }
           }
         }
@@ -175,7 +171,7 @@ struct AlbumMultiSelectPhotoView: View {
   VStack {
     AlbumMultiSelectPhotoView(
       store: .init(
-        initialState: .init(),
+        initialState: .init(albumType: .multi),
         reducer: {
           
         })
