@@ -41,6 +41,10 @@ let project = Project.app(
     .project(
       target: "SignUp",
       path: "../Feature/SignUp"
+    ),
+    .project(
+      target: "Calendar",
+      path: "../Feature/Calendar"
     )
   ],
   additionalTargets: [],
