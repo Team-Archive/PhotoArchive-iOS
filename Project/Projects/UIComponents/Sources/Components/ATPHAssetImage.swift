@@ -8,6 +8,7 @@
 
 import SwiftUI
 import Photos
+import ArchiveFoundation
 
 public struct ATPHAssetImage: View {
 
@@ -20,6 +21,7 @@ public struct ATPHAssetImage: View {
   private var renderingMode: Image.TemplateRenderingMode?
   private var aspectRatio: CGFloat?
   private var contentMode: ContentMode = .fit
+  private let photoType: PHAsset.PHAssetPhotoType
   @State private var isLoadComplete: Bool = false
   @State private var image: Image?
   @State private var previousAssetIdentifier: String?
@@ -56,10 +58,12 @@ public struct ATPHAssetImage: View {
   
   public init(
     asset: PHAsset?,
-    placeholder: Image? = nil
+    placeholder: Image? = nil,
+    photoType: PHAsset.PHAssetPhotoType = .thumbnail
   ) {
     self.asset = asset
     self.placeholder = placeholder
+    self.photoType = photoType
   }
   
   // MARK: - private method
@@ -75,7 +79,7 @@ public struct ATPHAssetImage: View {
   private func loadImage() {
     Task {
       if let asset {
-        let result = await asset.toImage(.thumbnail)
+        let result = await asset.toImage(self.photoType)
         switch result {
         case .success(let image):
           DispatchQueue.main.async {

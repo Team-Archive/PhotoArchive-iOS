@@ -32,17 +32,15 @@ struct AlbumSingleSelectPhotoView: View {
   var body: some View {
     
     WithViewStore(store, observe: { $0 }) { viewStore in
-      ScrollView {
-        let columns: [GridItem] = Array(repeating: .init(.flexible(), spacing: self.itemInset), count: 3)
-        LazyVGrid(columns: columns, spacing: self.itemInset) {
-          ForEach(0..<viewStore.albumAssetList.count, id: \.self) { index in
-            if let asset: PHAsset = viewStore.albumAssetList[safe: index] {
-              ThumbnailView(
-                asset: asset,
-                index: UInt(index)
-              )
-            }
-          }
+      GeometryReader { geometry in
+        VStack {
+          PreviewView(asset: viewStore.selectedAssetList.first)
+            .frame(
+              width: geometry.size.width,
+              height: geometry.size.width
+            )
+          AlbumSelectView()
+          PhotoListView()
         }
       }
     }
@@ -58,101 +56,107 @@ struct AlbumSingleSelectPhotoView: View {
   // MARK: - private method
   
   @ViewBuilder
+  private func PreviewView(asset: PHAsset?) -> some View {
+    
+    WithViewStore(store, observe: { $0 }) { viewStore in
+      ZStack {
+        if let selectedAsset = viewStore.selectedAssetList.first {
+          ATPHAssetImage(
+            asset: asset,
+            placeholder: nil,
+            photoType: .detail
+          )
+          .id(selectedAsset.localIdentifier)
+        } else {
+          Gen.Images.user24.image // FIXME: 이미지 변경해야함
+            .resizable()
+            .scaledToFill()
+        }
+        Gen.Images.photoExclude.image
+          .resizable()
+          .scaledToFill()
+      }
+    }
+  }
+  
+  @ViewBuilder
+  private func AlbumSelectView() -> some View {
+    WithViewStore(store, observe: { $0 }) { viewStore in
+      Button(action: {
+        print("앨범선택")
+      }, label: {
+        HStack(spacing: 4) {
+          Text(viewStore.selectedAlbum?.name ?? "-")
+            .font(.fonts(.bodyBold16))
+            .foregroundStyle(Gen.Colors.white.color)
+          Gen.Images.arrowMini.image
+            .resizable()
+            .frame(width: 16, height: 16)
+            .rotationEffect(.degrees(90))
+          Spacer()
+        }
+      })
+      .frame(height: 54)
+      .padding(
+        .init(
+          top: 0,
+          leading: .designContentsInset,
+          bottom: 0,
+          trailing: .designContentsInset
+        )
+      )
+    }
+  }
+  
+  @ViewBuilder
+  private func PhotoListView() -> some View {
+    WithViewStore(store, observe: { $0 }) { viewStore in
+      ScrollView {
+        let columns: [GridItem] = Array(repeating: .init(.flexible(), spacing: self.itemInset), count: 3)
+        LazyVGrid(columns: columns, spacing: self.itemInset) {
+          ForEach(0..<viewStore.albumAssetList.count, id: \.self) { index in
+            if let asset: PHAsset = viewStore.albumAssetList[safe: index] {
+              ThumbnailView(
+                asset: asset,
+                index: UInt(index)
+              )
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  @ViewBuilder
   private func ThumbnailView(asset: PHAsset, index: UInt) -> some View {
     
     WithViewStore(store, observe: { $0 }) { viewStore in
-//      Button(action: {
-//        if viewStore.selectedAssetList.contains(asset) {
-//          viewStore.send(.removeSelectedAsset(asset))
-//        } else {
-//          if viewStore.selectedAssetList.count + 1 > self.maxSelectableCount {
-//            withAnimation {
-//              let generator = UINotificationFeedbackGenerator()
-//              generator.notificationOccurred(.error)
-//            }
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//            }
-//          } else {
-//            viewStore.send(.appendSelectedAsset(asset))
-//          }
-//        }
-//      }, label: {
-//        VStack(alignment: .leading) {
-//          ZStack {
-//            ATPHAssetImage(asset: asset, placeholder: Gen.Images.placeholder.image)
-//              .resizable()
-//              .scaledToFill()
-//              .aspectRatio(contentMode: .fill)
-//              .clipped()
-//              .id(asset.localIdentifier)
-//            SelectBoxView(asset: asset)
-//          }
-//        }
-//        .frame(maxHeight: .infinity)
-//      })
+      Button(action: {
+        if !viewStore.selectedAssetList.contains(asset) {
+          if let lastAsset = viewStore.selectedAssetList.first {
+            viewStore.send(.removeSelectedAsset(lastAsset))
+          }
+          viewStore.send(.appendSelectedAsset(asset))
+        }
+      }, label: {
+        VStack(alignment: .leading) {
+          ZStack {
+            ATPHAssetImage(asset: asset, placeholder: Gen.Images.placeholder.image)
+              .resizable()
+              .scaledToFill()
+              .aspectRatio(contentMode: .fill)
+              .clipped()
+              .id(asset.localIdentifier)
+            
+            Rectangle()
+              .fill(.clear)
+              .border(viewStore.selectedAssetList.contains(asset) ? Gen.Colors.purple.color : .clear, width: 2)
+          }
+        }
+        .frame(maxHeight: .infinity)
+      })
     }
     
-  }
-  
-  @ViewBuilder
-  private func SelectBoxView(asset: PHAsset) -> some View {
-    WithViewStore(store, observe: { $0 }) { viewStore in
-      ZStack(alignment: .topTrailing) {
-        Rectangle()
-          .fill(.clear)
-          .border(viewStore.selectedAssetList.contains(asset) ? Gen.Colors.purple.color : .clear, width: 2)
-        if viewStore.selectedAssetList.contains(asset) {
-          let selectedIndex: UInt = {
-            if let index = self.selectedIndex(list: viewStore.selectedAssetList, asset: asset) {
-              return index + 1
-            } else {
-              return 0
-            }
-          }()
-          SelectedItemNumberView(value: selectedIndex)
-            .padding(8)
-        } else {
-          UnselectedItemNumberView()
-            .frame(alignment: .topTrailing)
-            .padding(8)
-        }
-      }
-    }
-  }
-  
-  @ViewBuilder
-  private func SelectedItemNumberView(value: UInt) -> some View {
-    ZStack {
-      Circle()
-        .fill(Gen.Colors.purple.color)
-      Text("\(value)")
-        .font(.fonts(.body14))
-        .foregroundStyle(Gen.Colors.white.color)
-    }
-    .frame(width: self.selectedItemWidthHeight, height: self.selectedItemWidthHeight)
-  }
-  
-  @ViewBuilder
-  private func UnselectedItemNumberView() -> some View {
-    Circle()
-      .fill(Gen.Colors.white.color.opacity(0.8))
-      .stroke(Gen.Colors.gray300.color, lineWidth: 2)
-      .frame(width: self.selectedItemWidthHeight, height: self.selectedItemWidthHeight)
-      .clipShape(.circle)
-  }
-  
-  private func selectedIndex(list: [PHAsset], asset: PHAsset) -> UInt? {
-    if list.contains(asset) {
-      for i in 0..<list.count {
-        guard let item = list[safe: i] else { continue }
-        if item == asset {
-          return UInt(i)
-        }
-      }
-      return nil
-    } else {
-      return nil
-    }
   }
   
   // MARK: - internal method

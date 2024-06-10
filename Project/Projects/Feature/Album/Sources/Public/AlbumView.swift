@@ -183,7 +183,7 @@ public struct AlbumView: View {
         
         ToolbarItem(placement: .principal) {
           Text(navigationTitle)
-            .font(.fonts(.body16))
+            .font(.fonts(.bodyBold16))
             .foregroundColor(Gen.Colors.white.color)
         }
         
