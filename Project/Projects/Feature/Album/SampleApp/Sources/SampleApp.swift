@@ -26,6 +26,17 @@ struct SampleApp: App {
         close: {
           print("close")
         })
+//      AlbumView(
+//        reducer: AlbumReducer(
+//          albumType: .multi,
+//          albumUsecase: AlbumUsecaseImplement(recentAlbumName: "최근", favoriteAlbumName: "즐겨찾는 항목")
+//        ),
+//        complete: { imageList in
+//          print("selected: \(imageList)")
+//        },
+//        close: {
+//          print("close")
+//        })
     }
   }
 }

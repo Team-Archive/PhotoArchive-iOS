@@ -24,6 +24,7 @@ struct AlbumSingleSelectPhotoView: View {
   private let store: StoreOf<AlbumReducer>
   private let itemInset: CGFloat = 3
   private let selectedItemWidthHeight: CGFloat = 24
+  @Binding var isShowAlbumSelector: Bool
   
   // MARK: - public properties
   
@@ -48,9 +49,11 @@ struct AlbumSingleSelectPhotoView: View {
   }
   
   init(
-    store: StoreOf<AlbumReducer>
+    store: StoreOf<AlbumReducer>,
+    isShowAlbumSelector: Binding<Bool>
   ) {
     self.store = store
+    self._isShowAlbumSelector = isShowAlbumSelector
   }
   
   // MARK: - private method
@@ -83,7 +86,7 @@ struct AlbumSingleSelectPhotoView: View {
   private func AlbumSelectView() -> some View {
     WithViewStore(store, observe: { $0 }) { viewStore in
       Button(action: {
-        print("앨범선택")
+        self.isShowAlbumSelector = true
       }, label: {
         HStack(spacing: 4) {
           Text(viewStore.selectedAlbum?.name ?? "-")

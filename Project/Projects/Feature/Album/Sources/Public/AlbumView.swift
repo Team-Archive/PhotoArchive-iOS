@@ -60,7 +60,8 @@ public struct AlbumView: View {
                   )
                 case .single:
                   AlbumSingleSelectPhotoView(
-                    store: store
+                    store: store, 
+                    isShowAlbumSelector: self.$isShowAlbumSelect
                   )
                 }
               } else {
@@ -93,6 +94,15 @@ public struct AlbumView: View {
         .onAppear(perform: {
           viewStore.send(.checkAlbumPermission)
         })
+        .fullScreenCover(isPresented: $isShowAlbumSelect) {
+          AlbumListView(
+            albumList: viewStore.albumList,
+            isPresented: self.$isShowAlbumSelect
+          ) { album in
+            self.isShowAlbumSelect = false
+            viewStore.send(.setSelectedAlbum(album))
+          }
+        }
       }
     }
     
@@ -125,15 +135,6 @@ public struct AlbumView: View {
           ReplaceAlbumButtonView(action: {
             isShowAlbumSelect = true
           })
-          .fullScreenCover(isPresented: $isShowAlbumSelect) {
-            AlbumListView(
-              albumList: viewStore.albumList,
-              isPresented: self.$isShowAlbumSelect
-            ) { album in
-              self.isShowAlbumSelect = false
-              viewStore.send(.setSelectedAlbum(album))
-            }
-          }
         }
       default:
         ToolbarItem(content: {})
