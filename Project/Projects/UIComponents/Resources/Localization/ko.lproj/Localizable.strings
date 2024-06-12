@@ -7,15 +7,16 @@ e-mail: mobiledev@kakao.com
 "Common_Error_Title_From_Network" = "네트워크오류";
 "Common_Error_Message" = "예상하지 못한 오류가 발생하였습니다.";
 "Common_Next" = "다음";
+"Common_Complete" = "완료";
 "Common_Morning" = "아침";
 "Common_Forenoon" = "오전";
 "Common_Afternoon" = "오후";
 "Common_Evening" = "저녁";
 "Common_Night" = "밤";
 "Common_Dawn" = "새벽";
-"Sign_In_Apple" = "Login with Apple";
-"Sign_In_Google" = "Login with Google";
-"Sign_In_Facebook" = "Login with Facebook";
+"Sign_In_Apple" = "애플로 시작하기";
+"Sign_In_Google" = "구글로 시작하기";
+"Sign_In_Facebook" = "페이스북으로 시작하기";
 "Album_Recent_Album" = "최근";
 "Album_Not_Permitted_Title" = "사진첩 접근권한 허용";
 "Album_Not_Permitted_Contents" = "About Time을 이용해 사진을 친구들과 공유하기 위해 사진첩 접근권한이 필요해요";
@@ -34,6 +35,7 @@ e-mail: mobiledev@kakao.com
 "Sign_Up_Set_Profile_Placeholder" = "이름 또는 별명";
 "Sign_Up_Set_Profile_Nickname_Over_Length" = "24자 이내로 입력해주세요.";
 "Sign_Up_Set_Profile_Nickname_Duplicated" = "중복된 이름입니다.";
+"Sign_Up_Set_Profile_Photo_Select_Title" = "프로필 선택";
 "Sign_Up_Set_City_Title" = "지금 어디에 있나요?";
 "Sign_Up_Set_City_Contents" = "지금 계신 도시를 선택해 주세요.";
 "Sign_Up_Set_City_Search_Placeholder" = "도시 검색";

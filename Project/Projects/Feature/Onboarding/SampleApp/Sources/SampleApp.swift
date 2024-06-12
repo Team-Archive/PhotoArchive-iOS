@@ -7,12 +7,15 @@
 //
 
 import SwiftUI
+import Onboarding
 
 @main
 struct SampleApp: App {
   var body: some Scene {
     WindowGroup {
-      ContentView()
+      OnboardingView(
+        reducer: OnboardingReducer()
+      )
     }
   }
 }

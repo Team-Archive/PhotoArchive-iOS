@@ -33,6 +33,8 @@ public enum L10n {
     public static let albumRecentAlbum = L10n.tr("Localizable", "Album_Recent_Album")
     /// 오후
     public static let commonAfternoon = L10n.tr("Localizable", "Common_Afternoon")
+    /// 완료
+    public static let commonComplete = L10n.tr("Localizable", "Common_Complete")
     /// 새벽
     public static let commonDawn = L10n.tr("Localizable", "Common_Dawn")
     /// 예상하지 못한 오류가 발생하였습니다.
@@ -53,11 +55,11 @@ public enum L10n {
     public static let commonNext = L10n.tr("Localizable", "Common_Next")
     /// 밤
     public static let commonNight = L10n.tr("Localizable", "Common_Night")
-    /// Login with Apple
+    /// 애플로 시작하기
     public static let signInApple = L10n.tr("Localizable", "Sign_In_Apple")
-    /// Login with Facebook
+    /// 페이스북으로 시작하기
     public static let signInFacebook = L10n.tr("Localizable", "Sign_In_Facebook")
-    /// Login with Google
+    /// 구글로 시작하기
     public static let signInGoogle = L10n.tr("Localizable", "Sign_In_Google")
     /// 회원가입
     public static let signUpNaviTitle = L10n.tr("Localizable", "Sign_Up_Navi_Title")
@@ -104,6 +106,8 @@ public enum L10n {
     public static let signUpSetProfileNicknameDuplicated = L10n.tr("Localizable", "Sign_Up_Set_Profile_Nickname_Duplicated")
     /// 24자 이내로 입력해주세요.
     public static let signUpSetProfileNicknameOverLength = L10n.tr("Localizable", "Sign_Up_Set_Profile_Nickname_Over_Length")
+    /// 프로필 선택
+    public static let signUpSetProfilePhotoSelectTitle = L10n.tr("Localizable", "Sign_Up_Set_Profile_Photo_Select_Title")
     /// 이름 또는 별명
     public static let signUpSetProfilePlaceholder = L10n.tr("Localizable", "Sign_Up_Set_Profile_Placeholder")
     /// 프로필을 완성해 주세요

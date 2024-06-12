@@ -29,33 +29,22 @@ public struct ATSignInButton: View {
     var backgroundColor: Color {
       switch self {
       case .apple:
-        return Gen.Colors.apple.color
+        return Gen.Colors.white.color
       case .google:
-        return Gen.Colors.google.color
+        return Gen.Colors.white.color
       case .facebook:
-        return Gen.Colors.facebook.color
+        return Gen.Colors.white.color
       }
     }
     
     var textColor: Color {
       switch self {
       case .apple:
-        return Gen.Colors.white.color
+        return Gen.Colors.black.color
       case .google:
         return Gen.Colors.black.color
       case .facebook:
         return Gen.Colors.black.color
-      }
-    }
-    
-    var borderColor: Color {
-      switch self {
-      case .apple:
-        return Gen.Colors.apple.color
-      case .google:
-        return Gen.Colors.black.color
-      case .facebook:
-        return Gen.Colors.facebook.color
       }
     }
     
@@ -88,23 +77,21 @@ public struct ATSignInButton: View {
     Button(action: {
       self.action()
     }, label: {
-      HStack {
-        Spacer()
-        self.type.iconImage
-          .renderingMode(.original)
+      ZStack {
+        Capsule()
+          .foregroundStyle(self.type.backgroundColor)
         Text(self.type.contents)
           .font(.fonts(.buttonSemiBold14))
           .foregroundStyle(self.type.textColor)
-        Spacer()
+        HStack {
+          self.type.iconImage
+            .resizable()
+            .frame(width: 24, height: 24)
+          Spacer()
+        }
+        .padding([.leading, .trailing], .designContentsInset)
       }
-      .frame(height: 56)
-      .background(self.type.backgroundColor)
-      .clipShape(.rect(cornerRadius: 28))
-      .overlay(
-        RoundedRectangle(cornerRadius: 28)
-          .stroke(self.type.borderColor, lineWidth: 1)
-      )
-      .padding([.leading, .trailing], .designContentsInset)
+      .frame(height: 52)
     })
 
   }
