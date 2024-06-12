@@ -22,6 +22,7 @@ let dependencies = Dependencies(
       .remote(url: "https://github.com/siteline/swiftui-introspect", requirement: .exact("1.1.4"))
     ],
     productTypes: [
+      "FirebaseAuth": .framework,
       "FirebaseAnalytics": .framework,
       "FirebaseMessaging": .framework,
       "FirebaseCrashlytics": .framework,

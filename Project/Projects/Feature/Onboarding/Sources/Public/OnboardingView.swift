@@ -50,18 +50,24 @@ public struct OnboardingView: View {
           
           VStack(spacing: 16) {
             ATSignInButton(type: .apple, action: {
-              print("1")
+              viewStore.send(.oauthSignIn(.apple))
             })
             ATSignInButton(type: .google, action: {
-              print("2")
+              viewStore.send(.oauthSignIn(.google))
             })
             ATSignInButton(type: .facebook, action: {
-              print("3")
+              viewStore.send(.oauthSignIn(.facebook))
             })
           }
           .padding(.designContentsSideInsets)
           
           Spacer()
+        }
+        
+        if viewStore.isLoading {
+          ProgressView()
+            .progressViewStyle(CircularProgressViewStyle(tint: Gen.Colors.white.color))
+            .scaleEffect(1.5)
         }
       }
     }

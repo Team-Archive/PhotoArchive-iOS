@@ -18,6 +18,7 @@ public struct OnboardingReducer: Reducer {
   public enum Action: Equatable {
     case setIsLoading(Bool)
     case setError(ArchiveError)
+    case oauthSignIn(OAuthSignInType)
   }
   
   public struct State: Equatable {
@@ -50,6 +51,21 @@ public struct OnboardingReducer: Reducer {
       case .setError(let err):
         state.err = err
         return .none
+      case .oauthSignIn(let type):
+        let oauth = OAuthUsecaseFactory.makeOAuthUsecase(type)
+        return .concatenate(
+          .run(operation: { send in
+            await send(.setIsLoading(true))
+            let oauthSignInResult = await oauth.oauthSignIn()
+            switch oauthSignInResult {
+            case .success(let oauthSignInResponseData):
+              print("oauth: \(oauthSignInResponseData)")
+            case .failure(let err):
+              await send(.setError(err))
+            }
+            await send(.setIsLoading(false))
+          })
+        )
       }
     }
   }

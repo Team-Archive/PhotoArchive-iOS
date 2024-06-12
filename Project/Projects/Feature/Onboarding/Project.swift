@@ -8,7 +8,7 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-let project = Project.makeFeature(
+let project = Project.makeOAuth(
   name: "Onboarding",
   frameworkDependencies: [
     .project(
@@ -26,6 +26,10 @@ let project = Project.makeFeature(
     .project(
       target: "AppRoute",
       path: "../../AppRoute"
+    ),
+    .project(
+      target: "OAuthApple",
+      path: "../../OAuth/Apple"
     ),
     .tca,
     .swiftyJSON,

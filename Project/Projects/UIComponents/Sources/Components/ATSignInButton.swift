@@ -74,25 +74,29 @@ public struct ATSignInButton: View {
   
   public var body: some View {
     
-    Button(action: {
-      self.action()
-    }, label: {
-      ZStack {
-        Capsule()
-          .foregroundStyle(self.type.backgroundColor)
-        Text(self.type.contents)
-          .font(.fonts(.buttonSemiBold14))
-          .foregroundStyle(self.type.textColor)
-        HStack {
-          self.type.iconImage
-            .resizable()
-            .frame(width: 24, height: 24)
-          Spacer()
+    Button.throttledAction(
+      throttleTime: 1,
+      action: {
+        self.action()
+      },
+      label: {
+        ZStack {
+          Capsule()
+            .foregroundStyle(self.type.backgroundColor)
+          Text(self.type.contents)
+            .font(.fonts(.buttonSemiBold14))
+            .foregroundStyle(self.type.textColor)
+          HStack {
+            self.type.iconImage
+              .resizable()
+              .frame(width: 24, height: 24)
+            Spacer()
+          }
+          .padding([.leading, .trailing], .designContentsInset)
         }
-        .padding([.leading, .trailing], .designContentsInset)
+        .frame(height: 52)
       }
-      .frame(height: 52)
-    })
+    )
 
   }
   
