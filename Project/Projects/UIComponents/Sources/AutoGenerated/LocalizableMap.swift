@@ -33,6 +33,10 @@ public enum L10n {
     public static let albumRecentAlbum = L10n.tr("Localizable", "Album_Recent_Album")
     /// 오후
     public static let commonAfternoon = L10n.tr("Localizable", "Common_Afternoon")
+    /// 동의하기
+    public static let commonAgree = L10n.tr("Localizable", "Common_Agree")
+    /// 허용하기
+    public static let commonAllowance = L10n.tr("Localizable", "Common_Allowance")
     /// 완료
     public static let commonComplete = L10n.tr("Localizable", "Common_Complete")
     /// 새벽
@@ -55,6 +59,21 @@ public enum L10n {
     public static let commonNext = L10n.tr("Localizable", "Common_Next")
     /// 밤
     public static let commonNight = L10n.tr("Localizable", "Common_Night")
+    /// 필수
+    public static let commonRequired = L10n.tr("Localizable", "Common_Required")
+    /// Skip
+    public static let commonSkip = L10n.tr("Localizable", "Common_Skip")
+    /// 알림을 설정해서 친구가 깨어있는 시간을
+    /// 놓치지 말고 소통해 보세요!
+    public static let onboardingNotiContents = L10n.tr("Localizable", "Onboarding_Noti_Contents")
+    /// 약관 전체동의
+    public static let onboardingTermsMenuAllAgree = L10n.tr("Localizable", "Onboarding_Terms_Menu_All_Agree")
+    /// 개인정보 수집 및 이용동의
+    public static let onboardingTermsMenuPrivacy = L10n.tr("Localizable", "Onboarding_Terms_Menu_Privacy")
+    /// 이용약관 동의
+    public static let onboardingTermsMenuTerms = L10n.tr("Localizable", "Onboarding_Terms_Menu_Terms")
+    /// ABOUT TIME 약관 동의
+    public static let onboardingTermsTitle = L10n.tr("Localizable", "Onboarding_Terms_Title")
     /// 애플로 시작하기
     public static let signInApple = L10n.tr("Localizable", "Sign_In_Apple")
     /// 페이스북으로 시작하기

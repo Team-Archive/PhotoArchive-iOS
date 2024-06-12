@@ -19,6 +19,7 @@ public struct OnboardingView<ServiceSignInDelegatorView>: View where ServiceSign
   // MARK: - Private Property
   
   private let store: StoreOf<OnboardingReducer>
+  @State private var termsViewHeight: CGFloat = 0
   
   // MARK: - Internal Property
   
@@ -68,10 +69,12 @@ public struct OnboardingView<ServiceSignInDelegatorView>: View where ServiceSign
           get: { $0.isShowTerms },
           send: { _ in OnboardingReducer.Action.setIsShowTerms(false) })
         ) {
-          OnboardingTermsView(completeAction: {
-            viewStore.send(.agreeAllTerms)
+          OnboardingTermsView(
+            contentsHeight: self.$termsViewHeight,
+            completeAction: {
+              viewStore.send(.agreeAllTerms)
           })
-          .presentationDetents([.fraction(0.35)])
+          .presentationDetents([.height(self.termsViewHeight)])
         }
         .sheet(isPresented: viewStore.binding(
           get: { $0.isShowNotificationAgree },
