@@ -6,7 +6,6 @@
 //  Copyright © 2024 TeamArchive. All rights reserved.
 //
 
-
 public enum OAuthSignInType: Equatable {
   case apple
   case google

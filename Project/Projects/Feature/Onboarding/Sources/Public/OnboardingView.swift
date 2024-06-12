@@ -13,7 +13,8 @@ import ArchiveFoundation
 import UIComponents
 import AppRoute
 
-public struct OnboardingView: View {
+// swiftlint:disable:next generic_type_name
+public struct OnboardingView<ServiceSignInDelegatorView>: View where ServiceSignInDelegatorView: ServiceSignInDelegator {
   
   // MARK: - Private Property
   
@@ -62,6 +63,33 @@ public struct OnboardingView: View {
           .padding(.designContentsSideInsets)
           
           Spacer()
+        }
+        .sheet(isPresented: viewStore.binding(
+          get: { $0.isShowTerms },
+          send: { _ in OnboardingReducer.Action.setIsShowTerms(false) })
+        ) {
+          OnboardingTermsView(completeAction: {
+            viewStore.send(.agreeAllTerms)
+          })
+          .presentationDetents([.fraction(0.35)])
+        }
+        .sheet(isPresented: viewStore.binding(
+          get: { $0.isShowNotificationAgree },
+          send: { _ in OnboardingReducer.Action.setIsShowNotificationAgree(false) })
+        ) {
+          OnboardingNotificationAgreeView(completeAction: {
+            viewStore.send(.doneNotificationAgree)
+          })
+          .presentationDetents([.fraction(0.35)])
+        }
+        .fullScreenCover(isPresented: viewStore.binding(
+          get: { $0.isShowSignUp },
+          send: { _ in OnboardingReducer.Action.setIsShowSignUp(false) })) {
+            ServiceSignInDelegatorView { signInToken in
+              viewStore.send(.signInService(signInToken))
+            } closeAction: {
+              viewStore.send(.setIsShowSignUp(false))
+            }
         }
         
         if viewStore.isLoading {
