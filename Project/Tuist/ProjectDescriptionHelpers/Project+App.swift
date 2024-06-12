@@ -76,19 +76,28 @@ extension Project {
       return returnValue
     }()
     
-//    let sources: SourceFilesList = {
-//      let globs: [SourceFileGlob] = {
-//        var returnValue: [SourceFileGlob] = []
-//        returnValue.append(SourceFileGlob.glob("../Sources/**"))
-//        for item in additionalSourcePaths {
-//          returnValue.append(.glob(
-//            Path(item)
-//          ))
-//        }
-//        return returnValue
-//      }()
-//      return SourceFilesList(globs: globs)
-//    }()
+    let sources: SourceFilesList = {
+      let globs: [SourceFileGlob] = {
+        var returnValue: [SourceFileGlob] = []
+        returnValue.append(SourceFileGlob.glob("Sources/**"))
+        for item in additionalSourcePaths {
+          returnValue.append(.glob(
+            Path(item)
+          ))
+        }
+        return returnValue
+      }()
+      return SourceFilesList(globs: globs)
+    }()
+    
+    let resources: ResourceFileElements = {
+      var returnValue: [ResourceFileElement] = []
+      returnValue.append("Resources/**")
+      for item in additionalResourcePaths {
+        returnValue.append(.init(stringLiteral: item))
+      }
+      return .init(resources: returnValue)
+    }()
     
     let mainTarget = Target(
       name: name,
@@ -97,8 +106,9 @@ extension Project {
       bundleId: "com.archive.\(bundleAppName ?? name)",
       deploymentTargets: .iOS("17.0"),
       infoPlist: .extendingDefault(with: infoPlist),
-      sources: ["Sources/**"],
-      resources: ["Resources/**"],
+      sources: sources,
+      resources: resources,
+      entitlements: .file(path: "${PROJECT_DIR}/../../../Tools/AboutTime.entitlements"),
       scripts: targetScripts,
       dependencies: dependencies
     )
@@ -125,6 +135,7 @@ public extension TargetDependency {
   static let firebaseCrashlytics: TargetDependency = .external(name: "FirebaseCrashlytics")
   static let firebaseAppDistributionBeta: TargetDependency = .external(name: "FirebaseAppDistribution-Beta")
   static let firebaseDynamicLinks: TargetDependency = .external(name: "FirebaseDynamicLinks")
+  static let googleSignIn: TargetDependency = .external(name: "GoogleSignIn")
   static let swiftyJSON: TargetDependency = .external(name: "SwiftyJSON")
   static let lottie: TargetDependency = .external(name: "Lottie")
   static let tca: TargetDependency = .external(name: "ComposableArchitecture")

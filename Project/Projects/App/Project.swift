@@ -38,8 +38,14 @@ let project = Project.app(
       target: "AppstoreSearch",
       path: "../Feature/AppstoreSearch"
     ),
+    .project(
+      target: "SignUp",
+      path: "../Feature/SignUp"
+    )
   ],
   additionalTargets: [],
-  additionalSourcePaths: ["../Sources/**"],
-  additionalResourcePaths: []
+  additionalSourcePaths: [],
+  additionalResourcePaths: [
+    "../../Private/**"
+  ]
 )
