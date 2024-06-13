@@ -20,6 +20,7 @@ public struct OnboardingView<ServiceSignInDelegatorView>: View where ServiceSign
   
   private let store: StoreOf<OnboardingReducer>
   @State private var termsViewHeight: CGFloat = 0
+  @State private var notificationAgreeViewHeight: CGFloat = 0
   
   // MARK: - Internal Property
   
@@ -80,10 +81,12 @@ public struct OnboardingView<ServiceSignInDelegatorView>: View where ServiceSign
           get: { $0.isShowNotificationAgree },
           send: { _ in OnboardingReducer.Action.setIsShowNotificationAgree(false) })
         ) {
-          OnboardingNotificationAgreeView(completeAction: {
+          OnboardingNotificationAgreeView(
+            contentsHeight: self.$notificationAgreeViewHeight,
+            completeAction: {
             viewStore.send(.doneNotificationAgree)
           })
-          .presentationDetents([.fraction(0.35)])
+          .presentationDetents([.height(self.notificationAgreeViewHeight + 22)])
         }
         .fullScreenCover(isPresented: viewStore.binding(
           get: { $0.isShowSignUp },
