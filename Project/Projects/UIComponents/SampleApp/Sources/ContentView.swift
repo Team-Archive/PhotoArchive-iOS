@@ -28,6 +28,8 @@ struct ContentView: View {
         .edgesIgnoringSafeArea(.all)
       ScrollView {
         VStack {
+          ATWatchTimeSelectorView(selectedHour: 12)
+            
           LottieView(animation: AnimationAsset.upload.animation)
             .resizable()
             .playbackMode(lottiePlaybackMode)
