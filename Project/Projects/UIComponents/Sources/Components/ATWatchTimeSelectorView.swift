@@ -7,32 +7,73 @@
 //
 
 import SwiftUI
+import ArchiveFoundation
 
 public struct ATWatchTimeSelectorView: View {
-  @State private var selectedHour: Int = 12
   
-  public var body: some View {
-    VStack {
-      Text("\(selectedHour)시")
-        .font(.largeTitle)
-        .padding()
-      
-      ClockWheelView(selectedHour: $selectedHour)
-        .frame(width: 300, height: 300)
-        .padding()
+  private enum Theme {
+    case morning
+    case afternoon
+    case evening
+    case night
+    
+    var startColor: Color {
+      switch self {
+      case .morning:
+        return Gen.Colors.gradationMorningStart.color
+      case .afternoon:
+        return Gen.Colors.gradationAfternoonStart.color
+      case .evening:
+        return Gen.Colors.gradationEveningStart.color
+      case .night:
+        return Gen.Colors.gradationNightStart.color
+      }
     }
+    
+    var endColor: Color {
+      switch self {
+      case .morning:
+        return Gen.Colors.gradationMorningEnd.color
+      case .afternoon:
+        return Gen.Colors.gradationAfternoonEnd.color
+      case .evening:
+        return Gen.Colors.gradationEveningEnd.color
+      case .night:
+        return Gen.Colors.gradationNightEnd.color
+      }
+    }
+    
+    static func from(meridiem: Meridiem, hour: Int) -> Theme {
+      switch meridiem {
+      case .am:
+        switch hour {
+        case 1...5, 12:
+          return .night
+        case 6...11:
+          return .morning
+        default:
+          return .night
+        }
+      case .pm:
+        switch hour {
+        case 12, 1...5:
+          return .afternoon
+        case 6...8:
+          return .evening
+        case 9...11:
+          return .night
+        default:
+          return .afternoon
+        }
+      }
+    }
+    
   }
-  
-  public init(selectedHour: Int) {
-    self.selectedHour = selectedHour
-  }
-}
-
-public struct ClockWheelView: View {
   
   // MARK: - private property
   
   @Binding private var selectedHour: Int
+  @Binding private var meridiem: Meridiem
   @State private var angle: Angle = .degrees(0)
   private let hours = Array(1...12)
   private let feedbackGenerator: UIImpactFeedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
@@ -41,8 +82,12 @@ public struct ClockWheelView: View {
   
   // MARK: - lifeCycle
   
-  init(selectedHour: Binding<Int>) {
+  public init(
+    selectedHour: Binding<Int>,
+    meridiem: Binding<Meridiem>
+  ) {
     self._selectedHour = selectedHour
+    self._meridiem = meridiem
     self.feedbackGenerator.prepare()
   }
   
@@ -51,6 +96,20 @@ public struct ClockWheelView: View {
       let radius = min(geometry.size.width, geometry.size.height) / 2 * 0.8
       
       ZStack {
+        
+        LinearGradient(
+          gradient: Gradient(
+            colors: [
+              Theme.from(meridiem: meridiem, hour: selectedHour).startColor,
+              Theme.from(meridiem: meridiem, hour: selectedHour).endColor
+            ]
+          ),
+          startPoint: .trailing,
+          endPoint: .leading
+        )
+        .animation(.easeInOut(duration: 0.5), value: selectedHour)
+        .animation(.easeInOut(duration: 0.5), value: meridiem)
+        
         Rectangle()
           .fill(Gen.Colors.black.color)
           .frame(width: 2, height: radius)
@@ -74,7 +133,6 @@ public struct ClockWheelView: View {
             let adjustedDegrees = (degrees + 60).truncatingRemainder(dividingBy: 360)
             let hour = ((Int(adjustedDegrees) + 15) / 30) % 12 + 1
             self.angle = Angle(degrees: Double(hour) * 30)
-            self.feedbackGenerator.impactOccurred()
             self.selectedHour = {
               if hour > 0 {
                 return hour
@@ -84,9 +142,13 @@ public struct ClockWheelView: View {
             }()
           }
       )
+      .clipShape(.circle)
     }
     .onAppear {
       angle = Angle(degrees: Double(selectedHour) * 30)
+    }
+    .onChange(of: selectedHour) { _, _ in
+      self.feedbackGenerator.impactOccurred()
     }
   }
   
@@ -116,9 +178,14 @@ public struct ClockWheelView: View {
             }
           }
         }, label: {
-          Text("\(hour)")
-            .font(.fonts(.body16))
-            .foregroundStyle(Gen.Colors.white.color)
+          ZStack {
+            Circle()
+              .foregroundStyle(selectedHour == hour ? Gen.Colors.black.color : .clear)
+              .frame(width: 30, height: 30)
+            Text("\(hour)")
+              .font(.fonts(.body16))
+              .foregroundStyle(Gen.Colors.white.color)
+          }
         })
         .position(x: geometry.size.width / 2 + x, y: geometry.size.height / 2 + y)
       }
@@ -126,8 +193,5 @@ public struct ClockWheelView: View {
   }
   
   // MARK: - public method
-  
-  
-  
   
 }

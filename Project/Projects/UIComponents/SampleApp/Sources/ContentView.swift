@@ -21,6 +21,7 @@ struct ContentView: View {
   @State var isSelectedOn: Bool = false
   @State var isSelectedOn2: Bool = false
   private var lottiePlaybackMode: LottiePlaybackMode = .playing(.fromProgress(nil, toProgress: 1, loopMode: .loop))
+  @State private var selectedHour: Int = 12
   
   var body: some View {
     ZStack {
@@ -28,7 +29,8 @@ struct ContentView: View {
         .edgesIgnoringSafeArea(.all)
       ScrollView {
         VStack {
-          ATWatchTimeSelectorView(selectedHour: 12)
+          ATWatchTimeSelectorView(selectedHour: $selectedHour, meridiem: .constant(.am))
+            .frame(width: 300, height: 300)
             
           LottieView(animation: AnimationAsset.upload.animation)
             .resizable()
