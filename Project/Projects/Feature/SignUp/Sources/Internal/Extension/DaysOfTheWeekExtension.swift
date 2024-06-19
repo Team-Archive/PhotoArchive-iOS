@@ -14,19 +14,19 @@ extension DaysOfTheWeek {
   var localizedName: String {
     switch self {
     case .monday:
-      return L10n.Localizable.signUpSetActivityTimeMonday
+      return L10n.Localizable.commonShortMonday
     case .tuesday:
-      return L10n.Localizable.signUpSetActivityTimeTuesday
+      return L10n.Localizable.commonShortTuesday
     case .wednesday:
-      return L10n.Localizable.signUpSetActivityTimeWednesday
+      return L10n.Localizable.commonShortWednesday
     case .thursday:
-      return L10n.Localizable.signUpSetActivityTimeThursday
+      return L10n.Localizable.commonShortThursday
     case .friday:
-      return L10n.Localizable.signUpSetActivityTimeFriday
+      return L10n.Localizable.commonShortFriday
     case .saturday:
-      return L10n.Localizable.signUpSetActivityTimeSaturday
+      return L10n.Localizable.commonShortSaturday
     case .sunday:
-      return L10n.Localizable.signUpSetActivityTimeSunday
+      return L10n.Localizable.commonShortSunday
     }
   }
 }
