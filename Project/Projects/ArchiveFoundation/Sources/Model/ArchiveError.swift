@@ -23,6 +23,8 @@ public enum ArchiveErrorCode: Int, LocalizedError {
   case dataSaveFail
   case dataUpdateFail
   case dataDeleteFail
+  case notSetRequiredValue
+  case isNotLoggedIn
   
   
   case commonOAuth = 51000

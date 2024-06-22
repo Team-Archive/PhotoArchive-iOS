@@ -24,23 +24,9 @@ let project = Project.app(
       target: "UIComponents",
       path: "../UIComponents"
     ),
-    .firebaseAnalytics,
-    .firebaseMessaging,
-    .firebaseCrashlytics,
-    .firebaseAppDistributionBeta,
-    .firebaseDynamicLinks,
-    .swiftyJSON,
     .project(
-      target: "Onboarding",
-      path: "../Feature/Onboarding"
-    ),
-    .project(
-      target: "AppstoreSearch",
-      path: "../Feature/AppstoreSearch"
-    ),
-    .project(
-      target: "SignUp",
-      path: "../Feature/SignUp"
+      target: "Domain",
+      path: "../Domain"
     )
   ],
   additionalTargets: [],
