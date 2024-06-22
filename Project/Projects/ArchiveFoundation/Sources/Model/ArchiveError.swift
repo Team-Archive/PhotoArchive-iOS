@@ -20,6 +20,9 @@ public enum ArchiveErrorCode: Int, LocalizedError {
   case cameraCaptureFail
   case endOfResults
   case requiredDataIsNotExist
+  case dataSaveFail
+  case dataUpdateFail
+  case dataDeleteFail
   
   
   case commonOAuth = 51000
