@@ -26,10 +26,6 @@ let project = Project(
         target: "Domain",
         path: "../Domain"
       ),
-      .project(
-        target: "APIHub",
-        path: "../APIHub"
-      ),
       .network,
       .swiftyJSON
     ],

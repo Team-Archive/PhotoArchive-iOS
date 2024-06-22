@@ -1,6 +1,7 @@
 {
-  "colors" : [
+  "images" : [
     {
+      "filename" : "Exclude.svg",
       "idiom" : "universal"
     }
   ],
