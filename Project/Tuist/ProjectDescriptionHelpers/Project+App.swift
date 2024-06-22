@@ -65,10 +65,6 @@ extension Project {
     additionalResourcePaths: [String]
   ) -> [Target] {
     let destinations: Destinations = destinations
-    let infoPlist: [String: Plist.Value] = [
-      "CFBundleShortVersionString": "1.0",
-      "CFBundleVersion": "1"
-    ]
     
     let targetScripts: [TargetScript] = {
       var returnValue: [TargetScript] = []
@@ -105,7 +101,7 @@ extension Project {
       product: .app,
       bundleId: "com.archive.\(bundleAppName ?? name)",
       deploymentTargets: .iOS("17.0"),
-      infoPlist: .extendingDefault(with: infoPlist),
+      infoPlist: .file(path: .relativeToRoot("AppInfoPlist/Info.plist")),
       sources: sources,
       resources: resources,
       entitlements: .file(path: "${PROJECT_DIR}/../../../Tools/AboutTime.entitlements"),
