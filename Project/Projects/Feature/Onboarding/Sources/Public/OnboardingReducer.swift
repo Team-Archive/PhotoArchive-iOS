@@ -10,6 +10,7 @@ import ComposableArchitecture
 import Foundation
 import ArchiveFoundation
 import Domain
+import UserNotifications
 
 public struct OnboardingReducer: Reducer {
   
@@ -20,25 +21,30 @@ public struct OnboardingReducer: Reducer {
     case setError(ArchiveError)
     case oauthSignIn(OAuthSignInType)
     case setIsShowTerms(Bool)
+    case setIsAllTermsAgree(Bool)
     case setIsShowNotificationAgree(Bool)
     case signInService(SignInToken)
     case agreeAllTerms
     case doneNotificationAgree
     case setIsShowSignUp(Bool)
+    case setNotificationStatus(UNAuthorizationStatus)
   }
   
   public struct State: Equatable {
     var isLoading: Bool = false
     var err: ArchiveError?
     var isShowTerms: Bool = false
+    var isAllTermsAgree: Bool = false
     var isShowNotificationAgree: Bool = false
     var isShowSignUp: Bool = false
+    var notificationStatus: UNAuthorizationStatus = .notDetermined
   }
   
   // MARK: - Private Property
   
   private let signInUsecase: SignInUsecase
   private let signInServiceComplete: (SignInToken) -> Void
+  private let pushNotificationUsecase: PushNotificationUsecase
   
   // MARK: - Internal Property
   
@@ -50,10 +56,12 @@ public struct OnboardingReducer: Reducer {
   
   public init(
     signInUsecase: SignInUsecase,
+    pushNotificationUsecase: PushNotificationUsecase,
     signInServiceComplete: @escaping (SignInToken) -> Void
   ) {
     self.initialState = .init()
     self.signInUsecase = signInUsecase
+    self.pushNotificationUsecase = pushNotificationUsecase
     self.signInServiceComplete = signInServiceComplete
   }
   
@@ -105,18 +113,25 @@ public struct OnboardingReducer: Reducer {
         return .concatenate(
           .run(operation: { send in
             await send(.setIsShowTerms(false))
-            await send(.setIsShowNotificationAgree(true))
+            await send(.setIsAllTermsAgree(true))
           })
         )
       case .doneNotificationAgree:
         return .concatenate(
           .run(operation: { send in
             await send(.setIsShowNotificationAgree(false))
+            await send(.setIsAllTermsAgree(false))
             await send(.setIsShowSignUp(true))
           })
         )
       case .setIsShowSignUp(let isShow):
         state.isShowSignUp = isShow
+        return .none
+      case .setIsAllTermsAgree(let allAgree):
+        state.isAllTermsAgree = allAgree
+        return .none
+      case .setNotificationStatus(let status):
+        state.notificationStatus = status
         return .none
       }
     }
@@ -126,6 +141,10 @@ public struct OnboardingReducer: Reducer {
   
   private func signInService(_ oauthSignInData: OAuthSignInData) async -> Result<ServiceSignInResponse, ArchiveError> {
     return await self.signInUsecase.signIn(oauthSignInData)
+  }
+  
+  private func notificationAuthorizationStatus() async -> UNAuthorizationStatus {
+    return await self.pushNotificationUsecase.notificationAuthorizationStatus()
   }
   
   // MARK: - Public Method

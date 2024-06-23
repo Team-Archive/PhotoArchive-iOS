@@ -19,7 +19,7 @@ public final class PushNotificationUsecaseImplement: PushNotificationUsecase {
   
   // MARK: - lifeCycle
   
-  init(repository: PushNotificationRepository) {
+  public init(repository: PushNotificationRepository) {
     self.repository = repository
   }
   

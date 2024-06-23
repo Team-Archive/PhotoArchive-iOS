@@ -16,11 +16,15 @@ import AppRoute
 struct SampleApp: App {
   var body: some Scene {
     WindowGroup {
-      OnboardingView<StubPhotoPickerView>(
+      OnboardingView<StubSignUpView>(
         reducer: OnboardingReducer(
           signInUsecase: SignInUsecaseImplement(
             repository: StubSignInRepositoryImplement()
-          ), signInServiceComplete: { token in
+          ), 
+          pushNotificationUsecase: PushNotificationUsecaseImplement(
+            repository: StubPushNotificationRepositoryImplement()
+          ),
+          signInServiceComplete: { token in
             print("로그인 완료: \(token)")
           }
         )
@@ -39,7 +43,7 @@ class StubSignInRepositoryImplement: SignInRepository {
   
 }
 
-struct StubPhotoPickerView: View, ServiceSignInDelegator {
+struct StubSignUpView: View, ServiceSignInDelegator {
   
   var closeAction: (() -> Void)
   var completeAction: ((SignInToken) -> Void)
@@ -54,20 +58,9 @@ struct StubPhotoPickerView: View, ServiceSignInDelegator {
   
   public var body: some View {
     VStack(spacing: 20) {
-      Button(action: {
-        completeAction(
-          .init(
-            accessToken: "1",
-            refreshToken: "2"
-          )
-        )
-      },
-             label: {
-        VStack {
-          Text("This is StubPhotoPickerView")
-          Text("Click here")
-        }
-      })
+      VStack {
+        Text("This is Stub SignUp")
+      }
       Button(action: {
         closeAction()
       }, label: {
@@ -76,4 +69,10 @@ struct StubPhotoPickerView: View, ServiceSignInDelegator {
     }
   }
   
+}
+
+public final class StubPushNotificationRepositoryImplement: PushNotificationRepository {
+  public init() {
+    
+  }
 }

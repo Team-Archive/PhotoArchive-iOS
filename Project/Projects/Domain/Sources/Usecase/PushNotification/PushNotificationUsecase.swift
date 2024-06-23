@@ -7,7 +7,8 @@
 //
 
 import Foundation
+import UserNotifications
 
-protocol PushNotificationUsecase {
-  
+public protocol PushNotificationUsecase {
+  func notificationAuthorizationStatus() async -> UNAuthorizationStatus
 }

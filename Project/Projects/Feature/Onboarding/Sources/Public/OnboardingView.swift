@@ -76,6 +76,16 @@ public struct OnboardingView<ServiceSignInDelegatorView>: View where ServiceSign
               viewStore.send(.agreeAllTerms)
           })
           .presentationDetents([.height(self.termsViewHeight)])
+          .onDisappear {
+            if viewStore.isAllTermsAgree {
+              switch viewStore.notificationStatus {
+              case .authorized:
+                viewStore.send(.doneNotificationAgree)
+              default:
+                viewStore.send(.setIsShowNotificationAgree(true))
+              }
+            }
+          }
         }
         .sheet(isPresented: viewStore.binding(
           get: { $0.isShowNotificationAgree },

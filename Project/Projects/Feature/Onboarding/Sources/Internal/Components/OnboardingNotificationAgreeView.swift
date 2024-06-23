@@ -68,7 +68,7 @@ struct OnboardingNotificationAgreeView: View {
           designType: .secondary,
           title: L10n.Localizable.commonAgree,
           action: {
-            print("ㅇㅇ")
+            ArchiveCommonUtil.openSetting()
           },
           isEnabled: .constant(true)
         )
