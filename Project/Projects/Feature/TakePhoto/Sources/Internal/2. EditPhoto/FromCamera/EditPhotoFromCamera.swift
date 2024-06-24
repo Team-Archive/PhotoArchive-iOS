@@ -37,14 +37,7 @@ struct EditPhotoFromCamera: View {
               )
               .clipped()
               .clipShape(.rect(cornerRadius: self.contentsViewCornerRadius))
-              .padding(
-                .init(
-                  top: 0,
-                  leading: .designContentsInset,
-                  bottom: 0,
-                  trailing: .designContentsInset
-                )
-              )
+              .padding(.designContentsSideInsets)
           } else {
             Text("Photo data not found :(")
               .frame(

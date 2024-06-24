@@ -14,7 +14,7 @@ public struct ATSelectableButton<Content>: View where Content: View {
   // MARK: - public state
   
   @Binding var isEnabled: Bool
-  @State var isSelected: Bool
+  @Binding var isSelected: Bool
   
   // MARK: - private properties
   
@@ -42,6 +42,9 @@ public struct ATSelectableButton<Content>: View where Content: View {
     }
   }
   
+  private let isHapticEnable: Bool
+  private let generator = UISelectionFeedbackGenerator()
+  
   // MARK: - public properties
   
   public var action: (_ isSelected: Bool) -> Void
@@ -51,7 +54,9 @@ public struct ATSelectableButton<Content>: View where Content: View {
   public var body: some View {
     
     Button(action: {
-      self.isSelected.toggle()
+      if self.isHapticEnable {
+        generator.selectionChanged()
+      }
       self.action(self.isSelected)
     }, label: {
       ZStack {
@@ -70,20 +75,22 @@ public struct ATSelectableButton<Content>: View where Content: View {
       
     })
     .disabled(!self.isEnabled)
-
+    
   }
   
   public init(
     contentsView: Content,
+    isHapticEnable: Bool = false,
     backgroundColor: Color = Gen.Colors.purpleGray200.color,
     selectedBackgroundColor: Color = Gen.Colors.purple.color.opacity(0.3),
     selectedBorderColor: Color = Gen.Colors.purple.color,
-    isSelected: Bool = false,
+    isSelected: Binding<Bool>,
     action: @escaping (_ isSelected: Bool) -> Void,
     isEnabled: Binding<Bool> = .constant(true)
   ) {
     self.contentsView = contentsView
-    self.isSelected = isSelected
+    self.isHapticEnable = isHapticEnable
+    self._isSelected = isSelected
     self.selectedBorderColor = selectedBorderColor
     self.selectedBackgroundColor = selectedBackgroundColor
     self.defaultBackgroundColor = backgroundColor
@@ -101,9 +108,12 @@ public struct ATSelectableButton<Content>: View where Content: View {
 #Preview {
   
   VStack {
-    ATSelectableButton(contentsView: Text("hola"), action: { isSelected in
-      print("Button: \(isSelected)")
-    })
+    ATSelectableButton(
+      contentsView: Text("hola"),
+      isSelected: .constant(false),
+      action: { isSelected in
+        print("Button: \(isSelected)")
+      })
   }
   
 }

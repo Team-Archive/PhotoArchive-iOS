@@ -18,7 +18,8 @@ let dependencies = Dependencies(
       .remote(url: "https://github.com/airbnb/lottie-ios.git", requirement: .exact("4.4.3")),
       .remote(url: "https://github.com/pointfreeco/swift-composable-architecture.git", requirement: .exact("1.7.1")),
       .remote(url: "https://github.com/Team-Archive/ImageLoader-iOS.git", requirement: .branch("master")),
-      .remote(url: "https://github.com/Team-Archive/Network-iOS.git", requirement: .exact("0.4"))
+      .remote(url: "https://github.com/Team-Archive/Network-iOS.git", requirement: .exact("0.4")),
+      .remote(url: "https://github.com/siteline/swiftui-introspect", requirement: .exact("1.1.4"))
     ],
     productTypes: [
       "FirebaseAnalytics": .framework,
@@ -30,7 +31,8 @@ let dependencies = Dependencies(
       "Lottie": .framework,
       "ComposableArchitecture": .framework,
       "ImageLoader-iOS": .framework,
-      "Network-iOS": .framework
+      "Network-iOS": .framework,
+      "SwiftUIInstrospect": .framework
     ],
     baseSettings: .settings(
       configurations: [

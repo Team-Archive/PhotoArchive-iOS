@@ -16,16 +16,27 @@ struct SignUpProgressView: View {
   
   // MARK: - private properties
   
+  @Binding private var path: NavigationPath
+  
   // MARK: - public properties
   
   // MARK: - life cycle
   
   init(
+    path: Binding<NavigationPath>
   ) {
+    self._path = path
   }
   
   var body: some View {
-    Color.blue
+    ATStepProgressView(
+      totalStep: UInt(SignUpStep.allCases.count),
+      currentStep: Binding(
+        get: { UInt(path.count + 1) },
+        set: { _ in }
+      )
+    )
+    .padding(.designContentsSideInsets)
   }
   
   // MARK: - private method

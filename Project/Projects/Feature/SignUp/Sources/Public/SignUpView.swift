@@ -11,12 +11,14 @@ import SwiftUI
 import ComposableArchitecture
 import ArchiveFoundation
 import UIComponents
+import AppRoute
 
-public struct SignUpView: View {
+public struct SignUpView<PhotoPickerView>: View where PhotoPickerView: PhotoPicker {
   
   // MARK: - Private Property
   
   private let store: StoreOf<SignUpReducer>
+  private lazy var signUpStepFactory: SignUpStepFactory<PhotoPickerView> = .init(store: self.store)
   @State private var stackPath: NavigationPath = .init()
   
   // MARK: - Internal Property
@@ -26,7 +28,7 @@ public struct SignUpView: View {
   public init(
     reducer: SignUpReducer
   ) {
-    self.store = .init(initialState: .init(), reducer: {
+    self.store = .init(initialState: reducer.initialState, reducer: {
       return reducer
     })
   }
@@ -35,17 +37,32 @@ public struct SignUpView: View {
     
     WithViewStore(store, observe: { $0 }) { viewStore in
       ZStack {
-        ATBackgroundView()
+        Gen.Colors.backgroundSignUp.color
           .ignoresSafeArea(.all)
         VStack(spacing: 0) {
-          SignUpFakeNavigationView(requestBackAction: {
-            print("뒤로가기 요청")
+          SignUpFakeNavigationView(
+            path: self.$stackPath,
+            requestBackAction: {
+              if self.stackPath.count > 0 {
+                self.stackPath.removeLast()
+              }
           })
           .frame(height: 56)
-          SignUpProgressView()
+          SignUpProgressView(path: self.$stackPath)
             .frame(height: 4)
           NavigationStack(path: $stackPath) {
-            SignUpSetCityView(store: self.store)
+            SignUpStepFactory<PhotoPickerView>(store: store).stepView(step: SignUpStep.allCases.first ?? .setProfile, nextAction: {
+              stackPath.append(SignUpStep.setCity)
+            })
+            .navigationDestination(for: SignUpStep.self) { step in
+              SignUpStepFactory<PhotoPickerView>(store: store).stepView(step: step, nextAction: {
+                if let nextStep = SignUpStep(rawValue: step.rawValue + 1) {
+                  stackPath.append(nextStep)
+                } else {
+                  viewStore.send(.signUp)
+                }
+              })
+            }
           }
         }
       }

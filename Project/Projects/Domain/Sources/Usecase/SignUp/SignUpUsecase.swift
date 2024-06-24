@@ -1,33 +1,14 @@
 //
-//  Dummy.swift
-//  ArchiveFoundation
+//  SignUpUsecase.swift
+//  Domain
 //
-//  Created by hanwe on 1/28/24.
-//  Copyright © 2024 Archive. All rights reserved.
+//  Created by Aaron Hanwe LEE on 5/27/24.
+//  Copyright © 2024 TeamArchive. All rights reserved.
 //
 
-public final class SignUpUsecase: SignUpUsecaseInterface {
-  
-  // MARK: - private properties
-  
-  // MARK: - internal properties
-  
-  // MARK: - life cycle
-  
-  private init() {
-    
-  }
-  
-  // MARK: - private method
-  
-  // MARK: - internal method
-  
-  public static func makeObject() -> SignUpUsecaseInterface {
-    return SignUpUsecase()
-  }
-  
-  public func signUp() {
-    print("회원가입")
-  }
-  
+import ArchiveFoundation
+import Foundation
+
+public protocol SignUpUsecase {
+  func signUp(oauthData: OAuthSignInData) async -> Result<SignInToken, ArchiveError>
 }

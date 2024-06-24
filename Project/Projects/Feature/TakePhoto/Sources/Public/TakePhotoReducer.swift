@@ -271,7 +271,7 @@ public struct TakePhotoReducer: Reducer {
   
   private func post(itemList: [PostingItem], toUserIdList: [String]) async -> Result<Void, ArchiveError> {
     return await self.postingUsecase.post(
-      accessToken: self.myInfo.accessToken,
+      signInToken: self.myInfo.signInToken,
       itemList: itemList,
       toUserIdList: toUserIdList
     )

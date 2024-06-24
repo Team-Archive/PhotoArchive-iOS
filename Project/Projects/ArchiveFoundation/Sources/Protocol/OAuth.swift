@@ -12,6 +12,6 @@ public protocol OAuth {
   func oauthSignIn() async -> Result<OAuthSignInData, ArchiveError>
 }
 
-public enum OAuthSignInData {
+public enum OAuthSignInData: Equatable {
   case apple(token: String)
 }

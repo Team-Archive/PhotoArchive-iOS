@@ -33,6 +33,10 @@ public enum L10n {
     public static let albumRecentAlbum = L10n.tr("Localizable", "Album_Recent_Album")
     /// 오후
     public static let commonAfternoon = L10n.tr("Localizable", "Common_Afternoon")
+    /// 동의하기
+    public static let commonAgree = L10n.tr("Localizable", "Common_Agree")
+    /// 허용하기
+    public static let commonAllowance = L10n.tr("Localizable", "Common_Allowance")
     /// 완료
     public static let commonComplete = L10n.tr("Localizable", "Common_Complete")
     /// 새벽
@@ -55,11 +59,40 @@ public enum L10n {
     public static let commonNext = L10n.tr("Localizable", "Common_Next")
     /// 밤
     public static let commonNight = L10n.tr("Localizable", "Common_Night")
-    /// Login with Apple
+    /// 필수
+    public static let commonRequired = L10n.tr("Localizable", "Common_Required")
+    /// 금
+    public static let commonShortFriday = L10n.tr("Localizable", "Common_Short_Friday")
+    /// 월
+    public static let commonShortMonday = L10n.tr("Localizable", "Common_Short_Monday")
+    /// 토
+    public static let commonShortSaturday = L10n.tr("Localizable", "Common_Short_Saturday")
+    /// 일
+    public static let commonShortSunday = L10n.tr("Localizable", "Common_Short_Sunday")
+    /// 목
+    public static let commonShortThursday = L10n.tr("Localizable", "Common_Short_Thursday")
+    /// 화
+    public static let commonShortTuesday = L10n.tr("Localizable", "Common_Short_Tuesday")
+    /// 수
+    public static let commonShortWednesday = L10n.tr("Localizable", "Common_Short_Wednesday")
+    /// Skip
+    public static let commonSkip = L10n.tr("Localizable", "Common_Skip")
+    /// 알림을 설정해서 친구가 깨어있는 시간을
+    /// 놓치지 말고 소통해 보세요!
+    public static let onboardingNotiContents = L10n.tr("Localizable", "Onboarding_Noti_Contents")
+    /// 약관 전체동의
+    public static let onboardingTermsMenuAllAgree = L10n.tr("Localizable", "Onboarding_Terms_Menu_All_Agree")
+    /// 개인정보 수집 및 이용동의
+    public static let onboardingTermsMenuPrivacy = L10n.tr("Localizable", "Onboarding_Terms_Menu_Privacy")
+    /// 이용약관 동의
+    public static let onboardingTermsMenuTerms = L10n.tr("Localizable", "Onboarding_Terms_Menu_Terms")
+    /// ABOUT TIME 약관 동의
+    public static let onboardingTermsTitle = L10n.tr("Localizable", "Onboarding_Terms_Title")
+    /// 애플로 시작하기
     public static let signInApple = L10n.tr("Localizable", "Sign_In_Apple")
-    /// Login with Facebook
+    /// 페이스북으로 시작하기
     public static let signInFacebook = L10n.tr("Localizable", "Sign_In_Facebook")
-    /// Login with Google
+    /// 구글로 시작하기
     public static let signInGoogle = L10n.tr("Localizable", "Sign_In_Google")
     /// 회원가입
     public static let signUpNaviTitle = L10n.tr("Localizable", "Sign_Up_Navi_Title")
@@ -70,25 +103,11 @@ public enum L10n {
     public static let signUpSetActivityTimeContents = L10n.tr("Localizable", "Sign_Up_Set_Activity_Time_Contents")
     /// 시작하기
     public static let signUpSetActivityTimeDoneButtonTitle = L10n.tr("Localizable", "Sign_Up_Set_Activity_Time_Done_Button_Title")
-    /// 금
-    public static let signUpSetActivityTimeFriday = L10n.tr("Localizable", "Sign_Up_Set_Activity_Time_Friday")
-    /// 월
-    public static let signUpSetActivityTimeMonday = L10n.tr("Localizable", "Sign_Up_Set_Activity_Time_Monday")
-    /// 토
-    public static let signUpSetActivityTimeSaturday = L10n.tr("Localizable", "Sign_Up_Set_Activity_Time_Saturday")
-    /// 일
-    public static let signUpSetActivityTimeSunday = L10n.tr("Localizable", "Sign_Up_Set_Activity_Time_Sunday")
-    /// 목
-    public static let signUpSetActivityTimeThursday = L10n.tr("Localizable", "Sign_Up_Set_Activity_Time_Thursday")
     /// %@에서 연락하기 편한
     /// 시간대와 요일을 선택해 주세요
     public static func signUpSetActivityTimeTitle(_ p1: Any) -> String {
       return L10n.tr("Localizable", "Sign_Up_Set_Activity_Time_Title", String(describing: p1))
     }
-    /// 화
-    public static let signUpSetActivityTimeTuesday = L10n.tr("Localizable", "Sign_Up_Set_Activity_Time_Tuesday")
-    /// 수
-    public static let signUpSetActivityTimeWednesday = L10n.tr("Localizable", "Sign_Up_Set_Activity_Time_Wednesday")
     /// 지금 계신 도시를 선택해 주세요.
     public static let signUpSetCityContents = L10n.tr("Localizable", "Sign_Up_Set_City_Contents")
     /// 도시 또는 나라 스펠링을 정확하게
