@@ -30,17 +30,18 @@ public struct CalendarView: View {
           CalendarMonthInfoView()
           CalendarWeekDayView()
           CalendarDayView()
-        }
+        }.onAppear(perform: {
+          store.send(.makeDatasource(state.selectedMonth))
+        })
       }
     }
   }
   
   public init(reducer: CalendarReducer) {
-    self.store = .init(initialState: .init(), reducer: {
+    self.store = StoreOf<CalendarReducer>(initialState: reducer.initialState, reducer: {
+     
       return reducer
     })
-    
-    self.store.send(.makeDatasource(Date()))
   }
   
   // MARK: - private method
@@ -93,12 +94,19 @@ public struct CalendarView: View {
           
           ForEach(state.datasource.indices, id: \.self) { index in
             if let day = state.datasource[safe: index]?.day, day != "" {
-              Text(day)
-                .font(.fonts(.bodyBold14))
-                .foregroundStyle(Gen.Colors.white.color)
-                .frame(width: 40, height: 40, alignment: .center)
-                .background(Color.gray.opacity(0.1))
-                .cornerRadius(12)
+              ZStack {
+                if let imageURL = state.datasource[safe: index]?.photoURL {
+                  ATUrlImage(url: imageURL)
+                    .aspectRatio(contentMode: .fill)
+                }
+                
+                Text(day)
+                  .font(.fonts(.bodyBold14))
+                  .foregroundStyle(Gen.Colors.white.color)
+                  .background(Color.gray.opacity(0.1))
+              }
+              .frame(width: 40, height: 40, alignment: .center)
+              .cornerRadius(12)
             } else {
               Color.clear
                 .frame(width: 40, height: 40, alignment: .center)
