@@ -50,6 +50,9 @@ public class OAuthApple: NSObject, OAuth, ASAuthorizationControllerDelegate {
   
   // Apple ID 연동 성공 시
   public func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+    defer {
+      self.completion = nil
+    }
     switch authorization.credential {
     case let appleIDCredential as ASAuthorizationAppleIDCredential:
       guard let tokenData: Data = appleIDCredential.identityToken else { self.completion?(.failure(.init(.tokenNotExsitAppleSignIn))) ; return }
@@ -62,6 +65,9 @@ public class OAuthApple: NSObject, OAuth, ASAuthorizationControllerDelegate {
   
   // Apple ID 연동 실패 시
   public func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+    defer {
+      self.completion = nil
+    }
     if (error as NSError).code != 1001 { // 사용자 취소
       self.completion?(.failure(ArchiveError.init(from: .appleOAuth, code: (error as NSError).code, message: error.localizedDescription)))
     }

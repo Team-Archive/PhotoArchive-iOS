@@ -22,22 +22,18 @@ struct AlbumNotPermittedView: View {
   // MARK: - life cycle
   
   var body: some View {
-    ZStack {
-      ATBackgroundView()
-        .edgesIgnoringSafeArea(.all)
-      VStack(spacing: 20) {
-        Spacer()
-        ContentsView()
-        Spacer()
-        Spacer()
-        Text(L10n.Localizable.albumNotPermittedHelp)
-          .font(.fonts(.body14))
-          .foregroundStyle(Gen.Colors.gray300.color)
-          .multilineTextAlignment(.center)
-        ATBottomActionButton(title: L10n.Localizable.albumNotPermittedAllowButtonTitle, action: {
-          action()
-        })
-      }
+    VStack(spacing: 20) {
+      Spacer()
+      ContentsView()
+      Spacer()
+      Spacer()
+      Text(L10n.Localizable.albumNotPermittedHelp)
+        .font(.fonts(.body14))
+        .foregroundStyle(Gen.Colors.gray300.color)
+        .multilineTextAlignment(.center)
+      ATBottomActionButton(title: L10n.Localizable.albumNotPermittedAllowButtonTitle, action: {
+        action()
+      })
     }
   }
   
