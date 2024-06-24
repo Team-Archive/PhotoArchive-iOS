@@ -20,4 +20,11 @@ extension Date {
     dateFormatter.dateFormat = "yyyy.M"
     return dateFormatter.string(from: self)
   }
+  
+  // MARK: d
+  public func formatTod() -> String {
+    let dateFormatter = getFormatter()
+    dateFormatter.dateFormat = "d"
+    return dateFormatter.string(from: self)
+  }
 }

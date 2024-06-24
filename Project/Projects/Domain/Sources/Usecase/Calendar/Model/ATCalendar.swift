@@ -13,13 +13,11 @@ public struct ATCalendar: Equatable, Identifiable, Hashable {
   public let id: UUID
   public let date: Date?
   public let photoURL: URL?
-  public let photo: Image?
   
-  public init(date: Date?, photoURL: URL?, photo: Image?) {
+  public init(date: Date?, photoURL: URL?) {
     self.id = UUID()
     self.date = date
     self.photoURL = photoURL
-    self.photo = photo
   }
   
   public func hash(into hasher: inout Hasher) {
@@ -32,10 +30,8 @@ public struct ATCalendar: Equatable, Identifiable, Hashable {
       return ""
     }
     
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "d"
-    return dateFormatter.string(from: date)
+    return date.formatTod()
   }
   
-  public static let empty = ATCalendar(date: nil, photoURL: nil, photo: nil)
+  public static let empty = ATCalendar(date: nil, photoURL: nil)
 }

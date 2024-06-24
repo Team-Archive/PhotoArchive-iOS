@@ -24,34 +24,33 @@ public struct CalendarReducer: Reducer {
   }
   
   public struct State: Equatable {
-    var currentDate: Date
     var selectedMonth: Date
-    var datasource: [ATCalendar]
-    var weekDayList: [String] = [
-      L10n.Localizable.commonShortSunday,
-      L10n.Localizable.commonShortMonday,
-      L10n.Localizable.commonShortTuesday,
-      L10n.Localizable.commonShortWednesday,
-      L10n.Localizable.commonShortThursday,
-      L10n.Localizable.commonShortFriday,
-      L10n.Localizable.commonShortSaturday
-    ]
+    var datasource: [ATCalendar] = []
+    var weekDayList: [String] = []
     
-    public init(currentDate: Date = Date(), selectedMonth: Date = Date(), datasource: [ATCalendar] = []) {
-      self.currentDate = currentDate
+    public init(selectedMonth: Date, datasource: [ATCalendar], weekDayList: [String]) {
       self.selectedMonth = selectedMonth
       self.datasource = datasource
+      self.weekDayList = weekDayList
     }
   }
   
   // MARK: - Private Property
+  private let useCase: CalendarUsecase
   
   // MARK: - Public Property
   public var initialState: State
   
   // MARK: - LifeCycle
-  public init(initialState: State) {
-    self.initialState = initialState
+  public init(selectedMonth: Date, useCase: CalendarUsecase) {
+    let weekDay = useCase.fetchWeekDay()
+    
+    self.initialState = State(
+      selectedMonth: selectedMonth,
+      datasource: [],
+      weekDayList: weekDay
+    )
+    self.useCase = useCase
   }
   
   public var body: some ReducerOf<Self> {
@@ -92,29 +91,11 @@ public struct CalendarReducer: Reducer {
   
   // MARK: - Private Method
   private func makeDatasource(with date: Date) async -> [ATCalendar] {
-    var datasource = [ATCalendar]()
-    
-    let calendar = Calendar.current
-    let components = calendar.dateComponents([.year, .month], from: date)
-    
-    // 1일
-    guard let range = calendar.range(of: .day, in: .month, for: date),
-          let firstDayOfMonth = calendar.date(from: components) else {
-      return datasource
-    }
-
-    let firstWeekDay = calendar.component(.weekday, from: firstDayOfMonth)
-    datasource = [ATCalendar](repeating: .empty, count: firstWeekDay - 1)
-    
-    for day in 0..<range.count {
-      let data = ATCalendar(
-        date: calendar.date(byAdding: .day, value: day, to: firstDayOfMonth),
-        photoURL: nil,
-        photo: nil)
-      datasource.append(data)
+    guard let result = try? await useCase.fetchDatasource(with: date) else {
+      return [ATCalendar]()
     }
     
-    return datasource
+    return result
   }
 
   // MARK: - Public Method

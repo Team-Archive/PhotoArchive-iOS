@@ -9,10 +9,19 @@ struct SampleApp: App {
     WindowGroup {
       ZStack {
         ATBackgroundView()
-          .edgesIgnoringSafeArea(.all)
+          .edgesIgnoringSafeArea(
+            .all
+          )
         
         VStack {
-          CalendarView(reducer: CalendarReducer(initialState: .init()))
+          CalendarView(
+            reducer: CalendarReducer(
+              selectedMonth: Date(),
+              useCase: CalendarUsercaseImpl(
+                repository: StubCalendarRepositoryImpl()
+              )
+            )
+          )
           Spacer()
         }
       }
