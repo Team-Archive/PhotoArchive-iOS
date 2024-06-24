@@ -26,6 +26,7 @@ struct ContentView: View {
   @State private var isCheckboxChecked: Bool = false
   @State private var isSelectableButtonSelected: Bool = false
   @State private var isSelectableEmojiButtonSelected: Bool = false
+  @State private var selectedHour: Int = 12
   
   var body: some View {
     ZStack {
@@ -35,6 +36,8 @@ struct ContentView: View {
         VStack {
           ATUnderlineInputView(leftIconImage: Image(systemName: "bolt"), placeholderMessage: "ATUnderlineInputView", message: $message, isValidMessage: .constant(true), maxLength: 10)
             .padding()
+          ATWatchTimeSelectorView(selectedHour: $selectedHour, meridiem: .constant(.am))
+            .frame(width: 300, height: 300)
           LottieView(animation: AnimationAsset.upload.animation)
             .resizable()
             .playbackMode(lottiePlaybackMode)
