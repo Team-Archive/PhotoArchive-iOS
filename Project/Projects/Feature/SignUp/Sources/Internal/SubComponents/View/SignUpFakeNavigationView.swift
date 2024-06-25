@@ -42,7 +42,7 @@ struct SignUpFakeNavigationView: View {
           Button.throttledAction(throttleTime: 1) {
             self.requestBackAction()
           } label: {
-            Gen.Images.back.image
+            Gen.Images.arrowLeft24.image
           }
         }
         Spacer()

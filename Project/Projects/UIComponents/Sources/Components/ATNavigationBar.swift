@@ -29,7 +29,7 @@ public struct ATNavigationBar: View {
     HStack {
       switch type {
       case .default(let title, let trailingIcon, let backAction, let trailingAction):
-        Gen.Images.back.image
+        Gen.Images.arrowLeft24.image
           .resizable()
           .frame(width: 24, height: 24)
           .onTapGesture {
