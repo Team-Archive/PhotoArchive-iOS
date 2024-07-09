@@ -9,6 +9,7 @@
 import Foundation
 import ArchiveFoundation
 import UIComponents
+import Domain
 
 public final class StubCalendarRepositoryImpl: CalendarRepository {
   
