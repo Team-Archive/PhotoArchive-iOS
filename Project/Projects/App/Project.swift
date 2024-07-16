@@ -45,6 +45,10 @@ let project = Project.app(
     .project(
       target: "Calendar",
       path: "../Feature/Calendar"
+    ),
+    .project(
+      target: "MyProfile",
+      path: "../Feature/MyProfile"
     )
   ],
   additionalTargets: [],

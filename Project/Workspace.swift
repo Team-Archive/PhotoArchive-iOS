@@ -22,6 +22,7 @@ let workspace = Workspace(
     "Projects/Feature/SignUp",
     "Projects/OAuth/Apple",
     "Projects/OAuth/Google",
-    "Projects/Feature/Calendar"
+    "Projects/Feature/Calendar",
+    "Projects/Feature/MyProfile"
   ]
 )
