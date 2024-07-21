@@ -52,7 +52,12 @@ struct SignUpStepFactory<PhotoPickerView> where PhotoPickerView: PhotoPicker {
       )
       .toolbar(.hidden)
     case .setActivityTime:
-      SignUpSetActivityTime(
+//      SignUpSetActivityTime(
+//        store: self.store,
+//        nextAction: nextAction
+//      )
+//      .toolbar(.hidden)
+      SignUpSetCityView(
         store: self.store,
         nextAction: nextAction
       )

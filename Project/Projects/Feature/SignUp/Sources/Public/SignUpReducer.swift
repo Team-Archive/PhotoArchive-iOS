@@ -30,6 +30,8 @@ public struct SignUpReducer: Reducer {
     case setCityList([City])
     case appendCityList([City])
     case selectActiveTime(willSelected: Bool, daysOfTheWeek: DaysOfTheWeek, signUpActivityTime: SignUpActivityTime)
+    case addActiveTime(timeInterval: ActivityTimeInterval)
+    case selectCustomActiveTime(willSelected: Bool, daysOfTheWeek: DaysOfTheWeek, index: Int)
     case signUp
   }
   
@@ -44,7 +46,9 @@ public struct SignUpReducer: Reducer {
     var selectedCity: City?
     var candidateCityList: [City] = []
     var searchCityKeyword: String = ""
-    var activityTime: [DaysOfTheWeek: Set<SignUpActivityTime>] = .init(uniqueKeysWithValues: DaysOfTheWeek.allCases.map { ($0, Set<SignUpActivityTime>()) })
+    var selectedActivityTime: [DaysOfTheWeek: Set<SignUpActivityTime>] = .init(uniqueKeysWithValues: DaysOfTheWeek.allCases.map { ($0, Set<SignUpActivityTime>()) })
+    var customActivityTime: [ActivityTimeInterval] = []
+    var selectedCustomActivityTime: [DaysOfTheWeek: Set<Int>] = .init(uniqueKeysWithValues: DaysOfTheWeek.allCases.map { ($0, Set<Int>()) })
   }
   
   // MARK: - Private Property
@@ -159,15 +163,15 @@ public struct SignUpReducer: Reducer {
         return .none
       case .selectActiveTime(let willSelected, let daysOfTheWeek, let signUpActivityTime):
         if willSelected {
-          state.activityTime[daysOfTheWeek]?.insert(signUpActivityTime)
+          state.selectedActivityTime[daysOfTheWeek]?.insert(signUpActivityTime)
         } else {
-          state.activityTime[daysOfTheWeek]?.remove(signUpActivityTime)
+          state.selectedActivityTime[daysOfTheWeek]?.remove(signUpActivityTime)
         }
         return .none
       case .signUp:
         let oauthSignInData = state.oauthSignInData
         guard let city = state.selectedCity else { return .send(.setError(.init(.requiredDataIsNotExist))) }
-        let activityTimeValue = state.activityTime
+        let activityTimeValue = state.selectedActivityTime
         let photo = state.profilePhotoAsset
         if state.nicknameCandidate == "" { return .send(.setError(.init(.requiredDataIsNotExist))) }
         let nickname = state.nicknameCandidate
@@ -194,6 +198,16 @@ public struct SignUpReducer: Reducer {
             await send(.setIsLoading(false))
           })
         )
+      case .addActiveTime(let timeInterval):
+        state.customActivityTime.append(timeInterval)
+        return .none
+      case .selectCustomActiveTime(let willSelected, let daysOfTheWeek, let index):
+        if willSelected {
+          state.selectedCustomActivityTime[daysOfTheWeek]?.insert(index)
+        } else {
+          state.selectedCustomActivityTime[daysOfTheWeek]?.remove(index)
+        }
+        return .none
       }
     }
   }
