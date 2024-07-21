@@ -32,6 +32,7 @@ public struct SignUpReducer: Reducer {
     case selectActiveTime(willSelected: Bool, signUpActivityTime: SignUpActivityTime)
     case addActiveTime(timeInterval: ActivityTimeInterval)
     case selectCustomActiveTime(willSelected: Bool, index: Int)
+    case setIsShowCustomActivityTimeMaker(Bool)
     case signUp
   }
   
@@ -49,6 +50,7 @@ public struct SignUpReducer: Reducer {
     var selectedActivityTime: Set<SignUpActivityTime> = .init()
     var customActivityTime: [ActivityTimeInterval] = []
     var selectedCustomActivityTime: Set<Int> = .init()
+    var isShowCustomActivityTimeMaker: Bool = false
   }
   
   // MARK: - Private Property
@@ -207,6 +209,9 @@ public struct SignUpReducer: Reducer {
         } else {
           state.selectedCustomActivityTime.remove(index)
         }
+        return .none
+      case .setIsShowCustomActivityTimeMaker(let isShow):
+        state.isShowCustomActivityTimeMaker = isShow
         return .none
       }
     }

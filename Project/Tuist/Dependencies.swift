@@ -19,7 +19,8 @@ let dependencies = Dependencies(
       .remote(url: "https://github.com/pointfreeco/swift-composable-architecture.git", requirement: .exact("1.7.1")),
       .remote(url: "https://github.com/Team-Archive/ImageLoader-iOS.git", requirement: .branch("master")),
       .remote(url: "https://github.com/Team-Archive/Network-iOS.git", requirement: .exact("0.4")),
-      .remote(url: "https://github.com/siteline/swiftui-introspect", requirement: .exact("1.1.4"))
+      .remote(url: "https://github.com/siteline/swiftui-introspect", requirement: .exact("1.1.4")),
+      .remote(url: "https://github.com/AndreaMiotto/PartialSheet.git", requirement: .exact("3.1.1"))
     ],
     productTypes: [
       "FirebaseAuth": .framework,
@@ -33,7 +34,8 @@ let dependencies = Dependencies(
       "ComposableArchitecture": .framework,
       "ImageLoader-iOS": .framework,
       "Network-iOS": .framework,
-      "SwiftUIInstrospect": .framework
+      "SwiftUIInstrospect": .framework,
+      "PartialSheet": .framework
     ],
     baseSettings: .settings(
       configurations: [

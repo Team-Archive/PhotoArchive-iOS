@@ -10,6 +10,7 @@ import SwiftUI
 import UIComponents
 import ArchiveFoundation
 import ComposableArchitecture
+import PartialSheet
 
 struct SignUpSetActivityTimeView: View, SignUpStepView {
   
@@ -68,6 +69,25 @@ struct SignUpSetActivityTimeView: View, SignUpStepView {
             }
             .padding(.designContentsSideInsets)
           }
+          ATBottomActionButton(
+            designType: .secondary,
+            title: L10n.Localizable.signUpSetActivityTimeDoneButtonTitle,
+            action: {
+              nextAction()
+            },
+            isEnabled: Binding(get: { viewStore.selectedActivityTime.count > 0 || viewStore.selectedCustomActivityTime.count > 0 }, set: { _ in })
+          )
+        }
+        .partialSheet(isPresented: Binding(
+          get: { viewStore.isShowCustomActivityTimeMaker },
+          set: { isShow in viewStore.send(.setIsShowCustomActivityTimeMaker(isShow)) })
+        ) {
+          SignUpSetCustomActivityTimeMakerView { newInterval in
+            viewStore.send(.addActiveTime(timeInterval: newInterval))
+            viewStore.send(.setIsShowCustomActivityTimeMaker(false))
+          } closeAction: {
+            viewStore.send(.setIsShowCustomActivityTimeMaker(false))
+          }
         }
       }
     }
@@ -82,7 +102,7 @@ struct SignUpSetActivityTimeView: View, SignUpStepView {
         ATDivider(type: .small)
         Spacer()
         Button(action: {
-          print("다른시간 선택!")
+          viewStore.send(.setIsShowCustomActivityTimeMaker(true))
         }, label: {
           HStack(spacing: 4) {
             Text("⏰ " + L10n.Localizable.signUpSetActivityTimeMakeCustomTimeButton)

@@ -19,6 +19,6 @@ extension ActivityTimeInterval.Time {
   public func to12HourFormat() -> String {
     let period = hour < 12 ? "AM" : "PM"
     let hour12 = hour % 12 == 0 ? 12 : hour % 12
-    return String(format: "%02d:%02d %@", hour12, minute, period)
+    return String(format: "%02d %@", hour12, period)
   }
 }

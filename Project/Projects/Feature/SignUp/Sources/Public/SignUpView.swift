@@ -12,6 +12,7 @@ import ComposableArchitecture
 import ArchiveFoundation
 import UIComponents
 import AppRoute
+import PartialSheet
 
 public struct SignUpView<PhotoPickerView>: View where PhotoPickerView: PhotoPicker {
   
@@ -67,6 +68,7 @@ public struct SignUpView<PhotoPickerView>: View where PhotoPickerView: PhotoPick
         }
       }
     }
+    .attachPartialSheetToRoot()
     
   }
   

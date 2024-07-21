@@ -138,5 +138,6 @@ public extension TargetDependency {
   static let imageLoader: TargetDependency = .external(name: "ImageLoader-iOS")
   static let network: TargetDependency = .external(name: "Network-iOS")
   static let swiftuiIntrospect: TargetDependency = .external(name: "SwiftUIIntrospect")
+  static let partialSheet: TargetDependency = .external(name: "PartialSheet")
   
 }
