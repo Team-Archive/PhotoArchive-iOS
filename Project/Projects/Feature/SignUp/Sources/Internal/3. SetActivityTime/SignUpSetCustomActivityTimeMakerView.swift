@@ -137,7 +137,26 @@ struct SignUpSetCustomActivityTimeMakerView: View {
           self.focusedToMeridiem = .am
         }
       }, label: {
-        Text("오전")
+        switch self.focusedFromToEdit {
+        case .start:
+          ATSelectableButton(
+            contentsView: Text(Meridiem.am.localizedName)
+              .font(.fonts(.body14))
+              .foregroundStyle(Gen.Colors.white.color),
+            isSelected: Binding(get: { self.focusedFromMeridiem == .am }, set: { _ in })
+          ) { isSelected in
+              self.focusedFromMeridiem = .am
+          }
+        case .end:
+          ATSelectableButton(
+            contentsView: Text(Meridiem.am.localizedName)
+              .font(.fonts(.body14))
+              .foregroundStyle(Gen.Colors.white.color),
+            isSelected: Binding(get: { self.focusedToMeridiem == .am }, set: { _ in })
+          ) { isSelected in
+              self.focusedToMeridiem = .am
+          }
+        }
       })
       Button(action: {
         switch type {
@@ -147,7 +166,26 @@ struct SignUpSetCustomActivityTimeMakerView: View {
           self.focusedToMeridiem = .pm
         }
       }, label: {
-        Text("오후")
+        switch self.focusedFromToEdit {
+        case .start:
+          ATSelectableButton(
+            contentsView: Text(Meridiem.pm.localizedName)
+              .font(.fonts(.body14))
+              .foregroundStyle(Gen.Colors.white.color),
+            isSelected: Binding(get: { self.focusedFromMeridiem == .pm }, set: { _ in })
+          ) { isSelected in
+              self.focusedFromMeridiem = .pm
+          }
+        case .end:
+          ATSelectableButton(
+            contentsView: Text(Meridiem.pm.localizedName)
+              .font(.fonts(.body14))
+              .foregroundStyle(Gen.Colors.white.color),
+            isSelected: Binding(get: { self.focusedToMeridiem == .pm }, set: { _ in })
+          ) { isSelected in
+            self.focusedToMeridiem = .pm
+          }
+        }
       })
     }
     

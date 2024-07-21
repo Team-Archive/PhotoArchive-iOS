@@ -15,8 +15,8 @@ e-mail: mobiledev@kakao.com
 "Common_Required" = "필수";
 "Common_Skip" = "Skip";
 "Common_Morning" = "Morning";
-"Common_Forenoon" = "Forenoon";
-"Common_Afternoon" = "Afternoon";
+"Common_Forenoon" = "AM";
+"Common_Afternoon" = "PM";
 "Common_Hour" = "시";
 "Common_Minute" = "분";
 "Common_Evening" = "Evening";
