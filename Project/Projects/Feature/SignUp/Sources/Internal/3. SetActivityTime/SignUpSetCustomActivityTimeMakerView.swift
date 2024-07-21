@@ -94,7 +94,63 @@ struct SignUpSetCustomActivityTimeMakerView: View {
   
   @ViewBuilder
   private func focusSelectView() -> some View {
-    Text("hi")
+    HStack(spacing: 12) {
+      HStack(spacing: 12) {
+        timeDisplayView(type: .start, isFocused: focusedFromToEdit == .start)
+        Text("-")
+          .font(.fonts(.title28))
+          .foregroundStyle(Gen.Colors.white.color)
+        timeDisplayView(type: .end, isFocused: focusedFromToEdit == .end)
+      }
+      Spacer()
+      meridiemDisplayView(
+        type: self.focusedFromToEdit,
+        selected: self.focusedFromToEdit == .start ? self.focusedFromMeridiem : self.focusedToMeridiem
+      )
+    }
+    .frame(height: 72)
+  }
+  
+  private func timeDisplayView(type: FocusEditTimeFromTo, isFocused: Bool) -> some View {
+    Button(action: {
+      self.focusedFromToEdit = type
+    }, label: {
+      VStack {
+        Text(type == .start ? self.selectedFromTime.to12HourFormat() : self.selectedToTime.to12HourFormat())
+          .font(.fonts(.title24))
+          .foregroundStyle(isFocused ? Gen.Colors.purple.color : Gen.Colors.white.color)
+          .padding([.leading, .trailing], 20)
+          .padding([.top, .bottom], 20)
+      }
+      .background(Gen.Colors.purpleGray300.color)
+      .clipShape(RoundedRectangle(cornerRadius: 8))
+    })
+  }
+  
+  private func meridiemDisplayView(type: FocusEditTimeFromTo, selected: Meridiem) -> some View {
+    VStack {
+      Button(action: {
+        switch type {
+        case .start:
+          self.focusedFromMeridiem = .am
+        case .end:
+          self.focusedToMeridiem = .am
+        }
+      }, label: {
+        Text("오전")
+      })
+      Button(action: {
+        switch type {
+        case .start:
+          self.focusedFromMeridiem = .pm
+        case .end:
+          self.focusedToMeridiem = .pm
+        }
+      }, label: {
+        Text("오후")
+      })
+    }
+    
   }
   
   @ViewBuilder
