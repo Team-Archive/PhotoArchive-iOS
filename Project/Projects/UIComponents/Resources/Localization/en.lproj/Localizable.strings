@@ -8,6 +8,8 @@ e-mail: mobiledev@kakao.com
 "Common_Error_Message" = "예상하지 못한 오류가 발생하였습니다.";
 "Common_Next" = "다음";
 "Common_Complete" = "완료";
+"Common_Edit" = "변경";
+"Common_Save" = "저장";
 "Common_Agree" = "동의하기";
 "Common_Allowance" = "허용하기";
 "Common_Required" = "필수";
@@ -15,6 +17,8 @@ e-mail: mobiledev@kakao.com
 "Common_Morning" = "Morning";
 "Common_Forenoon" = "Forenoon";
 "Common_Afternoon" = "Afternoon";
+"Common_Hour" = "시";
+"Common_Minute" = "분";
 "Common_Evening" = "Evening";
 "Common_Night" = "Night";
 "Common_Dawn" = "Dawn";
@@ -52,9 +56,11 @@ e-mail: mobiledev@kakao.com
 "Sign_Up_Set_City_Search_Placeholder" = "Search for a city";
 "Sign_Up_Set_City_Search_No_Result_Title" = "검색 결과가 없어요";
 "Sign_Up_Set_City_Search_No_Result_Contents" = "도시 또는 나라 스펠링을 정확하게\n입력하셨는지 확인해 보세요";
-"Sign_Up_Set_Activity_Time_Title" = "%@에서 연락하기 편한\n시간대와 요일을 선택해 주세요";
+"Sign_Up_Set_Activity_Time_Title" = "연락하기 편한 시간을 선택해 주세요";
 "Sign_Up_Set_Activity_Time_Contents" = "친구, 가족과 연락하기 편한 시간대를 현재 계신 도시 시간\n기준으로 선택해 주세요.";
 "Sign_Up_Set_Activity_Time_All_Select_Title" = "전체 시간 선택";
+"Sign_Up_Set_Activity_Time_Make_Custom_Time_Button" = "다른 시간 선택하기";
+"Sign_Up_Set_Activity_Time_Make_Custom_Time_Title" = "연락하기 편한 시간";
 "Sign_Up_Set_Activity_Time_Done_Button_Title" = "시작하기";
 "Onboarding_Terms_Title" = "ABOUT TIME 약관 동의";
 "Onboarding_Terms_Menu_All_Agree" = "약관 전체동의";

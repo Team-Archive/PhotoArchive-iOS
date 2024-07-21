@@ -29,9 +29,9 @@ public struct SignUpReducer: Reducer {
     case moreSearchCity
     case setCityList([City])
     case appendCityList([City])
-    case selectActiveTime(willSelected: Bool, daysOfTheWeek: DaysOfTheWeek, signUpActivityTime: SignUpActivityTime)
+    case selectActiveTime(willSelected: Bool, signUpActivityTime: SignUpActivityTime)
     case addActiveTime(timeInterval: ActivityTimeInterval)
-    case selectCustomActiveTime(willSelected: Bool, daysOfTheWeek: DaysOfTheWeek, index: Int)
+    case selectCustomActiveTime(willSelected: Bool, index: Int)
     case signUp
   }
   
@@ -46,9 +46,9 @@ public struct SignUpReducer: Reducer {
     var selectedCity: City?
     var candidateCityList: [City] = []
     var searchCityKeyword: String = ""
-    var selectedActivityTime: [DaysOfTheWeek: Set<SignUpActivityTime>] = .init(uniqueKeysWithValues: DaysOfTheWeek.allCases.map { ($0, Set<SignUpActivityTime>()) })
+    var selectedActivityTime: Set<SignUpActivityTime> = .init()
     var customActivityTime: [ActivityTimeInterval] = []
-    var selectedCustomActivityTime: [DaysOfTheWeek: Set<Int>] = .init(uniqueKeysWithValues: DaysOfTheWeek.allCases.map { ($0, Set<Int>()) })
+    var selectedCustomActivityTime: Set<Int> = .init()
   }
   
   // MARK: - Private Property
@@ -161,11 +161,11 @@ public struct SignUpReducer: Reducer {
       case .appendCityList(let list):
         state.candidateCityList += list
         return .none
-      case .selectActiveTime(let willSelected, let daysOfTheWeek, let signUpActivityTime):
+      case .selectActiveTime(let willSelected, let signUpActivityTime):
         if willSelected {
-          state.selectedActivityTime[daysOfTheWeek]?.insert(signUpActivityTime)
+          state.selectedActivityTime.insert(signUpActivityTime)
         } else {
-          state.selectedActivityTime[daysOfTheWeek]?.remove(signUpActivityTime)
+          state.selectedActivityTime.remove(signUpActivityTime)
         }
         return .none
       case .signUp:
@@ -186,7 +186,7 @@ public struct SignUpReducer: Reducer {
               _ = await self.updateAvtivityTime(
                 signInToken: signInInfo,
                 city: city,
-                activityTime: activityTimeValue.mapValues { $0.map { $0.rawValue } }
+                activityTime: [:] // TODO: 작업
               )
               if let photo {
                 _ = await self.updateProfilePhoto(signInToken: signInInfo, asset: photo)
@@ -201,11 +201,11 @@ public struct SignUpReducer: Reducer {
       case .addActiveTime(let timeInterval):
         state.customActivityTime.append(timeInterval)
         return .none
-      case .selectCustomActiveTime(let willSelected, let daysOfTheWeek, let index):
+      case .selectCustomActiveTime(let willSelected, let index):
         if willSelected {
-          state.selectedCustomActivityTime[daysOfTheWeek]?.insert(index)
+          state.selectedCustomActivityTime.insert(index)
         } else {
-          state.selectedCustomActivityTime[daysOfTheWeek]?.remove(index)
+          state.selectedCustomActivityTime.remove(index)
         }
         return .none
       }
