@@ -10,6 +10,7 @@ import SwiftUI
 import Domain
 import Calendar
 import UIComponents
+import MyProfile
 
 @main
 struct SampleApp: App {
@@ -22,7 +23,30 @@ struct SampleApp: App {
           )
         
         VStack {
+          ATNavigationBar(
+            type: .default(
+              backAction: nil,
+              trailingAction: nil
+            )
+          )
           
+          MyProfileHeaderView(
+            Profile(
+              name: "수지",
+              time: "10:40 PM",
+              region: "🇨🇦 Montreal, Canada",
+              weather: ATWeather(
+                tag: .cloudy,
+                temperature: 21
+              ),
+              imageURL: URL(
+                string: "https://i.pinimg.com/736x/a5/42/f7/a542f775abeeea554618fec94ed78a89.jpg"
+              )
+            )) {
+              print("profile edit clicked")
+            }
+          
+          Spacer()
         }
       }
     }
