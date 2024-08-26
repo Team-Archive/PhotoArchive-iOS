@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import ComposableArchitecture
 import Domain
 import UIComponents
 
@@ -73,5 +72,15 @@ public struct MyProfileHeaderView: View {
     }
     .padding(.horizontal, 20)
     .frame(height: 68)
+  }
+}
+
+// TODO: 임시
+extension ATWeatherTag {
+  func convertToTag() -> ATWeatherTagView.Weather {
+    switch self {
+    case .cloudy:
+      return .cloudy
+    }
   }
 }

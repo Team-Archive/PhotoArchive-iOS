@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import UIComponents
 
 public struct ATWeather: Equatable {
   public let tag: ATWeatherTag

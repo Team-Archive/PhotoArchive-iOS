@@ -8,7 +8,6 @@
 
 import Foundation
 import ArchiveFoundation
-import UIComponents
 
 public protocol CalendarRepository {
   func fetchDatasource(with month: Date) async throws -> [ATCalendar]

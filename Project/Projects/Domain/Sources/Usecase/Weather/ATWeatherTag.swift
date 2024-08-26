@@ -8,15 +8,8 @@
 
 import Foundation
 import SwiftUI
-import UIComponents
 
+// TODO: 실제 날씨 데이터 형식과 맞춰야함
 public enum ATWeatherTag: Int {
   case cloudy = 0
-  
-  public func convertToTag() -> ATWeatherTagView.Weather {
-    switch self {
-    case .cloudy:
-      return .cloudy
-    }
-  }
 }
