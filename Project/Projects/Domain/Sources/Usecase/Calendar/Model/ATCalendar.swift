@@ -9,7 +9,7 @@
 import Foundation
 import SwiftUI
 
-public struct ATCalendar: Equatable, Identifiable, Hashable {
+public struct ATCalendar: Equatable, Identifiable {
   public let id: UUID
   public let date: Date?
   public let photoURL: URL?
