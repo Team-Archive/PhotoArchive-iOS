@@ -8,8 +8,6 @@
 
 import Foundation
 import ArchiveFoundation
-import UIComponents
-import Domain
 
 public final class StubCalendarRepositoryImpl: CalendarRepository {
   
@@ -44,13 +42,13 @@ public final class StubCalendarRepositoryImpl: CalendarRepository {
   
   public func fetchWeekDay() -> [String] {
     let weekDay = [
-      L10n.Localizable.commonShortSunday,
-      L10n.Localizable.commonShortMonday,
-      L10n.Localizable.commonShortTuesday,
-      L10n.Localizable.commonShortWednesday,
-      L10n.Localizable.commonShortThursday,
-      L10n.Localizable.commonShortFriday,
-      L10n.Localizable.commonShortSaturday
+      "Sun",
+      "Mon",
+      "The",
+      "Wen",
+      "Thu",
+      "Fri",
+      "Sat"
     ]
     
     return weekDay
