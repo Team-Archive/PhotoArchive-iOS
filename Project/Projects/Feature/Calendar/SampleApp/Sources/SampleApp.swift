@@ -1,5 +1,6 @@
 import SwiftUI
 import Domain
+//import Data
 import Calendar
 import UIComponents
 
@@ -17,7 +18,7 @@ struct SampleApp: App {
           CalendarView(
             reducer: CalendarReducer(
               selectedMonth: Date(),
-              useCase: CalendarUsercaseImpl(
+              useCase: CalendarUsecaseImpl(
                 repository: StubCalendarRepositoryImpl()
               )
             )

@@ -46,6 +46,20 @@ struct SampleApp: App {
               print("profile edit clicked")
             }
           
+          MonthRecapView()
+          
+          Spacer()
+            .frame(height: 20)
+          
+          CalendarView(
+            reducer: CalendarReducer(
+              selectedMonth: Date(),
+              useCase: CalendarUsecaseImpl(
+                repository: StubCalendarRepositoryImpl()
+              )
+            )
+          ).padding(.horizontal, 20)
+          
           Spacer()
         }
       }

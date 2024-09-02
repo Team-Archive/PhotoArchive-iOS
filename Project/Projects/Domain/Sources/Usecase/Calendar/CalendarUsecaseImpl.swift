@@ -9,7 +9,7 @@
 import Foundation
 import ArchiveFoundation
 
-public final class CalendarUsercaseImpl: CalendarUsecase {
+public final class CalendarUsecaseImpl: CalendarUsecase {
   let repository: CalendarRepository
   
   public init(repository: CalendarRepository) {
