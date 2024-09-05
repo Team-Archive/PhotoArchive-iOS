@@ -9,10 +9,12 @@
 import SwiftUI
 import ComposableArchitecture
 import UIComponents
+import Domain
 
 public struct CalendarView: View {
   
   // MARK: - public state
+  public var selectHandler: ((ATCalendar?) -> Void)?
   
   // MARK: - private properties
   @Bindable private var store: StoreOf<CalendarReducer>
@@ -37,7 +39,8 @@ public struct CalendarView: View {
     }
   }
   
-  public init(reducer: CalendarReducer) {
+  public init(reducer: CalendarReducer, selectHandler: ((ATCalendar?) -> Void)? = nil) {
+    self.selectHandler = selectHandler
     self.store = StoreOf<CalendarReducer>(initialState: reducer.initialState, reducer: {
      
       return reducer
@@ -104,6 +107,8 @@ public struct CalendarView: View {
                   .font(.fonts(.bodyBold14))
                   .foregroundStyle(Gen.Colors.white.color)
                   .background(Color.gray.opacity(0.1))
+              }.onTapGesture {
+                selectHandler?(state.datasource[safe: index])
               }
               .frame(width: 40, height: 40, alignment: .center)
               .cornerRadius(12)
@@ -112,7 +117,7 @@ public struct CalendarView: View {
                 .frame(width: 40, height: 40, alignment: .center)
             }
           }
-        }
+      }
     }
   }
   

@@ -50,14 +50,17 @@ struct SampleApp: App {
           
           Spacer()
             .frame(height: 20)
-          
+
           CalendarView(
             reducer: CalendarReducer(
               selectedMonth: Date(),
               useCase: CalendarUsecaseImpl(
                 repository: StubCalendarRepositoryImpl()
               )
-            )
+            ), selectHandler: { selected in
+              guard let selected = selected else { return }
+              
+            }
           ).padding(.horizontal, 20)
           
           Spacer()
