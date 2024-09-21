@@ -30,40 +30,44 @@ struct SampleApp: App {
             )
           )
           
-          MyProfileHeaderView(
-            Profile(
-              name: "수지",
-              time: "10:40 PM",
-              region: "🇨🇦 Montreal, Canada",
-              weather: ATWeather(
-                tag: .cloudy,
-                temperature: 21
-              ),
-              imageURL: URL(
-                string: "https://i.pinimg.com/736x/a5/42/f7/a542f775abeeea554618fec94ed78a89.jpg"
-              )
-            )) {
-              print("profile edit clicked")
-            }
-          
-          MonthRecapView()
-          
-          Spacer()
-            .frame(height: 20)
-
-          CalendarView(
-            reducer: CalendarReducer(
-              selectedMonth: Date(),
-              useCase: CalendarUsecaseImpl(
-                repository: StubCalendarRepositoryImpl()
-              )
-            ), selectHandler: { selected in
-              guard let selected = selected else { return }
+          ScrollView(.vertical) {
+            VStack {
+              MyProfileHeaderView(
+                Profile(
+                  name: "수지",
+                  time: "10:40 PM",
+                  region: "🇨🇦 Montreal, Canada",
+                  weather: ATWeather(
+                    tag: .cloudy,
+                    temperature: 21
+                  ),
+                  imageURL: URL(
+                    string: "https://i.pinimg.com/736x/a5/42/f7/a542f775abeeea554618fec94ed78a89.jpg"
+                  )
+                )) {
+                  print("profile edit clicked")
+                }
               
+              MonthRecapView()
+              
+              Spacer()
+                .frame(height: 20)
+              
+              CalendarView(
+                reducer: CalendarReducer(
+                  selectedMonth: Date(),
+                  useCase: CalendarUsecaseImpl(
+                    repository: StubCalendarRepositoryImpl()
+                  )
+                ), selectHandler: { selected in
+                  guard let selected = selected else { return }
+                  
+                }
+              ).padding(.horizontal, 20)
+              
+              Spacer()
             }
-          ).padding(.horizontal, 20)
-          
-          Spacer()
+          }
         }
       }
     }
