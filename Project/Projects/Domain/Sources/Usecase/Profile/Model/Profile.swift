@@ -9,13 +9,15 @@
 import Foundation
 
 public struct Profile: Equatable {
+  public let userID: Int
   public let name: String
   public let time: String
   public let region: String
   public let weather: ATWeather
   public let imageURL: URL?
   
-  public init(name: String, time: String, region: String, weather: ATWeather, imageURL: URL?) {
+  public init(userID: Int, name: String, time: String, region: String, weather: ATWeather, imageURL: URL?) {
+    self.userID = userID
     self.name = name
     self.time = time
     self.region = region
