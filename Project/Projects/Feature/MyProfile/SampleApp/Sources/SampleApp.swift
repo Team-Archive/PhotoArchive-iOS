@@ -34,6 +34,7 @@ struct SampleApp: App {
             VStack {
               MyProfileHeaderView(
                 Profile(
+                  userID: 1,
                   name: "수지",
                   time: "10:40 PM",
                   region: "🇨🇦 Montreal, Canada",
