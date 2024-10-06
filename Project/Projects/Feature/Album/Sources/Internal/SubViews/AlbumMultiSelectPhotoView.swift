@@ -222,7 +222,7 @@ struct AlbumMultiSelectPhotoView: View {
               .font(.fonts(.body16))
               .foregroundStyle(Gen.Colors.white.color)
           }
-          Gen.Images.arrow.image
+          Gen.Images.arrowRight24.image
             .resizable()
             .renderingMode(.template)
             .foregroundStyle(Gen.Colors.white.color)

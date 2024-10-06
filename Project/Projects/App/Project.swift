@@ -27,6 +27,26 @@ let project = Project.app(
     .project(
       target: "Domain",
       path: "../Domain"
+    ),
+    .project(
+      target: "AppstoreSearch",
+      path: "../Feature/AppstoreSearch"
+    ),
+    .project(
+      target: "SignUp",
+      path: "../Feature/SignUp"
+    ),
+    .project(
+      target: "Calendar",
+      path: "../Feature/Calendar"
+    ),
+    .project(
+      target: "MyProfile",
+      path: "../Feature/MyProfile"
+    ),
+    .project(
+      target: "Onboarding",
+      path: "../Feature/Onboarding"
     )
   ],
   additionalTargets: [],
