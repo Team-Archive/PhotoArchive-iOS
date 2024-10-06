@@ -16,7 +16,8 @@ let packageSettings = PackageSettings(
     "ComposableArchitecture": .framework,
     "ImageLoader-iOS": .framework,
     "Network-iOS": .framework,
-    "swiftui-introspect": .framework
+    "swiftui-introspect": .framework,
+    "PartialSheet": .framework
   ],
   baseSettings: .settings(configurations: [
     .debug(name: .debug),
@@ -38,7 +39,8 @@ let package = Package(
     .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", from: "1.7.1"),
     .package(url: "https://github.com/Team-Archive/ImageLoader-iOS.git", branch: "master"),
     .package(url: "https://github.com/Team-Archive/Network-iOS.git", branch: "master"),
-    .package(url: "https://github.com/siteline/swiftui-introspect", from: "1.1.4")
+    .package(url: "https://github.com/siteline/swiftui-introspect", from: "1.1.4"),
+    .package(url: "https://github.com/AndreaMiotto/PartialSheet.git", from: "3.1.1")
   ],
   targets: [
     .target(
