@@ -14,6 +14,14 @@ extension Project {
     return "TeamArchive"
   }
   
+  public static var appBundleId: String = "com.archive.aboutTime"
+  
+  public static var deploymentTarget: DeploymentTargets = .iOS("17.0")
+  
+  public static func bundleId(_ projectName: String) -> String {
+    return "com.archive.\(projectName)SampleApp"
+  }
+  
   public static func currentDirectoryPath() -> String {
     let fileManager = FileManager.default
     let currentPath = fileManager.currentDirectoryPath

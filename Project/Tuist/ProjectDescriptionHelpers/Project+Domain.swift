@@ -1,15 +1,15 @@
 //
-//  Project+OAuth.swift
+//  Project+Domain.swift
 //  ProjectDescriptionHelpers
 //
-//  Created by hanwe on 5/26/24.
+//  Created by hanwe on 10/6/24.
 //
 
 import ProjectDescription
 
 extension Project {
   
-  public static func makeOAuth(
+  public static func makeDomain(
     name: String,
     frameworkDependencies: [TargetDependency],
     testDependencies: [TargetDependency]
@@ -18,6 +18,10 @@ extension Project {
       name: name,
       organizationName: Project.organizationName,
       packages: [],
+      settings: .settings(configurations: [
+        .debug(name: .debug),
+        .release(name: .release)
+      ]),
       targets: Project.dynamicFrameworkTargets(
         name: name,
         destinations: .iOS,
@@ -28,8 +32,6 @@ extension Project {
         ],
         coreDataModel: [],
         resources: ["Resources/**"],
-        sampleAppBundleName: "com.archive.AboutTime",
-        sampleAppEntitlements: .file(path: "${PROJECT_DIR}/../../../../Tools/AboutTime.entitlements"),
         additionalSourcePaths: []
       ),
       schemes: [],

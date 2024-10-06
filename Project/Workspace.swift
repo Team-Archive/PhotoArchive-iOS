@@ -20,8 +20,8 @@ let workspace = Workspace(
     "Projects/Feature/TakePhoto",
     "Projects/Feature/Album",
     "Projects/Feature/SignUp",
-    "Projects/OAuth/Apple",
-    "Projects/OAuth/Google",
+//    "Projects/OAuth/Apple",
+//    "Projects/OAuth/Google",
     "Projects/Feature/Calendar",
     "Projects/Feature/MyProfile"
   ]
