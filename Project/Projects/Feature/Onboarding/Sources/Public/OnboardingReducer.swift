@@ -37,7 +37,6 @@ public struct OnboardingReducer: Reducer {
     case setIsShowSignUp(Bool)
     case setIsShowTerms(Bool)
     case setIsAllTermsAgree(Bool)
-//    case setOAuthSignInData(OAuthSignInData?)
   }
   
   public struct State: Equatable {
@@ -91,8 +90,13 @@ public struct OnboardingReducer: Reducer {
                 await send(.mutate(.setIsLoading(true)))
                 let signInServieResult = await self.signInService(oauthSignInResponseData)
                 switch signInServieResult {
-                case .success(let token):
-                  print("토큰: \(token)")
+                case .success(let serviceSignInResult):
+                  switch serviceSignInResult {
+                  case .notServiceUser:
+                    await send(.mutate(.setIsShowTerms(true)))
+                  case .user(let token):
+                    print("토큰: \(token)")
+                  }
                 case .failure(let err):
                   await send(.mutate(.setError(err)))
                 }
@@ -114,13 +118,15 @@ public struct OnboardingReducer: Reducer {
             await send(.mutate(.setIsShowTerms(false)))
           }
         case .agreeAllTerms:
-          return .run { send in
-            await send(.mutate(.setIsAllTermsAgree(true)))
-          }
+          return .concatenate(
+            .run { send in
+              await send(.mutate(.setIsAllTermsAgree(true)))
+              await send(.mutate(.setIsShowTerms(false)))
+            }
+          )
         case .doneNotificationAgree:
           return .run { send in
-//            await send(.mutate(<#T##Mutation#>))
-            print("뭐해야하지..?")
+            await send(.mutate(.setIsShowSignUp(true)))
           }
         }
       case .mutate(let mutation):

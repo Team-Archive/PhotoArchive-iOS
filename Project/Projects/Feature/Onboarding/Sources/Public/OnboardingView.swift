@@ -93,7 +93,8 @@ public struct OnboardingView<ServiceSignInDelegatorView>: View where ServiceSign
           OnboardingNotificationAgreeView(
             contentsHeight: self.$notificationAgreeViewHeight,
             completeAction: {
-            viewStore.send(.action(.doneNotificationAgree))
+              isShowNotificationAgree = false
+              viewStore.send(.action(.doneNotificationAgree))
           })
           .presentationDetents([.height(self.notificationAgreeViewHeight + 22)])
         }

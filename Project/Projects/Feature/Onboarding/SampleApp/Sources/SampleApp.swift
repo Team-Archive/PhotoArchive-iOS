@@ -52,7 +52,7 @@ class StubSignInRepositoryImplement: SignInRepository {
   
   func signIn(_ oauthSignInData: OAuthSignInData) async -> Result<ServiceSignInResponse, ArchiveError> {
     return .success(
-      .user(.init(accessToken: "123", refreshToken: "456"))
+      .notServiceUser
     )
   }
   
