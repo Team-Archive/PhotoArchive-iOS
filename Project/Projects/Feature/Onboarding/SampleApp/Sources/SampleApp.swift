@@ -12,6 +12,7 @@ import Domain
 import ArchiveFoundation
 import AppRoute
 import DomainInterface
+import Combine
 
 @main
 struct SampleApp: App {
@@ -26,13 +27,35 @@ struct SampleApp: App {
           pushNotificationUsecase: PushNotificationUsecaseImplement(
             repository: StubPushNotificationRepositoryImplement()
           ),
-          signInServiceComplete: { token in
-            print("로그인 완료: \(token)")
-          }
+          signInTokenManager: StubSignInTokenManager()
         )
       )
     }
   }
+}
+
+class StubSignInTokenManager: SignInTokenManager {
+  
+  var signInToken: SignInToken?
+  
+  var signInTokenStream: CurrentValueSubject<SignInToken?, Never> = .init(nil)
+  
+  func refreshSignInToken() async -> Result<Void, ArchiveError> {
+    return .success(())
+  }
+  
+  func setSignInToken(_ token: SignInToken) async {
+    
+  }
+  
+  func removeSignInToken() async {
+    
+  }
+  
+  func trySetSignInTokenFromSavedToken() async -> Bool {
+    return true
+  }
+  
 }
 
 class StubOAuthUsecaseFactory: OAuthUsecaseFactory {

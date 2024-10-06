@@ -52,7 +52,7 @@ public struct OnboardingReducer: Reducer {
   
   private let signInUsecase: SignInUsecase
   private let oauthUsecaseFactory: OAuthUsecaseFactory
-  private let signInServiceComplete: (SignInToken) -> Void
+  private let signInTokenManager: SignInTokenManager
   private let pushNotificationUsecase: PushNotificationUsecase
   
   // MARK: - Internal Property
@@ -67,13 +67,13 @@ public struct OnboardingReducer: Reducer {
     signInUsecase: SignInUsecase,
     oauthUsecaseFactory: OAuthUsecaseFactory,
     pushNotificationUsecase: PushNotificationUsecase,
-    signInServiceComplete: @escaping (SignInToken) -> Void
+    signInTokenManager: SignInTokenManager
   ) {
     self.initialState = .init()
     self.signInUsecase = signInUsecase
     self.oauthUsecaseFactory = oauthUsecaseFactory
     self.pushNotificationUsecase = pushNotificationUsecase
-    self.signInServiceComplete = signInServiceComplete
+    self.signInTokenManager = signInTokenManager
   }
   
   public var body: some ReducerOf<Self> {
@@ -95,7 +95,7 @@ public struct OnboardingReducer: Reducer {
                   case .notServiceUser:
                     await send(.mutate(.setIsShowTerms(true)))
                   case .user(let token):
-                    print("토큰: \(token)")
+                    await signInTokenManager.setSignInToken(token)
                   }
                 case .failure(let err):
                   await send(.mutate(.setError(err)))
@@ -107,8 +107,9 @@ public struct OnboardingReducer: Reducer {
             })
           )
         case .setServiceSignInToken(let token):
-          print("token~~: \(token)")
-          return .none
+          return .run { send in
+            await signInTokenManager.setSignInToken(token)
+          }
         case .closeSignUp:
           return .run { send in
             await send(.mutate(.setIsShowSignUp(false)))
