@@ -8,6 +8,7 @@
 
 import ArchiveFoundation
 import Foundation
+import DomainInterface
 
 public final class SignInUsecaseImplement: SignInUsecase {
   

@@ -21,6 +21,7 @@ public struct OnboardingView<ServiceSignInDelegatorView>: View where ServiceSign
   private let store: StoreOf<OnboardingReducer>
   @State private var termsViewHeight: CGFloat = 0
   @State private var notificationAgreeViewHeight: CGFloat = 0
+  @State private var isShowNotificationAgree: Bool = false
   
   // MARK: - Internal Property
   
@@ -53,13 +54,13 @@ public struct OnboardingView<ServiceSignInDelegatorView>: View where ServiceSign
           
           VStack(spacing: 16) {
             ATSignInButton(type: .apple, action: {
-              viewStore.send(.oauthSignIn(.apple))
+              viewStore.send(.action(.oauthSignIn(.apple)))
             })
             ATSignInButton(type: .google, action: {
-              viewStore.send(.oauthSignIn(.google))
+              viewStore.send(.action(.oauthSignIn(.google)))
             })
             ATSignInButton(type: .facebook, action: {
-              viewStore.send(.oauthSignIn(.facebook))
+              viewStore.send(.action(.oauthSignIn(.facebook)))
             })
           }
           .padding(.designContentsSideInsets)
@@ -68,43 +69,41 @@ public struct OnboardingView<ServiceSignInDelegatorView>: View where ServiceSign
         }
         .sheet(isPresented: viewStore.binding(
           get: { $0.isShowTerms },
-          send: { _ in OnboardingReducer.Action.setIsShowTerms(false) })
+          send: { _ in OnboardingReducer.Action.action(.closeTerms) })
         ) {
           OnboardingTermsView(
             contentsHeight: self.$termsViewHeight,
             completeAction: {
-              viewStore.send(.agreeAllTerms)
+              viewStore.send(.action(.agreeAllTerms))
           })
           .presentationDetents([.height(self.termsViewHeight)])
           .onDisappear {
             if viewStore.isAllTermsAgree {
               switch viewStore.notificationStatus {
               case .authorized:
-                viewStore.send(.doneNotificationAgree)
+                viewStore.send(.action(.doneNotificationAgree))
               default:
-                viewStore.send(.setIsShowNotificationAgree(true))
+                isShowNotificationAgree = true
               }
             }
           }
         }
-        .sheet(isPresented: viewStore.binding(
-          get: { $0.isShowNotificationAgree },
-          send: { _ in OnboardingReducer.Action.setIsShowNotificationAgree(false) })
+        .sheet(isPresented: $isShowNotificationAgree
         ) {
           OnboardingNotificationAgreeView(
             contentsHeight: self.$notificationAgreeViewHeight,
             completeAction: {
-            viewStore.send(.doneNotificationAgree)
+            viewStore.send(.action(.doneNotificationAgree))
           })
           .presentationDetents([.height(self.notificationAgreeViewHeight + 22)])
         }
         .fullScreenCover(isPresented: viewStore.binding(
           get: { $0.isShowSignUp },
-          send: { _ in OnboardingReducer.Action.setIsShowSignUp(false) })) {
+          send: { _ in OnboardingReducer.Action.action(.closeSignUp) })) {
             ServiceSignInDelegatorView { signInToken in
-              viewStore.send(.signInService(signInToken))
+              viewStore.send(.action(.setServiceSignInToken(signInToken)))
             } closeAction: {
-              viewStore.send(.setIsShowSignUp(false))
+              viewStore.send(.action(.closeSignUp))
             }
         }
         

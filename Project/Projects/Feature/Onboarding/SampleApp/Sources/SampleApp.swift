@@ -11,6 +11,7 @@ import Onboarding
 import Domain
 import ArchiveFoundation
 import AppRoute
+import DomainInterface
 
 @main
 struct SampleApp: App {
@@ -21,6 +22,7 @@ struct SampleApp: App {
           signInUsecase: SignInUsecaseImplement(
             repository: StubSignInRepositoryImplement()
           ), 
+          oauthUsecaseFactory: StubOAuthUsecaseFactory(),
           pushNotificationUsecase: PushNotificationUsecaseImplement(
             repository: StubPushNotificationRepositoryImplement()
           ),
@@ -33,11 +35,24 @@ struct SampleApp: App {
   }
 }
 
+class StubOAuthUsecaseFactory: OAuthUsecaseFactory {
+  func oauthSignIn(type: OAuthProvider) async -> Result<OAuthSignInData, ArchiveError> {
+    switch type {
+    case .apple:
+      return .success(.apple(token: "123"))
+    case .facebook:
+      return .success(.facebook(token: "456"))
+    case .google:
+      return .success(.google(token: "789"))
+    }
+  }
+}
+
 class StubSignInRepositoryImplement: SignInRepository {
   
   func signIn(_ oauthSignInData: OAuthSignInData) async -> Result<ServiceSignInResponse, ArchiveError> {
     return .success(
-      .notServiceUser
+      .user(.init(accessToken: "123", refreshToken: "456"))
     )
   }
   

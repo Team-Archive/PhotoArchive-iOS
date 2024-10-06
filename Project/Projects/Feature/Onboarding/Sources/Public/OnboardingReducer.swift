@@ -11,23 +11,33 @@ import Foundation
 import ArchiveFoundation
 import Domain
 import UserNotifications
+import DomainInterface
 
 public struct OnboardingReducer: Reducer {
   
   // MARK: - TCA Define
   
   public enum Action: Equatable {
-    case setIsLoading(Bool)
-    case setError(ArchiveError)
-    case oauthSignIn(OAuthSignInType)
-    case setIsShowTerms(Bool)
-    case setIsAllTermsAgree(Bool)
-    case setIsShowNotificationAgree(Bool)
-    case signInService(SignInToken)
+    case action(ViewAction)
+    case mutate(Mutation)
+  }
+  
+  public enum ViewAction: Equatable {
+    case oauthSignIn(OAuthProvider)
+    case setServiceSignInToken(SignInToken)
+    case closeSignUp
+    case closeTerms
     case agreeAllTerms
     case doneNotificationAgree
+  }
+  
+  public enum Mutation: Equatable {
+    case setIsLoading(Bool)
+    case setError(ArchiveError?)
     case setIsShowSignUp(Bool)
-    case setNotificationStatus(UNAuthorizationStatus)
+    case setIsShowTerms(Bool)
+    case setIsAllTermsAgree(Bool)
+//    case setOAuthSignInData(OAuthSignInData?)
   }
   
   public struct State: Equatable {
@@ -35,7 +45,6 @@ public struct OnboardingReducer: Reducer {
     var err: ArchiveError?
     var isShowTerms: Bool = false
     var isAllTermsAgree: Bool = false
-    var isShowNotificationAgree: Bool = false
     var isShowSignUp: Bool = false
     var notificationStatus: UNAuthorizationStatus = .notDetermined
   }
@@ -43,6 +52,7 @@ public struct OnboardingReducer: Reducer {
   // MARK: - Private Property
   
   private let signInUsecase: SignInUsecase
+  private let oauthUsecaseFactory: OAuthUsecaseFactory
   private let signInServiceComplete: (SignInToken) -> Void
   private let pushNotificationUsecase: PushNotificationUsecase
   
@@ -56,83 +66,81 @@ public struct OnboardingReducer: Reducer {
   
   public init(
     signInUsecase: SignInUsecase,
+    oauthUsecaseFactory: OAuthUsecaseFactory,
     pushNotificationUsecase: PushNotificationUsecase,
     signInServiceComplete: @escaping (SignInToken) -> Void
   ) {
     self.initialState = .init()
     self.signInUsecase = signInUsecase
+    self.oauthUsecaseFactory = oauthUsecaseFactory
     self.pushNotificationUsecase = pushNotificationUsecase
     self.signInServiceComplete = signInServiceComplete
   }
   
   public var body: some ReducerOf<Self> {
-    Reduce {state, action in
+    Reduce { state, action in
       switch action {
-      case .setIsLoading(let isLoading):
-        state.isLoading = isLoading
-        return .none
-      case .setError(let err):
-        state.err = err
-        return .none
-      case .oauthSignIn(let type):
-        let oauth = OAuthUsecaseFactory.makeOAuthUsecase(type)
-        return .concatenate(
-          .run(operation: { send in
-            await send(.setIsLoading(true))
-            let oauthSignInResult = await oauth.oauthSignIn()
-            switch oauthSignInResult {
-            case .success(let oauthSignInResponseData):
-              let signInServieResult = await self.signInService(oauthSignInResponseData)
-              switch signInServieResult {
-              case .success(let serviceSignInResponse):
-                switch serviceSignInResponse {
-                case .user(let token):
-                  self.signInServiceComplete(token)
-                case .notServiceUser:
-                  await send(.setIsShowTerms(true))
+      case .action(let action):
+        switch action {
+        case .oauthSignIn(let type):
+          return .concatenate(
+            .run(operation: { send in
+              let oauthSignInResult = await self.oauthUsecaseFactory.oauthSignIn(type: type)
+              switch oauthSignInResult {
+              case .success(let oauthSignInResponseData):
+                await send(.mutate(.setIsLoading(true)))
+                let signInServieResult = await self.signInService(oauthSignInResponseData)
+                switch signInServieResult {
+                case .success(let token):
+                  print("토큰: \(token)")
+                case .failure(let err):
+                  await send(.mutate(.setError(err)))
                 }
+                await send(.mutate(.setIsLoading(false)))
               case .failure(let err):
-                await send(.setError(err))
+                await send(.mutate(.setError(err)))
               }
-            case .failure(let err):
-              await send(.setError(err))
-            }
-            await send(.setIsLoading(false))
-          })
-        )
-      case .setIsShowTerms(let isShow):
-        state.isShowTerms = isShow
-        return .none
-      case .setIsShowNotificationAgree(let isShow):
-        state.isShowNotificationAgree = isShow
-        return .none
-      case .signInService(let token):
-        self.signInServiceComplete(token)
-        return .none
-      case .agreeAllTerms:
-        return .concatenate(
-          .run(operation: { send in
-            await send(.setIsShowTerms(false))
-            await send(.setIsAllTermsAgree(true))
-          })
-        )
-      case .doneNotificationAgree:
-        return .concatenate(
-          .run(operation: { send in
-            await send(.setIsShowNotificationAgree(false))
-            await send(.setIsAllTermsAgree(false))
-            await send(.setIsShowSignUp(true))
-          })
-        )
-      case .setIsShowSignUp(let isShow):
-        state.isShowSignUp = isShow
-        return .none
-      case .setIsAllTermsAgree(let allAgree):
-        state.isAllTermsAgree = allAgree
-        return .none
-      case .setNotificationStatus(let status):
-        state.notificationStatus = status
-        return .none
+            })
+          )
+        case .setServiceSignInToken(let token):
+          print("token~~: \(token)")
+          return .none
+        case .closeSignUp:
+          return .run { send in
+            await send(.mutate(.setIsShowSignUp(false)))
+          }
+        case .closeTerms:
+          return .run { send in
+            await send(.mutate(.setIsShowTerms(false)))
+          }
+        case .agreeAllTerms:
+          return .run { send in
+            await send(.mutate(.setIsAllTermsAgree(true)))
+          }
+        case .doneNotificationAgree:
+          return .run { send in
+//            await send(.mutate(<#T##Mutation#>))
+            print("뭐해야하지..?")
+          }
+        }
+      case .mutate(let mutation):
+        switch mutation {
+        case .setIsLoading(let isLoading):
+          state.isLoading = isLoading
+          return .none
+        case .setError(let err):
+          state.err = err
+          return .none
+        case .setIsShowSignUp(let isShow):
+          state.isShowSignUp = isShow
+          return .none
+        case .setIsShowTerms(let isShow):
+          state.isShowTerms = isShow
+          return .none
+        case .setIsAllTermsAgree(let isShow):
+          state.isAllTermsAgree = isShow
+          return .none
+        }
       }
     }
   }

@@ -8,6 +8,7 @@
 
 import ArchiveFoundation
 import Foundation
+import DomainInterface
 
 public protocol SignInRepository {
   func signIn(_ oauthSignInData: OAuthSignInData) async -> Result<ServiceSignInResponse, ArchiveError>

@@ -27,7 +27,9 @@ public extension TargetDependency {
   static let uiComponents: TargetDependency = .project(target: "UIComponents", path: .rootProjectPath("UIComponents"))
   static let data: TargetDependency = .project(target: "Data", path: .rootProjectPath("Data"))
   static let featureInterface: TargetDependency = .project(target: "FeatureInterface", path: .rootProjectPath("FeatureInterface"))
-  static let domain: TargetDependency = .project(target: "Domain", path: .rootProjectPath("Domain"))
+  static let domainCommon: TargetDependency = .project(target: "Domain", path: .rootProjectPath("Domain"))
+  static let appRoute: TargetDependency = .project(target: "AppRoute", path: .rootProjectPath("AppRoute"))
+  static let domainInterface: TargetDependency = .project(target: "DomainInterface", path: .rootProjectPath("DomainInterface"))
   
   static func feature(target: String, directoryName: String) -> TargetDependency {
     return .project(target: target, path: .featureProjectPath(directoryName))
