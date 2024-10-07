@@ -18,11 +18,8 @@ let project = Project(
     name: projectName,
     destinations: .iOS,
     frameworkDependencies: [
-      .project(
-        target: "ArchiveFoundation",
-        path: "../ArchiveFoundation"
-      ),
-      .swiftyJSON
+      .archiveFoundation,
+      .domainInterface
     ],
     testDependencies: [
     ],

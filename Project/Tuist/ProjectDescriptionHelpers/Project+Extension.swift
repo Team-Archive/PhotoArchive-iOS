@@ -10,13 +10,11 @@ import Foundation
 
 extension Project {
   
-  public static var organizationName: String {
-    return "TeamArchive"
-  }
+  public static let organizationName: String = "TeamArchive"
   
-  public static var appBundleId: String = "com.archive.aboutTime"
+  public static let appBundleId: String = "com.archive.aboutTime"
   
-  public static var deploymentTarget: DeploymentTargets = .iOS("17.0")
+  public static let deploymentTarget: DeploymentTargets = .iOS("17.0")
   
   public static func bundleId(_ projectName: String) -> String {
     return "com.archive.\(projectName)SampleApp"
