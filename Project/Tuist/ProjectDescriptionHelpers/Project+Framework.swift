@@ -12,6 +12,7 @@ extension Project {
   public static func staticFrameworkTargets(
     name: String,
     destinations: Destinations,
+    infoPlist: InfoPlist = .default,
     frameworkDependencies: [TargetDependency],
     testDependencies: [TargetDependency],
     targetScripts: [TargetScript] = [
@@ -19,19 +20,18 @@ extension Project {
     ],
     coreDataModel: [CoreDataModel],
     resources: ResourceFileElements = ["Resources/**"],
-    sampleAppBundleName: String? = nil,
     sampleAppAdditionalDependencies: [TargetDependency] = [],
     additionalSourcePaths: [String] = []
   ) -> [Target] {
     return Project.frameworkTargets(
       name: name,
       destinations: destinations,
+      infoPlist: infoPlist,
       frameworkDependencies: frameworkDependencies,
       testDependencies: testDependencies,
       targetScripts: targetScripts,
       coreDataModel: coreDataModel,
       resources: resources,
-      sampleAppBundleName: sampleAppBundleName,
       sampleAppAdditionalDependencies: sampleAppAdditionalDependencies,
       additionalSourcePaths: additionalSourcePaths,
       product: .staticFramework
@@ -41,6 +41,7 @@ extension Project {
   public static func dynamicFrameworkTargets(
     name: String,
     destinations: Destinations,
+    infoPlist: InfoPlist = .default ,
     frameworkDependencies: [TargetDependency],
     testDependencies: [TargetDependency],
     targetScripts: [TargetScript] = [
@@ -48,22 +49,21 @@ extension Project {
     ],
     coreDataModel: [CoreDataModel],
     resources: ResourceFileElements = ["Resources/**"],
-    sampleAppBundleName: String? = nil,
     sampleAppAdditionalDependencies: [TargetDependency] = [],
-    sampleAppEntitlements: Entitlements? = nil,
+    sampleAppResources: ResourceFileElements = ["SampleApp/Resources/**"],
     additionalSourcePaths: [String] = []
   ) -> [Target] {
     return Project.frameworkTargets(
       name: name,
       destinations: destinations,
+      infoPlist: infoPlist,
       frameworkDependencies: frameworkDependencies,
       testDependencies: testDependencies,
       targetScripts: targetScripts,
       coreDataModel: coreDataModel,
       resources: resources,
-      sampleAppBundleName: sampleAppBundleName,
       sampleAppAdditionalDependencies: sampleAppAdditionalDependencies,
-      sampleAppEntitlements: sampleAppEntitlements,
+      sampleAppResources: sampleAppResources,
       additionalSourcePaths: additionalSourcePaths,
       product: .framework
     )
@@ -72,93 +72,74 @@ extension Project {
   fileprivate static func frameworkTargets(
     name: String,
     destinations: Destinations,
+    infoPlist: InfoPlist = .default,
     frameworkDependencies: [TargetDependency],
     testDependencies: [TargetDependency],
-    targetScripts: [TargetScript] = [
-      .pre(script: "${PROJECT_DIR}/../../Tools/swiftlint --config \"${PROJECT_DIR}/../App/Resources/swiftlint.yml\"", name: "Lint")
-    ],
+    targetScripts: [TargetScript] = [],
     coreDataModel: [CoreDataModel],
     resources: ResourceFileElements = ["Resources/**"],
-    sampleAppBundleName: String? = nil,
     sampleAppAdditionalDependencies: [TargetDependency] = [],
-    sampleAppEntitlements: Entitlements? = nil,
+    sampleAppResources: ResourceFileElements = ["SampleApp/Resources/**"],
     additionalSourcePaths: [String] = [],
     product: Product
   ) -> [Target] {
     
     let sourcesPath: SourceFilesList = {
-      let globs: [SourceFileGlob] = {
-        var returnValue: [SourceFileGlob] = ["Sources/**"]
-        for item in additionalSourcePaths {
-          returnValue.append(.glob(
-            Path(item)
-          ))
-        }
-        return returnValue
-      }()
-      return SourceFilesList(globs: globs)
+      var globs: [SourceFileGlob] = ["Sources/**"]
+      for item in additionalSourcePaths {
+        globs.append(.glob(Path(stringLiteral: item)))
+      }
+      return SourceFilesList.sourceFilesList(globs: globs)
     }()
     
-    let sources = Target(
+    let sources = Target.target(
       name: name,
       destinations: destinations,
       product: .framework,
       bundleId: "com.archive.\(name)",
-      deploymentTargets: .iOS("17.0"),
-      infoPlist: .default,
+      deploymentTargets: Project.deploymentTarget,
+      infoPlist: infoPlist,
       sources: sourcesPath,
       resources: resources,
       scripts: targetScripts,
       dependencies: frameworkDependencies,
+      settings: .settings(configurations: [
+        .debug(name: .debug),
+        .release(name: .release)
+      ]),
       coreDataModels: coreDataModel
     )
     
-    let testHostApp = Target(
+    let testHostApp = Target.target(
       name: "\(name)TestHost",
       destinations: destinations,
       product: .app,
       bundleId: "com.archive.\(name)TestHost",
-      deploymentTargets: .iOS("17.0"),
+      deploymentTargets: Project.deploymentTarget,
       infoPlist: .default,
       sources: ["TestHost/Sources/**"],
       resources: ["TestHost/Resources/**"],
       dependencies: [.target(name: name)]
     )
     
-    let sampleAppInfoPlist: [String: Plist.Value] = [
-      "CFBundleShortVersionString": "1.0",
-      "CFBundleVersion": "1",
-      "NSPhotoLibraryUsageDescription": "사진첩 권한이 필요해요",
-      "NSCameraUsageDescription": "카메라 권한이 필요해요",
-      "UILaunchScreen": "LaunchScreen"
-    ]
-    
-    let sampleAppBundleNameValue = {
-      if let sampleAppBundleName {
-        return sampleAppBundleName
-      } else {
-        return "com.archive.\(name)SampleApp"
-      }
-    }()
-    let sampleApp = Target(
+    let sampleApp = Target.target(
       name: "\(name)SampleApp",
       destinations: destinations,
       product: .app,
-      bundleId: sampleAppBundleNameValue,
-      deploymentTargets: .iOS("17.0"),
-      infoPlist: .extendingDefault(with: sampleAppInfoPlist),
+      bundleId: Project.bundleId(name),
+      deploymentTargets: Project.deploymentTarget,
+      infoPlist: .file(path: .relativeToRoot("FrameworkCommonPlist/CommonFrameworkSampleApp-Info.plist")),
       sources: ["SampleApp/Sources/**"],
-      resources: ["SampleApp/Resources/**"],
-      entitlements: sampleAppEntitlements,
+      resources: sampleAppResources,
       dependencies: [.target(name: name)] + sampleAppAdditionalDependencies
     )
     
-    let tests = Target(
+    let tests = Target.target(
       name: "\(name)Tests",
       destinations: destinations,
       product: .unitTests,
       bundleId: "com.archive.\(name)tests",
-      deploymentTargets: .iOS("17.0"),
+      deploymentTargets: Project.deploymentTarget,
       infoPlist: .default,
       sources: ["Tests/**"],
       resources: [],
@@ -168,25 +149,5 @@ extension Project {
     return [sources, testHostApp, tests, sampleApp]
   }
   
-  public static func staticUmbrellaFrameworkTargets(
-    name: String,
-    destinations: Destinations,
-    frameworkDependencies: [TargetDependency]
-  ) -> [Target] {
-    
-    let sources = Target(
-      name: name,
-      destinations: destinations,
-      product: .framework,
-      bundleId: "com.archive.\(name)",
-      deploymentTargets: .iOS("17.0"),
-      infoPlist: .default,
-      sources: [],
-      resources: [],
-      dependencies: frameworkDependencies
-    )
-    
-    return [sources]
-  }
-  
 }
+

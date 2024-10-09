@@ -1,7 +1,7 @@
 # AbountTime-iOS
 
 ## Project Management
- - 이 프로젝트는 [Tuist](https://github.com/tuist/tuist) 버전[3.39.0](https://github.com/tuist/tuist/releases/tag/3.39.0)기반으로 관리되고 있습니다.
+ - 이 프로젝트는 [Tuist](https://github.com/tuist/tuist) 버전[3.39.0](https://github.com/tuist/tuist/releases/tag/4.20.0)기반으로 관리되고 있습니다.
  - 프로젝트 진행사항 관리는 깃허브 [프로젝트](https://github.com/orgs/Team-Archive/projects/3)를 사용하고 있습니다.
 
 ## Commit Message

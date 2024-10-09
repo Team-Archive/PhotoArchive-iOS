@@ -8,13 +8,13 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-let project = Project.makeOAuth(
-  name: "OAuthApple",
-  frameworkDependencies: [
-    .project(
-      target: "ArchiveFoundation",
-      path: "../../ArchiveFoundation"
-    )
-  ],
-  testDependencies: []
-)
+//let project = Project.makeOAuth(
+//  name: "OAuthApple",
+//  frameworkDependencies: [
+//    .project(
+//      target: "ArchiveFoundation",
+//      path: "../../ArchiveFoundation"
+//    )
+//  ],
+//  testDependencies: []
+//)

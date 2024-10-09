@@ -5,8 +5,9 @@ import ProjectDescription
 /// Create your own conventions, e.g: a func that makes sure all shared targets are "static frameworks"
 /// See https://docs.tuist.io/guides/helpers/
 
+import ProjectDescription
 extension Project {
-  /// Helper function to create the Project for this ExampleApp
+  
   public static func app(
     name: String,
     bundleAppName: String? = nil,
@@ -18,7 +19,7 @@ extension Project {
     additionalResourcePaths: [String]
   ) -> Project {
     
-    var targets = makeAppTargets(
+    let targets = makeAppTargets(
       name: name,
       bundleAppName: bundleAppName,
       destinations: destinations,
@@ -31,20 +32,17 @@ extension Project {
     return Project(
       name: name,
       organizationName: Project.organizationName,
-      settings: Settings.settings(
-        base: [:],
+      settings: .settings(
         configurations: [
           .debug(
-            name: "Debug",
-            settings: [:],
-            xcconfig: "./XCConfig/Debug.xcconfig"),
+            name: .debug,
+            xcconfig:"./XCConfig/Debug.xcconfig"
+          ),
           .release(
-            name: "Release",
-            settings: [:],
-            xcconfig: "./XCConfig/Release.xcconfig"
-          )
-        ],
-        defaultSettings: .recommended
+            name: .release,
+            xcconfig:"./XCConfig/Release.xcconfig"
+          ),
+        ]
       ),
       targets: targets,
       resourceSynthesizers: [
@@ -65,6 +63,7 @@ extension Project {
     additionalResourcePaths: [String]
   ) -> [Target] {
     let destinations: Destinations = destinations
+    
     let infoPlist: [String: Plist.Value] = [
       "CFBundleShortVersionString": "1.0",
       "CFBundleVersion": "1"
@@ -76,46 +75,22 @@ extension Project {
       return returnValue
     }()
     
-    let sources: SourceFilesList = {
-      let globs: [SourceFileGlob] = {
-        var returnValue: [SourceFileGlob] = []
-        returnValue.append(SourceFileGlob.glob("Sources/**"))
-        for item in additionalSourcePaths {
-          returnValue.append(.glob(
-            Path(item)
-          ))
-        }
-        return returnValue
-      }()
-      return SourceFilesList(globs: globs)
-    }()
-    
-    let resources: ResourceFileElements = {
-      var returnValue: [ResourceFileElement] = []
-      returnValue.append("Resources/**")
-      for item in additionalResourcePaths {
-        returnValue.append(.init(stringLiteral: item))
-      }
-      return .init(resources: returnValue)
-    }()
-    
-    let mainTarget = Target(
+    let mainTarget = Target.target(
       name: name,
       destinations: destinations,
       product: .app,
-      bundleId: "com.archive.\(bundleAppName ?? name)",
-      deploymentTargets: .iOS("17.0"),
-      infoPlist: .extendingDefault(with: infoPlist),
-      sources: sources,
-      resources: resources,
-      entitlements: .file(path: "${PROJECT_DIR}/../../../Tools/AboutTime.entitlements"),
+      bundleId: Project.appBundleId,
+      deploymentTargets: Project.deploymentTarget,
+      infoPlist: .dictionary(infoPlist),
+      sources: ["Sources/**"],
+      resources: ["Resources/**"],
       scripts: targetScripts,
       dependencies: dependencies
     )
-    
+      
     var testDependencies = testDependencies
     testDependencies.append(.target(name: "\(name)"))
-    let testTarget = Target(
+    let testTarget = Target.target(
       name: "\(name)Tests",
       destinations: destinations,
       product: .unitTests,
@@ -128,19 +103,5 @@ extension Project {
   }
 }
 
-public extension TargetDependency {
-  
-  static let firebaseAnalytics: TargetDependency = .external(name: "FirebaseAnalytics")
-  static let firebaseMessaging: TargetDependency = .external(name: "FirebaseMessaging")
-  static let firebaseCrashlytics: TargetDependency = .external(name: "FirebaseCrashlytics")
-  static let firebaseAppDistributionBeta: TargetDependency = .external(name: "FirebaseAppDistribution-Beta")
-  static let firebaseDynamicLinks: TargetDependency = .external(name: "FirebaseDynamicLinks")
-  static let googleSignIn: TargetDependency = .external(name: "GoogleSignIn")
-  static let swiftyJSON: TargetDependency = .external(name: "SwiftyJSON")
-  static let lottie: TargetDependency = .external(name: "Lottie")
-  static let tca: TargetDependency = .external(name: "ComposableArchitecture")
-  static let imageLoader: TargetDependency = .external(name: "ImageLoader-iOS")
-  static let network: TargetDependency = .external(name: "Network-iOS")
-  static let swiftuiIntrospect: TargetDependency = .external(name: "SwiftUIIntrospect")
-  
-}
+
+

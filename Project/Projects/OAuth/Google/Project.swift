@@ -8,14 +8,14 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-let project = Project.makeOAuth(
-  name: "OAuthGoogle",
-  frameworkDependencies: [
-    .project(
-      target: "ArchiveFoundation",
-      path: "../../ArchiveFoundation"
-    ),
-    .googleSignIn
-  ],
-  testDependencies: []
-)
+//let project = Project.makeOAuth(
+//  name: "OAuthGoogle",
+//  frameworkDependencies: [
+//    .project(
+//      target: "ArchiveFoundation",
+//      path: "../../ArchiveFoundation"
+//    ),
+//    .googleSignIn
+//  ],
+//  testDependencies: []
+//)
