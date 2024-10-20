@@ -1,8 +1,8 @@
-// swift-tools-version: 5.9
-import PackageDescription
+// swift-tools-version: 6.0
+@preconcurrency import PackageDescription
 
 #if TUIST
-import ProjectDescription
+@preconcurrency import ProjectDescription
 import ProjectDescriptionHelpers
 
 let packageSettings = PackageSettings(
@@ -36,7 +36,7 @@ let package = Package(
     .package(url: "https://github.com/google/GoogleSignIn-iOS", from: "7.1.0"),
     .package(url: "https://github.com/SwiftyJSON/SwiftyJSON.git", from: "5.0.1"),
     .package(url: "https://github.com/airbnb/lottie-ios.git", from: "4.4.3"),
-    .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", from: "1.7.1"),
+    .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", from: "1.15.0"),
     .package(url: "https://github.com/Team-Archive/ImageLoader-iOS.git", branch: "master"),
     .package(url: "https://github.com/Team-Archive/Network-iOS.git", branch: "master"),
     .package(url: "https://github.com/siteline/swiftui-introspect", from: "1.1.4"),
@@ -57,5 +57,6 @@ let package = Package(
         "Network-iOS"
       ]
     )
-  ]
+  ],
+  swiftLanguageModes: nil
 )
