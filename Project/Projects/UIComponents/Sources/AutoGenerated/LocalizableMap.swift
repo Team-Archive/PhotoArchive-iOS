@@ -19,6 +19,8 @@ public enum L10n {
     public static let nsPhotoLibraryUsageDescription = L10n.tr("InfoPlist", "NSPhotoLibraryUsageDescription")
   }
   public enum Localizable {
+    /// 즐겨찾는 항목
+    public static let albumFavoriteAlbum = L10n.tr("Localizable", "Album_Favorite_Album")
     /// 접근권한 허용
     public static let albumNotPermittedAllowButtonTitle = L10n.tr("Localizable", "Album_Not_Permitted_Allow_Button_Title")
     /// About Time을 이용해 사진을 친구들과 공유하기 위해 사진첩 접근권한이 필요해요

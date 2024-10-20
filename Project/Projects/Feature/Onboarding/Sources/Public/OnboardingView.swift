@@ -101,11 +101,15 @@ public struct OnboardingView<ServiceSignInDelegatorView>: View where ServiceSign
         .fullScreenCover(isPresented: viewStore.binding(
           get: { $0.isShowSignUp },
           send: { _ in OnboardingReducer.Action.action(.closeSignUp) })) {
-            ServiceSignInDelegatorView { signInToken in
-              viewStore.send(.action(.setServiceSignInToken(signInToken)))
-            } closeAction: {
-              viewStore.send(.action(.closeSignUp))
-            }
+            ServiceSignInDelegatorView(
+              oauthSignInData: .apple(token: ""), // TODO: 적절한거 넣어야함
+              completeAction: { token in
+                viewStore.send(.action(.setServiceSignInToken(token)))
+              },
+              closeAction: {
+                viewStore.send(.action(.closeSignUp))
+              }
+            )
         }
         
         if viewStore.isLoading {

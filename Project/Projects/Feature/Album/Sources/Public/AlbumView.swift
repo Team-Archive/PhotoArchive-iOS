@@ -19,7 +19,7 @@ public struct AlbumView: View {
   
   // MARK: - Private Property
   
-  private let store: StoreOf<AlbumReducer>
+  @State private var store: StoreOf<AlbumReducer>
   @State private var stackPath: NavigationPath = .init()
   @State private var isShowAlbumSelect: Bool = false
   private var closeAction: () -> Void
@@ -34,9 +34,9 @@ public struct AlbumView: View {
     complete: @escaping ([PHAsset]) -> Void,
     close: @escaping () -> Void
   ) {
-    self.store = .init(initialState: reducer.initialState, reducer: {
+    self._store = .init(wrappedValue: .init(initialState: reducer.initialState, reducer: {
       return reducer
-    })
+    }))
     self.completeAction = complete
     self.closeAction = close
     self.store.send(.readAlbumList)

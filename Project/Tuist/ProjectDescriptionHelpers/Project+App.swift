@@ -64,11 +64,6 @@ extension Project {
   ) -> [Target] {
     let destinations: Destinations = destinations
     
-    let infoPlist: [String: Plist.Value] = [
-      "CFBundleShortVersionString": "1.0",
-      "CFBundleVersion": "1"
-    ]
-    
     let targetScripts: [TargetScript] = {
       var returnValue: [TargetScript] = []
       returnValue.append(.pre(script: "${PROJECT_DIR}/../../Tools/swiftlint --config \"${PROJECT_DIR}/Resources/swiftlint.yml\"", name: "Lint"))
@@ -81,7 +76,7 @@ extension Project {
       product: .app,
       bundleId: Project.appBundleId,
       deploymentTargets: Project.deploymentTarget,
-      infoPlist: .dictionary(infoPlist),
+      infoPlist: .file(path: .relativeToRoot("AppInfoPlist/Info.plist")),
       sources: ["Sources/**"],
       resources: ["Resources/**"],
       scripts: targetScripts,
