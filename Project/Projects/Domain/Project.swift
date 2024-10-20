@@ -22,7 +22,7 @@ let project = Project(
         target: "ArchiveFoundation",
         path: "../ArchiveFoundation"
       ),
-      .swiftyJSON
+      .domainInterface
     ],
     testDependencies: [
     ],

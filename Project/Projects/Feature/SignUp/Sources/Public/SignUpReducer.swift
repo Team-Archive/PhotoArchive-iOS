@@ -11,6 +11,7 @@ import Foundation
 import ArchiveFoundation
 import Domain
 import Photos
+import DomainInterface
 
 public struct SignUpReducer: Reducer {
   

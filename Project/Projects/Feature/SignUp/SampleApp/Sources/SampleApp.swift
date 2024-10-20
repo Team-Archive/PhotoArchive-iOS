@@ -12,6 +12,7 @@ import Domain
 import ArchiveFoundation
 import Photos
 import AppRoute
+import DomainInterface
 
 @main
 struct SampleApp: App {
