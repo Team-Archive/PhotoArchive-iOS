@@ -15,5 +15,5 @@ public protocol UpdateProfileRepository {
   func isDuplicatedName(_ name: String) async -> Result<Bool, ArchiveError>
   func updateName(signInToken: SignInToken, name: String) async -> Result<Void, ArchiveError>
   func updateLocation(signInToken: SignInToken, city: City) async -> Result<Void, ArchiveError>
-  func updateAvtivityTime(signInToken: SignInToken, city: City, activityTime: [DaysOfTheWeek: [ActivityTimeInterval]]) async -> Result<Void, ArchiveError>
+  func updateAvtivityTime(signInToken: SignInToken, city: City, activityTime: [ActivityTimeInterval]) async -> Result<Void, ArchiveError>
 }
