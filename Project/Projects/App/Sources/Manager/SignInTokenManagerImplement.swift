@@ -9,28 +9,35 @@
 import Foundation
 import ArchiveFoundation
 import Domain
+import Data
+import DomainInterface
+import Combine
 
-actor SignInTokenManagerImplement: SignInTokenManager {
+final class SignInManagerImplement: SignInTokenManager, MyInformationManager {
   
   // MARK: - private properties
   
-  private var tokenUsecase: ManagementSignInTokenUsecase?
-  private var readWriteDataUsecase: ReadWriteDataUsecase?
-  private var isRefreshingToken = false
-  private var pendingRefreshTasks = [CheckedContinuation<Result<Void, ArchiveError>, Never>]()
+  private var readWriteDataUsecase: ReadWriteDataUsecase
+  private var tokenRefresher: TokenRefresher
   
   private let readWriteTokenDataKey: String = "tokenForAutoLogin"
   
   // MARK: - internal properties
   
-  static let shared = SignInTokenManagerImplement()
+  var isLoggedInStream: CurrentValueSubject<Bool, Never> = .init(false)
+  var signInTokenStream: CurrentValueSubject<SignInToken?, Never> = .init(nil)
+  var infomationStream: CurrentValueSubject<UserInformation?, Never> = .init(nil)
   private(set) var signInToken: SignInToken? {
     didSet {
+      guard oldValue != signInToken else { return }
       if let signInToken {
+        print("access Token: \(signInToken.accessToken)")
         NotificationCenter.default.post(name: NSNotification.Name(NotificationDefine.USER_LOGGED_IN_NOTIFICATION_DEFINE), object: self)
+        self.signInTokenStream.send(signInToken)
+        self.isLoggedInStream.send(true)
         Task {
           if let data = signInToken.toJsonData() {
-            _ = await self.readWriteDataUsecase?.write(
+            _ = await self.readWriteDataUsecase.write(
               key: self.readWriteTokenDataKey,
               data: data
             )
@@ -38,33 +45,94 @@ actor SignInTokenManagerImplement: SignInTokenManager {
         }
       } else {
         NotificationCenter.default.post(name: NSNotification.Name(NotificationDefine.USER_LOGGED_OUT_NOTIFICATION_DEFINE), object: self)
+        self.signInTokenStream.send(nil)
+        self.isLoggedInStream.send(false)
         Task {
-          _ = await self.readWriteDataUsecase?.delete(key: self.readWriteTokenDataKey)
+          _ = await self.readWriteDataUsecase.delete(key: self.readWriteTokenDataKey)
         }
       }
     }
   }
   
+  static let shared = SignInManagerImplement()
+  
+  
   // MARK: - life cycle
   
-  private init() { }
+  private init() {
+    self.readWriteDataUsecase = ReadWriteDataUsecaseImplement(repository: SecureLocalReadWriteDataRepositoryImplement(service: Bundle.main.bundleIdentifier ?? "com.archive.aboutTime"))
+    self.tokenRefresher = TokenRefresher(tokenUsecase: ManagementSignInTokenUsecaseImplement(repository: ManagementSignInTokenRepositoryImplement()))
+  }
   
   // MARK: - private method
   
   // MARK: - internal method
   
-  func configure(
-    tokenUsecase: ManagementSignInTokenUsecase,
-    readWriteDataUsecase: ReadWriteDataUsecase
-  ) {
-    self.tokenUsecase = tokenUsecase
-    self.readWriteDataUsecase = readWriteDataUsecase
+  func refreshSignInToken() async -> Result<Void, ArchiveError> {
+    guard let currentToken = signInToken else { return .failure(.init(.isNotLoggedIn)) }
+    let result = await tokenRefresher.refreshSignInToken(token: currentToken)
+    switch result {
+    case .success(let newToken):
+      self.signInToken = newToken
+      return .success(())
+    case .failure(let err):
+      return .failure(err)
+    }
   }
   
-  func refreshSignInToken() async -> Result<Void, ArchiveError> {
-    guard let usecase = tokenUsecase else { return .failure(.init(.notSetRequiredValue)) }
-    guard let currentToken = signInToken else { return .failure(.init(.isNotLoggedIn)) }
-    
+  func setSignInToken(_ token: SignInToken) async { // login
+    self.signInToken = token
+  }
+  
+  func removeSignInToken() async { // logout
+    self.signInToken = nil
+    _ = await self.readWriteDataUsecase.delete(key: self.readWriteTokenDataKey)
+  }
+  
+  func trySetSignInTokenFromSavedToken() async -> Bool {
+    let tokenDataResult = await self.readWriteDataUsecase.read(key: self.readWriteTokenDataKey, as: Data.self) // FIXME: Data타입으로 하는게 아닌 그냥 자체 타입으로도 가능할듯
+    switch tokenDataResult {
+    case .success(let data):
+      guard let data else { return false }
+      guard let signInToken = SignInToken(fromJson: data) else { return false }
+      await self.setSignInToken(signInToken)
+      return true
+    case .failure(_):
+      return false
+    }
+  }
+  
+  func launchApp(isAppFirstRun: Bool) async {
+    if isAppFirstRun {
+      await self.removeSignInToken()
+    } else {
+      _ = await self.trySetSignInTokenFromSavedToken()
+    }
+  }
+  
+}
+
+actor TokenRefresher {
+  
+  // MARK: - private properties
+  
+  private var isRefreshingToken = false
+  private var pendingRefreshTasks = [CheckedContinuation<Result<SignInToken, ArchiveError>, Never>]()
+  private var tokenUsecase: ManagementSignInTokenUsecase
+  
+  // MARK: - internal properties
+  
+  // MARK: - life cycle
+  
+  init(tokenUsecase: ManagementSignInTokenUsecase) {
+    self.tokenUsecase = tokenUsecase
+  }
+  
+  // MARK: - private method
+  
+  // MARK: - internal method
+  
+  func refreshSignInToken(token: SignInToken) async -> Result<SignInToken, ArchiveError> {
     if self.isRefreshingToken {
       return await withCheckedContinuation { continuation in
         self.pendingRefreshTasks.append(continuation)
@@ -77,16 +145,15 @@ actor SignInTokenManagerImplement: SignInTokenManager {
       self.isRefreshingToken = false
     }
     
-    let result = await usecase.refreshSignInToken(refreshToken: currentToken.refreshToken)
+    let result = await tokenUsecase.refreshSignInToken(signInToken: token)
     
     switch result {
     case .success(let newToken):
-      self.signInToken = newToken
       for task in pendingRefreshTasks {
-        task.resume(returning: .success(()))
+        task.resume(returning: .success(newToken))
       }
       pendingRefreshTasks.removeAll()
-      return .success(())
+      return .success(newToken)
     case .failure(let error):
       for task in pendingRefreshTasks {
         task.resume(returning: .failure(error))
@@ -96,25 +163,4 @@ actor SignInTokenManagerImplement: SignInTokenManager {
     }
   }
   
-  func setSignInToken(_ token: SignInToken) async { // login
-    self.signInToken = token
-  }
-  
-  func removeSignInToken() async { // logout
-    self.signInToken = nil
-  }
-  
-  func trySetSignInTokenFromSavedToken() async -> Bool {
-    guard let tokenDataResult = await self.readWriteDataUsecase?.read(key: self.readWriteTokenDataKey) else { return false }
-    switch tokenDataResult {
-    case .success(let data):
-      guard let data else { return false }
-      guard let signInToken = SignInToken(fromJson: data) else { return false }
-      await self.setSignInToken(signInToken)
-      return true
-    case .failure(_):
-      return false
-    }
-  }
-
 }

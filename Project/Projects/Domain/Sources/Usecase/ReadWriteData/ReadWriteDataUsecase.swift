@@ -10,8 +10,8 @@ import ArchiveFoundation
 import Foundation
 
 public protocol ReadWriteDataUsecase {
-  func write(key: String, data: Data) async -> Result<Void, ArchiveError>
-  func read(key: String) async -> Result<Data?, ArchiveError>
-  func update(key: String, data: Data) async -> Result<Void, ArchiveError>
+  func write<T: Encodable>(key: String, data: T) async -> Result<Void, ArchiveError>
+  func read<T: Decodable>(key: String, as type: T.Type) async -> Result<T?, ArchiveError>
+  func update<T: Encodable>(key: String, data: T) async -> Result<Void, ArchiveError>
   func delete(key: String) async -> Result<Void, ArchiveError>
 }

@@ -14,7 +14,6 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     pushConfig(application: application)
-    myInfomationConfig()
     return true
   }
   
@@ -43,13 +42,6 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
       }
     }
     application.registerForRemoteNotifications()
-  }
-  
-  private func myInfomationConfig() {
-    let manager = MyInformationManager.shared
-    Task {
-      manager.launchApp
-    }
   }
   
 }

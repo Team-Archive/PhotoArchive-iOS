@@ -27,8 +27,8 @@ public final class ManagementSignInTokenUsecaseImplement: ManagementSignInTokenU
   
   // MARK: - public method
   
-  public func refreshSignInToken(refreshToken: String) async -> Result<SignInToken, ArchiveError> {
-    return await self.repository.refreshSignInToken(refreshToken: refreshToken)
+  public func refreshSignInToken(signInToken: SignInToken) async -> Result<SignInToken, ArchiveError> {
+    return await self.repository.refreshSignInToken(signInToken: signInToken)
   }
 
 }

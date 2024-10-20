@@ -25,7 +25,8 @@ public enum ArchiveErrorCode: Int, LocalizedError {
   case dataDeleteFail
   case notSetRequiredValue
   case isNotLoggedIn
-  
+  case dataEncodingFail
+  case dataDecodingFail
   
   case commonOAuth = 51000
   case tokenNotExsitAppleSignIn

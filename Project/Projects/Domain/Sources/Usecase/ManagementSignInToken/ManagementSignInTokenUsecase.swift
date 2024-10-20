@@ -10,5 +10,5 @@ import Foundation
 import ArchiveFoundation
 
 public protocol ManagementSignInTokenUsecase {
-  func refreshSignInToken(refreshToken: String) async -> Result<SignInToken, ArchiveError>
+  func refreshSignInToken(signInToken: SignInToken) async -> Result<SignInToken, ArchiveError>
 }
