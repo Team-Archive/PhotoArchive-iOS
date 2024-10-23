@@ -11,12 +11,15 @@ public struct ATDivider: View {
   
   // MARK: - public state
   public enum ATDividerType {
+    case extreamSmall
     case small
     case medium
     case large
     
     var height: CGFloat {
       switch self {
+      case .extreamSmall:
+        return 1
       case .small:
         return 2
       case .medium:
@@ -36,7 +39,7 @@ public struct ATDivider: View {
   // MARK: - life cycle
   
   public var body: some View {
-    Gen.Colors.black.color
+    Gen.Colors.purpleGray200.color
       .frame(height: type.height)
   }
   

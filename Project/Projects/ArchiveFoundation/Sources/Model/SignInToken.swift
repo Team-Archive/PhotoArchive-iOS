@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct SignInToken {
+public struct SignInToken: Codable, Sendable, Equatable {
   public let accessToken: String
   public let refreshToken: String
   
@@ -16,4 +16,14 @@ public struct SignInToken {
     self.accessToken = accessToken
     self.refreshToken = refreshToken
   }
+  
+  public init?(fromJson data: Data) {
+    guard let token = try? JSONDecoder().decode(SignInToken.self, from: data) else { return nil }
+    self = token
+  }
+  
+  public func toJsonData() -> Data? {
+    return try? JSONEncoder().encode(self)
+  }
+  
 }

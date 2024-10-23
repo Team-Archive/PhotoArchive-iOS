@@ -41,6 +41,8 @@ public enum L10n {
     public static let commonComplete = L10n.tr("Localizable", "Common_Complete")
     /// 새벽
     public static let commonDawn = L10n.tr("Localizable", "Common_Dawn")
+    /// 변경
+    public static let commonEdit = L10n.tr("Localizable", "Common_Edit")
     /// 예상하지 못한 오류가 발생하였습니다.
     public static let commonErrorMessage = L10n.tr("Localizable", "Common_Error_Message")
     /// 오류
@@ -53,6 +55,10 @@ public enum L10n {
     public static let commonEvening = L10n.tr("Localizable", "Common_Evening")
     /// 오전
     public static let commonForenoon = L10n.tr("Localizable", "Common_Forenoon")
+    /// 시
+    public static let commonHour = L10n.tr("Localizable", "Common_Hour")
+    /// 분
+    public static let commonMinute = L10n.tr("Localizable", "Common_Minute")
     /// 아침
     public static let commonMorning = L10n.tr("Localizable", "Common_Morning")
     /// 다음
@@ -61,6 +67,8 @@ public enum L10n {
     public static let commonNight = L10n.tr("Localizable", "Common_Night")
     /// 필수
     public static let commonRequired = L10n.tr("Localizable", "Common_Required")
+    /// 저장
+    public static let commonSave = L10n.tr("Localizable", "Common_Save")
     /// 금
     public static let commonShortFriday = L10n.tr("Localizable", "Common_Short_Friday")
     /// 월
@@ -103,11 +111,12 @@ public enum L10n {
     public static let signUpSetActivityTimeContents = L10n.tr("Localizable", "Sign_Up_Set_Activity_Time_Contents")
     /// 시작하기
     public static let signUpSetActivityTimeDoneButtonTitle = L10n.tr("Localizable", "Sign_Up_Set_Activity_Time_Done_Button_Title")
-    /// %@에서 연락하기 편한
-    /// 시간대와 요일을 선택해 주세요
-    public static func signUpSetActivityTimeTitle(_ p1: Any) -> String {
-      return L10n.tr("Localizable", "Sign_Up_Set_Activity_Time_Title", String(describing: p1))
-    }
+    /// 다른 시간 선택하기
+    public static let signUpSetActivityTimeMakeCustomTimeButton = L10n.tr("Localizable", "Sign_Up_Set_Activity_Time_Make_Custom_Time_Button")
+    /// 연락하기 편한 시간
+    public static let signUpSetActivityTimeMakeCustomTimeTitle = L10n.tr("Localizable", "Sign_Up_Set_Activity_Time_Make_Custom_Time_Title")
+    /// 연락하기 편한 시간을 선택해 주세요
+    public static let signUpSetActivityTimeTitle = L10n.tr("Localizable", "Sign_Up_Set_Activity_Time_Title")
     /// 지금 계신 도시를 선택해 주세요.
     public static let signUpSetCityContents = L10n.tr("Localizable", "Sign_Up_Set_City_Contents")
     /// 도시 또는 나라 스펠링을 정확하게

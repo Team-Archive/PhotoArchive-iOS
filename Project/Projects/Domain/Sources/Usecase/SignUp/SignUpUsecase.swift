@@ -8,6 +8,7 @@
 
 import ArchiveFoundation
 import Foundation
+import DomainInterface
 
 public protocol SignUpUsecase {
   func signUp(oauthData: OAuthSignInData) async -> Result<SignInToken, ArchiveError>

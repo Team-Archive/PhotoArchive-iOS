@@ -8,48 +8,16 @@ let project = Project.app(
   bundleAppName: "AboutTime",
   destinations: .iOS,
   dependencies: [
-    .project(
-      target: "ArchiveFoundation",
-      path: "../ArchiveFoundation"
-    ),
-    .project(
-      target: "AppRoute",
-      path: "../AppRoute"
-    ),
-    .project(
-      target: "Data",
-      path: "../Data"
-    ),
-    .project(
-      target: "UIComponents",
-      path: "../UIComponents"
-    ),
-    .firebaseAnalytics,
-    .firebaseMessaging,
-    .firebaseCrashlytics,
-    .firebaseAppDistributionBeta,
-    .firebaseDynamicLinks,
-    .swiftyJSON,
-    .project(
-      target: "Onboarding",
-      path: "../Feature/Onboarding"
-    ),
-    .project(
-      target: "AppstoreSearch",
-      path: "../Feature/AppstoreSearch"
-    ),
-    .project(
-      target: "SignUp",
-      path: "../Feature/SignUp"
-    ),
-    .project(
-      target: "Calendar",
-      path: "../Feature/Calendar"
-    ),
-    .project(
-      target: "MyProfile",
-      path: "../Feature/MyProfile"
-    )
+    .archiveFoundation,
+    .appRoute,
+    .data,
+    .uiComponents,
+    .domainCommon,
+    .feature(target: "AppstoreSearch", directoryName: "AppstoreSearch"),
+    .feature(target: "SignUp", directoryName: "SignUp"),
+    .feature(target: "Calendar", directoryName: "Calendar"),
+    .feature(target: "MyProfile", directoryName: "MyProfile"),
+    .feature(target: "Onboarding", directoryName: "Onboarding")
   ],
   additionalTargets: [],
   additionalSourcePaths: [],

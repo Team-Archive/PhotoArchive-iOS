@@ -9,29 +9,24 @@
 import ArchiveFoundation
 import Foundation
 import UIComponents
+import SwiftUI
 
 public enum SignUpActivityTime: Hashable, CaseIterable {
   case morning
-  case forenoon
   case afternoon
   case evening
   case night
-  case dawn
   
   var localizedName: String {
     switch self {
     case .morning:
       return L10n.Localizable.commonMorning
-    case .forenoon:
-      return L10n.Localizable.commonForenoon
     case .afternoon:
       return L10n.Localizable.commonAfternoon
     case .evening:
       return L10n.Localizable.commonEvening
     case .night:
       return L10n.Localizable.commonNight
-    case .dawn:
-      return L10n.Localizable.commonDawn
     }
   }
   
@@ -48,17 +43,6 @@ public enum SignUpActivityTime: Hashable, CaseIterable {
           minute: 0
         )
       )
-    case .forenoon:
-      return .init(
-        start: .init(
-          hour: 9,
-          minute: 0
-        ),
-        end: .init(
-          hour: 12,
-          minute: 0
-        )
-      )
     case .afternoon:
       return .init(
         start: .init(
@@ -92,17 +76,19 @@ public enum SignUpActivityTime: Hashable, CaseIterable {
           minute: 0
         )
       )
-    case .dawn:
-      return .init(
-        start: .init(
-          hour: 0,
-          minute: 0
-        ),
-        end: .init(
-          hour: 3,
-          minute: 0
-        )
-      )
+    }
+  }
+  
+  var icon: Image {
+    switch self {
+    case .morning:
+      return Gen.Images.morning.image
+    case .afternoon:
+      return Gen.Images.afternoon.image
+    case .evening:
+      return Gen.Images.evening.image
+    case .night:
+      return Gen.Images.night.image
     }
   }
   
