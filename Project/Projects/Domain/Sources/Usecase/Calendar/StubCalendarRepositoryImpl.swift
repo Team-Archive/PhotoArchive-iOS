@@ -19,21 +19,21 @@ public final class StubCalendarRepositoryImpl: CalendarRepository {
     let calendar = Calendar.current
     let components = calendar.dateComponents([.year, .month], from: month)
     
-    // 1일
     guard let range = calendar.range(of: .day, in: .month, for: month),
           let firstDayOfMonth = calendar.date(from: components) else {
       return datasource
     }
-
+    
     let firstWeekDay = calendar.component(.weekday, from: firstDayOfMonth)
     datasource = [ATCalendar](repeating: .empty, count: firstWeekDay - 1)
     
     let photoData = fetchPhotoURL()
-    for day in 0..<range.count {
-      let photo = photoData[safe: day] ?? nil
+    for day in range {
+      let photo = photoData[safe: day - 1] ?? nil
       let data = ATCalendar(
-        date: calendar.date(byAdding: .day, value: day, to: firstDayOfMonth),
-        photoURL: photo)
+        date: calendar.date(byAdding: .day, value: day - 1, to: firstDayOfMonth),
+        photoURL: photo
+      )
       datasource.append(data)
     }
     
@@ -42,13 +42,13 @@ public final class StubCalendarRepositoryImpl: CalendarRepository {
   
   public func fetchWeekDay() -> [String] {
     let weekDay = [
-      "Sun",
-      "Mon",
-      "The",
-      "Wen",
-      "Thu",
-      "Fri",
-      "Sat"
+      "일",
+      "월",
+      "화",
+      "수",
+      "목",
+      "금",
+      "토"
     ]
     
     return weekDay
@@ -61,7 +61,7 @@ public final class StubCalendarRepositoryImpl: CalendarRepository {
     photoURL[9] = URL(string: "https://i.pinimg.com/736x/77/9f/bd/779fbd092c3a3c5a600f9c9977906fec.jpg")
     photoURL[15] = URL(string: "https://i.pinimg.com/564x/4b/29/f3/4b29f34f8b67ba483ca504a6a905e595.jpg")
     photoURL[18] = URL(string: "https://i.pinimg.com/736x/36/49/51/3649514b5df96f881f5b889be8a9b947.jpg")
-    photoURL[26] = URL(string: "https://i.pinimg.com/736x/36/49/51/3649514b5df96f881f5b889be8a9b947.jpg")
+    photoURL[26] = URL(string: "https://i.pinimg.com/564x/f3/0d/0b/f30d0b66f8882a6fa86f72997deab796.jpg")
     photoURL[27] = URL(string: "https://i.pinimg.com/736x/a5/42/f7/a542f775abeeea554618fec94ed78a89.jpg")
     
     return photoURL

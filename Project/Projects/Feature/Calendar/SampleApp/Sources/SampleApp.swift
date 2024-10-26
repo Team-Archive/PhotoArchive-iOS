@@ -22,6 +22,16 @@ struct SampleApp: App {
               )
             )
           )
+          
+          CalendarView(
+            reducer: CalendarReducer(
+              selectedMonth: Date(),
+              selectedDay: Calendar.current.startOfDay(for: Date()),
+              useCase: CalendarUsecaseImpl(
+                repository: StubCalendarRepositoryImpl()
+              )
+            )
+          )
           Spacer()
         }
       }

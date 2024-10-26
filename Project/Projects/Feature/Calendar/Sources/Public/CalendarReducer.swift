@@ -19,19 +19,31 @@ public struct CalendarReducer: Reducer {
   public enum Action: Equatable {
     case selectNextMonth
     case selectPreviousMonth
+    case selectDay(Date)
+    case setMode(CalendarMode)
     case makeDatasource(Date)
     case setDatasource([ATCalendar])
   }
   
   public struct State: Equatable {
     var selectedMonth: Date
+    var selectedDay: Date?
     var datasource: [ATCalendar] = []
     var weekDayList: [String] = []
+    var mode: CalendarMode
     
-    public init(selectedMonth: Date, datasource: [ATCalendar], weekDayList: [String]) {
+    public init(
+      selectedMonth: Date,
+      selectedDay: Date?,
+      datasource: [ATCalendar],
+      weekDayList: [String],
+      mode: CalendarMode
+    ) {
       self.selectedMonth = selectedMonth
+      self.selectedDay = selectedDay
       self.datasource = datasource
       self.weekDayList = weekDayList
+      self.mode = mode
     }
   }
   
@@ -42,13 +54,19 @@ public struct CalendarReducer: Reducer {
   public var initialState: State
   
   // MARK: - LifeCycle
-  public init(selectedMonth: Date, useCase: CalendarUsecase) {
+  public init(
+    selectedMonth: Date,
+    selectedDay: Date? = nil,
+    useCase: CalendarUsecase
+  ) {
     let weekDay = useCase.fetchWeekDay()
     
     self.initialState = State(
       selectedMonth: selectedMonth,
+      selectedDay: selectedDay,
       datasource: [],
-      weekDayList: weekDay
+      weekDayList: weekDay,
+      mode: selectedDay != nil ? .week : .month
     )
     self.useCase = useCase
   }
@@ -57,7 +75,7 @@ public struct CalendarReducer: Reducer {
     Reduce { state, action in
       switch action {
       case .selectNextMonth:
-        if let nextMonth = Calendar.current.date(byAdding: .month, value: 1, to: state.selectedMonth) {
+        if let nextMonth = useCase.fetchNextMonth(target: state.selectedMonth) {
           state.selectedMonth = nextMonth
           
           return .concatenate(.run(operation: { send in
@@ -67,7 +85,7 @@ public struct CalendarReducer: Reducer {
           return .none
         }
       case .selectPreviousMonth:
-        if let previousMonth = Calendar.current.date(byAdding: .month, value: -1, to: state.selectedMonth) {
+        if let previousMonth = useCase.fetchPreviousMonth(target: state.selectedMonth) {
           state.selectedMonth = previousMonth
           return .concatenate(.run(operation: { send in
             await send(.makeDatasource(previousMonth))
@@ -77,26 +95,47 @@ public struct CalendarReducer: Reducer {
         }
       case .makeDatasource(let date):
         return .run { send in
-          let result = await self.makeDatasource(with: date)
+          let result = await self.makeMonthDataSource(with: date)
           await send(.setDatasource(result))
         }
       case .setDatasource(let datasource):
         state.datasource = datasource
         return .none
-      default:
-        return .none
+      case .setMode(let mode):
+        state.mode = mode
+        if mode == .month {
+          let selectedMonth = state.selectedMonth
+          return .concatenate(.run(operation: { send in
+            await send(.makeDatasource(selectedMonth))
+          }))
+        } else {
+          return .none
+        }
+      case .selectDay(let date):
+        state.selectedDay = date
+        state.mode = .week
+        return .run { send in
+          let result = await self.makeWeekDataSource(with: date)
+          await send(.setDatasource(result))
+        }
       }
     }
   }
   
   // MARK: - Private Method
-  private func makeDatasource(with date: Date) async -> [ATCalendar] {
-    guard let result = try? await useCase.fetchDatasource(with: date) else {
+  private func makeMonthDataSource(with date: Date) async -> [ATCalendar] {
+    guard let result = try? await useCase.fetchMonthDatasource(target: date) else {
       return [ATCalendar]()
     }
     
     return result
   }
-
-  // MARK: - Public Method
+  
+  private func makeWeekDataSource(with date: Date) async -> [ATCalendar] {
+    guard let result = try? await useCase.fetchWeekDatasource(target: date) else {
+      return [ATCalendar]()
+    }
+    
+    return result
+  }
 }
