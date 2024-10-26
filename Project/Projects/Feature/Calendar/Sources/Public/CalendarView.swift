@@ -32,8 +32,14 @@ public struct CalendarView: View {
           CalendarMonthInfoView()
           CalendarWeekDayView()
           CalendarDayView()
+          CalendarExpandView()
         }.onAppear(perform: {
-          store.send(.makeDatasource(state.selectedMonth))
+          if let selectedDay = state.selectedDay {
+            store.send(.setMode(.week))
+            store.send(.selectDay(selectedDay))
+          } else {
+            store.send(.makeDatasource(state.selectedMonth))
+          }
         })
       }
     }
@@ -42,7 +48,6 @@ public struct CalendarView: View {
   public init(reducer: CalendarReducer, selectHandler: ((ATCalendar?) -> Void)? = nil) {
     self.selectHandler = selectHandler
     self.store = StoreOf<CalendarReducer>(initialState: reducer.initialState, reducer: {
-     
       return reducer
     })
   }
@@ -96,27 +101,58 @@ public struct CalendarView: View {
       LazyVGrid(columns: Array(repeating: GridItem(.flexible(minimum: 40, maximum: 60), spacing: 8), count: 7), spacing: 8) {
           
           ForEach(state.datasource.indices, id: \.self) { index in
-            if let day = state.datasource[safe: index]?.day, day != "" {
+            if let data = state.datasource[safe: index],
+               let date = data.date {
+              let isSelected = date == state.selectedDay
               ZStack {
-                if let imageURL = state.datasource[safe: index]?.photoURL {
+                if let imageURL = data.photoURL {
                   ATUrlImage(url: imageURL)
                     .aspectRatio(contentMode: .fill)
+                    .overlay {
+                      Gen.Colors.black.color.opacity(0.4)
+                    }
                 }
                 
-                Text(day)
+                Text(data.day)
                   .font(.fonts(.bodyBold14))
-                  .foregroundStyle(Gen.Colors.white.color)
-                  .background(Color.gray.opacity(0.1))
+                  .foregroundStyle(isSelected ? Gen.Colors.point.color : Gen.Colors.white.color)
               }.onTapGesture {
-                selectHandler?(state.datasource[safe: index])
+                guard let date = state.datasource[safe: index]?.date else { return }
+                state.send(.selectDay(date))
               }
               .frame(width: 40, height: 40, alignment: .center)
+              .overlay(content: {
+                RoundedRectangle(cornerRadius: 12, style: .continuous)
+                  .stroke(lineWidth: isSelected ? 2 : 0)
+                  .foregroundStyle(Gen.Colors.point.color)
+              })
               .cornerRadius(12)
             } else {
               Color.clear
                 .frame(width: 40, height: 40, alignment: .center)
             }
           }
+      }
+    }
+  }
+  
+  @ViewBuilder
+  private func CalendarExpandView() -> some View {
+    WithViewStore(store, observe: { $0 }) { state in
+      if state.mode == .week {
+        HStack(alignment: .center) {
+          Text("펼쳐보기")
+            .font(.fonts(.bodyBold14))
+            .foregroundStyle(Gen.Colors.white.color)
+          
+          Gen.Images.arrowDown24.image
+            .resizable()
+            .frame(width: 16, height: 16)
+        }
+        .padding(.vertical, 12)
+        .onTapGesture {
+          state.send(.setMode(.month))
+        }
       }
     }
   }

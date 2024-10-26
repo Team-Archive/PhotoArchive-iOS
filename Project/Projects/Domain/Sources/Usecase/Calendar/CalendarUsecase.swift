@@ -10,6 +10,9 @@ import Foundation
 import ArchiveFoundation
 
 public protocol CalendarUsecase {
-  func fetchDatasource(with month: Date) async throws -> [ATCalendar]
+  func fetchMonthDatasource(target month: Date) async throws -> [ATCalendar]
+  func fetchWeekDatasource(target date: Date) async throws -> [ATCalendar]
+  func fetchNextMonth(target month: Date) -> Date?
+  func fetchPreviousMonth(target month: Date) -> Date?
   func fetchWeekDay() -> [String]
 }
