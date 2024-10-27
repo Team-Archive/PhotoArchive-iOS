@@ -9,9 +9,9 @@
 import ArchiveFoundation
 import Foundation
 import AuthenticationServices
+import DomainInterface
 
 public class OAuthApple: NSObject, OAuth, ASAuthorizationControllerDelegate {
-  
   
   // MARK: - private properties
   
