@@ -6,25 +6,57 @@
 //  Copyright © 2024 TeamArchive. All rights reserved.
 //
 
-import ArchiveFoundation
 import Foundation
+import GoogleSignIn
+import ArchiveFoundation
+import DomainInterface
+import AuthenticationServices
 
-public final class OAuthGoogle: NSObject, OAuth {
+public class OAuthGoogle: NSObject, OAuth {
   
   // MARK: - private properties
   
-  // MARK: - internal properties
+  private weak var fromViewController: UIViewController?
   
+  
+  // MARK: - internal properties
+
   // MARK: - life cycle
   
-  // MARK: - private method
-  
-  // MARK: - internal method
-  
-  public func oauthSignIn() async -> Result<OAuthSignInData, ArchiveError> {
-    // FIXME: 개발해야함
-    return .failure(.init(.commonError))
+  public init(fromViewController: UIViewController?) {
+    self.fromViewController = fromViewController
   }
   
-
+  // MARK: - public method
+  
+  @MainActor
+  public func oauthSignIn() async -> Result<OAuthSignInData, ArchiveError> {
+    return await withCheckedContinuation { [weak self] continuation in
+      guard let fromViewController = self?.fromViewController else {
+        continuation.resume(returning: .failure(.init(.notFoundTopViewController)))
+        return
+      }
+      
+      GIDSignIn.sharedInstance.signIn(withPresenting: fromViewController) { signInResult, error in
+        if let error = error {
+          if (error as NSError).code == -5 {
+            continuation.resume(returning: .failure(.init(.userCancel)))
+          } else {
+            continuation.resume(returning: .failure(.init(.unexpectedGoogleSignIn)))
+          }
+          return
+        }
+        guard let result = signInResult else {
+          continuation.resume(returning: .failure(.init(.unexpectedGoogleSignIn)))
+          return
+        }
+        guard let token = signInResult?.user.accessToken.tokenString else {
+          continuation.resume(returning: .failure(.init(.tokenNotExistGoogleSignIn)))
+          return
+        }
+        continuation.resume(returning: .success(.google(token: token)))
+      }
+    }
+  }
 }
+

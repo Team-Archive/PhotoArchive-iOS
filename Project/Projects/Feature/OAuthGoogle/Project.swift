@@ -11,7 +11,9 @@ import ProjectDescriptionHelpers
 let project = Project.makeFeature(
   name: "OAuthGoogle",
   frameworkDependencies: [
-    .archiveFoundation
+    .googleSignIn,
+    .archiveFoundation,
+    .domainInterface
   ],
   testDependencies: []
 )
