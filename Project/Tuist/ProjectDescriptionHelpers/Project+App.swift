@@ -79,6 +79,7 @@ extension Project {
       infoPlist: .file(path: .relativeToRoot("AppInfoPlist/Info.plist")),
       sources: ["Sources/**"],
       resources: ["Resources/**"],
+      entitlements: .file(path: .relativeToRoot("Tools/App.entitlements")),
       scripts: targetScripts,
       dependencies: dependencies
     )
