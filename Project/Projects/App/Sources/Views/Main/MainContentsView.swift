@@ -16,6 +16,8 @@ import Domain
 import AppRoute
 import DomainInterface
 import Data
+import OAuthApple
+import OAuthGoogle
 
 public struct MainContentView: View {
   
@@ -49,8 +51,8 @@ public struct MainContentView: View {
                 repository: SignInRepositoryImplement()
               ),
               oauthUsecaseFactory: OAuthUsecaseFactoryImplement(
-                signInWithApple: StubOAtuh(),
-                signInWithGoogle: StubOAtuh(),
+                signInWithApple: OAuthApple(),
+                signInWithGoogle: OAuthGoogle(fromViewController: .topViewController),
                 signInWithFacebook: StubOAtuh()
               ),
               pushNotificationUsecase: PushNotificationUsecaseImplement(

@@ -11,7 +11,8 @@ import ProjectDescriptionHelpers
 let project = Project.makeFeature(
   name: "OAuthApple",
   frameworkDependencies: [
-    .archiveFoundation
+    .archiveFoundation,
+    .domainInterface
   ],
   testDependencies: []
 )
