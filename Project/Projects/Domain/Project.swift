@@ -22,6 +22,7 @@ let project = Project(
         target: "ArchiveFoundation",
         path: "../ArchiveFoundation"
       ),
+      .archiveFoundation,
       .domainInterface
     ],
     testDependencies: [
