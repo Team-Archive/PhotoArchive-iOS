@@ -17,7 +17,8 @@ let project = Project.app(
     .feature(target: "SignUp", directoryName: "SignUp"),
     .feature(target: "Calendar", directoryName: "Calendar"),
     .feature(target: "MyProfile", directoryName: "MyProfile"),
-    .feature(target: "Onboarding", directoryName: "Onboarding")
+    .feature(target: "Onboarding", directoryName: "Onboarding"),
+    .feature(target: "Album", directoryName: "Album")
   ],
   additionalTargets: [],
   additionalSourcePaths: [],

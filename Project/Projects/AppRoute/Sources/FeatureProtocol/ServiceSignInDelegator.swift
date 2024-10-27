@@ -9,9 +9,10 @@
 import Foundation
 import SwiftUI
 import ArchiveFoundation
+import DomainInterface
 
 public protocol ServiceSignInDelegator where Self: View {
   
-  init(completeAction: @escaping (SignInToken) -> Void, closeAction: @escaping () -> Void)
+  init(oauthSignInData: OAuthSignInData, completeAction: @escaping (SignInToken) -> Void, closeAction: @escaping () -> Void)
   
 }

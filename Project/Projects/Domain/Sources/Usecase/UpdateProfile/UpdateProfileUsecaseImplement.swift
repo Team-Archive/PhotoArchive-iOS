@@ -71,9 +71,9 @@ public final class UpdateProfileUsecaseImplement: UpdateProfileUsecase {
   public func updateAvtivityTime(
     signInToken: SignInToken,
     city: City,
-    activityTime: [DaysOfTheWeek: [ActivityTimeInterval]]
+    activityTime: [ActivityTimeInterval]
   ) async -> Result<Void, ArchiveError> {
-    // TODO: 시간을 합쳐줘야 할 수 있음..
+    // 시간을 합쳐줘야 할 수 있음..
     return await self.repository.updateAvtivityTime(
       signInToken: signInToken,
       city: city,

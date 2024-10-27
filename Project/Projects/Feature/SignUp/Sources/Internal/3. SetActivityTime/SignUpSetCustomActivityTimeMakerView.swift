@@ -54,9 +54,6 @@ struct SignUpSetCustomActivityTimeMakerView: View {
           editView()
         }
         HStack(spacing: 12) {
-          cancelButton {
-            self.closeAction()
-          }
           ATBottomActionButton(
             designType: .secondary,
             title: L10n.Localizable.commonSave,
@@ -67,7 +64,7 @@ struct SignUpSetCustomActivityTimeMakerView: View {
           )
         }
         .padding(.designContentsSideInsets)
-        .padding(.top, 40)
+        .padding(.top, 20)
       }
       .padding(.designContentsSideInsets)
     }

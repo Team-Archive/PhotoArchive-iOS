@@ -12,6 +12,7 @@ import Domain
 import ArchiveFoundation
 import Photos
 import AppRoute
+import DomainInterface
 
 @main
 struct SampleApp: App {
@@ -150,7 +151,7 @@ final class StubUpdateProfileRepositoryImplement: UpdateProfileRepository {
     return .success(())
   }
   
-  func updateAvtivityTime(signInToken: SignInToken, city: City, activityTime: [DaysOfTheWeek: [ActivityTimeInterval]]) async -> Result<Void, ArchiveError> {
+  func updateAvtivityTime(signInToken: SignInToken, city: City, activityTime: [ActivityTimeInterval]) async -> Result<Void, ArchiveError> {
     return .success(())
   }
   

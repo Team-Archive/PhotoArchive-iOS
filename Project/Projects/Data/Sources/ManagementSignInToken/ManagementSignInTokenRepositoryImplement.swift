@@ -26,7 +26,7 @@ public final class ManagementSignInTokenRepositoryImplement: ManagementSignInTok
   
   // MARK: - internal method
   
-  public func refreshSignInToken(refreshToken: String) async -> Result<SignInToken, ArchiveError> {
+  public func refreshSignInToken(signInToken: SignInToken) async -> Result<SignInToken, ArchiveError> {
     // TODO: 개발
     return .failure(.init(.commonError))
   }

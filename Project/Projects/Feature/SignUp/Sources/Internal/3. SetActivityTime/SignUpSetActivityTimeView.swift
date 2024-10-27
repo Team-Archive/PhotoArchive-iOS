@@ -63,7 +63,10 @@ struct SignUpSetActivityTimeView: View, SignUpStepView {
                 ForEach(0..<SignUpActivityTime.allCases.count, id: \.self) { index in
                   activityTimeCellView(SignUpActivityTime.allCases[index])
                 }
-                addCustomView()
+//                if let customTime = viewStore.customActivityTime {
+//                  customActivityTimeCellView(customTime)
+//                }
+//                addCustomView()
               }
               
             }
@@ -108,7 +111,7 @@ struct SignUpSetActivityTimeView: View, SignUpStepView {
             Text("⏰ " + L10n.Localizable.signUpSetActivityTimeMakeCustomTimeButton)
               .font(.fonts(.buttonSemiBold14))
               .foregroundStyle(Gen.Colors.white.color)
-            Gen.Images.arrow.image
+            Gen.Images.arrowMini.image
               .resizable()
               .frame(width: 16, height: 16)
           }
@@ -155,6 +158,42 @@ struct SignUpSetActivityTimeView: View, SignUpStepView {
       .frame(height: 66)
     }
   }
+  
+//  private func customActivityTimeCellView(_ time: ActivityTimeInterval) -> some View {
+//    WithViewStore(store, observe: { $0 }) { viewStore in
+//      ZStack {
+//        VStack {
+//          ATDivider(type: .small)
+//          Spacer()
+//        }
+//        VStack() {
+//          HStack(spacing: 4) {
+//            item.icon
+//              .resizable()
+//              .frame(width: 16, height: 16)
+//            Text(item.localizedName)
+//              .font(.fonts(.bodyBold16))
+//              .foregroundStyle(Gen.Colors.white.color)
+//            Text(item.rawValue.to12HourFormat())
+//              .font(.fonts(.body12))
+//              .foregroundStyle(Gen.Colors.purple.color)
+//            Spacer()
+//            ATCheckBoxView(
+//              title: nil,
+//              isChecked: Binding(get: { viewStore.selectedActivityTime.contains(item) }, set: { _ in }),
+//              action: { isChecked in
+//                viewStore.send(.selectActiveTime(
+//                  willSelected: !isChecked,
+//                  signUpActivityTime: item
+//                ))
+//              }
+//            )
+//          }
+//        }
+//      }
+//      .frame(height: 66)
+//    }
+//  }
   
   // MARK: - internal method
   

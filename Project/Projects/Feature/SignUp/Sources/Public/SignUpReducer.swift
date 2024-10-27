@@ -11,6 +11,7 @@ import Foundation
 import ArchiveFoundation
 import Domain
 import Photos
+import DomainInterface
 
 public struct SignUpReducer: Reducer {
   
@@ -48,7 +49,7 @@ public struct SignUpReducer: Reducer {
     var candidateCityList: [City] = []
     var searchCityKeyword: String = ""
     var selectedActivityTime: Set<SignUpActivityTime> = .init()
-    var customActivityTime: [ActivityTimeInterval] = []
+    var customActivityTime: ActivityTimeInterval?
     var selectedCustomActivityTime: Set<Int> = .init()
     var isShowCustomActivityTimeMaker: Bool = false
   }
@@ -188,7 +189,7 @@ public struct SignUpReducer: Reducer {
               _ = await self.updateAvtivityTime(
                 signInToken: signInInfo,
                 city: city,
-                activityTime: [:] // TODO: 작업
+                activityTime: activityTimeValue.map { $0.rawValue }
               )
               if let photo {
                 _ = await self.updateProfilePhoto(signInToken: signInInfo, asset: photo)
@@ -201,7 +202,7 @@ public struct SignUpReducer: Reducer {
           })
         )
       case .addActiveTime(let timeInterval):
-        state.customActivityTime.append(timeInterval)
+        state.customActivityTime = timeInterval
         return .none
       case .selectCustomActiveTime(let willSelected, let index):
         if willSelected {
@@ -245,7 +246,7 @@ public struct SignUpReducer: Reducer {
   private func updateAvtivityTime(
     signInToken: SignInToken,
     city: City,
-    activityTime: [DaysOfTheWeek: [ActivityTimeInterval]]
+    activityTime: [ActivityTimeInterval]
   ) async -> Result<Void, ArchiveError> {
     return await self.updateProfileUsecase.updateAvtivityTime(
       signInToken: signInToken,
