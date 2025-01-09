@@ -27,11 +27,15 @@ public enum ArchiveErrorCode: Int, LocalizedError {
   case isNotLoggedIn
   case dataEncodingFail
   case dataDecodingFail
+  case notFoundTopViewController
+  case userCancel
   
   case commonOAuth = 51000
   case tokenNotExsitAppleSignIn
   case tokenAsciiToStringFailAppleSignIn
   case unexpectedAppleSignIn
+  case unexpectedGoogleSignIn
+  case tokenNotExistGoogleSignIn
   
 }
 

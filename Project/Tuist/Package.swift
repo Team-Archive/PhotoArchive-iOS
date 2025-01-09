@@ -32,7 +32,7 @@ let package = Package(
     .iOS(.v16)
   ],
   dependencies: [
-    .package(url: "https://github.com/firebase/firebase-ios-sdk.git", from: "10.26.0"),
+    .package(url: "https://github.com/firebase/firebase-ios-sdk.git", from: "10.28.1"),
     .package(url: "https://github.com/google/GoogleSignIn-iOS", from: "7.1.0"),
     .package(url: "https://github.com/SwiftyJSON/SwiftyJSON.git", from: "5.0.1"),
     .package(url: "https://github.com/airbnb/lottie-ios.git", from: "4.4.3"),
@@ -50,6 +50,7 @@ let package = Package(
         "FirebaseAnalytics",
         "FirebaseMessaging",
         "FirebaseCrashlytics",
+        "GoogleSignIn",
         "SwiftyJSON",
         "Lottie",
         "ComposableArchitecture",
