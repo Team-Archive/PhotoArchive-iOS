@@ -66,7 +66,7 @@ extension ATGridImageView {
       case .seven:
         return [.smallSqure, .smallRectangle, .smallRectangle]
       case .eight:
-        return [.smallSqure, .smallRectangle, .smallRectangle]
+        return [.smallSqure, .smallSqure, .smallRectangle]
       case .nine:
         return [.smallSqure, .smallSqure, .smallSqure]
       case .ten:

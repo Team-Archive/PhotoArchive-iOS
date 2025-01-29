@@ -69,24 +69,11 @@ struct SampleApp: App {
   //              CalendarDetailView()
   //                .padding(.horizontal, 20)
 
-                let gridData4 = MockImageURL.fetchDatas(with: 4).compactMap {
-                  ATGridImageView.ATGridImageItem(url: $0)
-                }
-                ATGridImageView(geometry: geometry, data: gridData4, tapHandler: { item in
-                  print("Tap Grid Image View : \(item)")
-                }).padding(.horizontal, 20)
-                
-                let gridData3 = MockImageURL.fetchDatas(with: 3).compactMap {
-                  ATGridImageView.ATGridImageItem(url: $0)
-                }
-                ATGridImageView(geometry: geometry, data: gridData3, tapHandler: { item in
-                  print("Tap Grid Image View : \(item)")
-                }).padding(.horizontal, 20)
-                
-                let gridData5 = MockImageURL.fetchDatas(with: 5).compactMap {
-                  ATGridImageView.ATGridImageItem(url: $0)
-                }
-                ATGridImageView(geometry: geometry, data: gridData5, tapHandler: { item in
+                ATGridImageView(
+                  geometry: geometry,
+                  data: MockImageURL.fetchDatas(with: 5)
+                    .compactMap { ATGridImageView.ATGridImageItem(url: $0) },
+                  tapHandler: { item in
                   print("Tap Grid Image View : \(item)")
                 }).padding(.horizontal, 20)
 
