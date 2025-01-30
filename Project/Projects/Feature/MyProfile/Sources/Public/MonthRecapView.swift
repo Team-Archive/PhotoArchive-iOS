@@ -9,6 +9,7 @@
 import SwiftUI
 import Domain
 import UIComponents
+import ArchiveFoundation
 
 public struct MonthRecapView: View {
   
@@ -45,9 +46,10 @@ public struct MonthRecapView: View {
           ForEach(data, id: \.self) { _ in
             VStack {
 //              TextRecapView(title: "3월 중 가장 많이\n 소통한 하루", content: "3월 3일")
-              ImageRecapView(title: "3월에 가장 많이 소통한 친구", image: URL(
-                string: "https://i.pinimg.com/736x/a5/42/f7/a542f775abeeea554618fec94ed78a89.jpg"
-              ))
+              ImageRecapView(
+                title: "3월에 가장 많이 소통한 친구",
+                image: MockImageURL.fetchData()
+              )
             }
           }
         }
