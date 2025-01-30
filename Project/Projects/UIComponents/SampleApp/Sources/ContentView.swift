@@ -227,7 +227,7 @@ struct ContentView: View {
             }
             .frame(height: 12)
           
-            VStack(spacing: 12) {
+            VStack(spacing: 24) {
               ForEach(1...10, id: \.self) { count in
                 makeGridImageView(geometry: geometry, count: count)
               }
@@ -247,7 +247,7 @@ extension ContentView {
       data: MockImageURL.fetchDatas(with: count)
         .compactMap { ATGridImageView.ATGridImageItem(url: $0) },
       tapHandler: { item in
-      print("Tap Grid Image View : \(item)")
+        print("Tap Grid Image View : \(item)")
     })
   }
 }
@@ -255,5 +255,3 @@ extension ContentView {
 #Preview {
   ContentView()
 }
-
-

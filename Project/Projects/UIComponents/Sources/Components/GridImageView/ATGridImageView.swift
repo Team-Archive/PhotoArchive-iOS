@@ -31,6 +31,10 @@ public struct ATGridImageView: View {
   private var data: [[ATGridImageItem]] = []
   private var type: ATGridImageType?
   
+  private var geometryWidth: CGFloat {
+    geometry.size.width - 40
+  }
+  
   public var body: some View {
     
     if let type = type, !data.isEmpty {
@@ -81,7 +85,7 @@ public struct ATGridImageView: View {
     VStack(spacing: 2) {
       largeSqaureView(with: data[0])
     }
-    .frame(width: geometry.size.width - 40)
+    .frame(width: geometryWidth)
     .clipShape(.rect(cornerRadius: 24))
   }
   
@@ -90,7 +94,7 @@ public struct ATGridImageView: View {
     VStack(spacing: 2) {
       mediumSquareView(with: data[0])
     }
-    .frame(width: geometry.size.width - 40)
+    .frame(width: geometryWidth)
     .clipShape(.rect(cornerRadius: 16))
   }
   
@@ -99,7 +103,7 @@ public struct ATGridImageView: View {
     VStack(spacing: 2) {
       smallSquareView(with: data[0])
     }
-    .frame(width: geometry.size.width - 40)
+    .frame(width: geometryWidth)
     .clipShape(.rect(cornerRadius: 24))
   }
   
@@ -109,7 +113,7 @@ public struct ATGridImageView: View {
       mediumSquareView(with: data[0])
       mediumSquareView(with: data[1])
     }
-    .frame(width: geometry.size.width - 40)
+    .frame(width: geometryWidth)
     .clipShape(.rect(cornerRadius: 16))
   }
   
@@ -119,7 +123,7 @@ public struct ATGridImageView: View {
       smallSquareView(with: data[0])
       smallRectangleView(with: data[1])
     }
-    .frame(width: geometry.size.width - 40)
+    .frame(width: geometryWidth)
     .clipShape(.rect(cornerRadius: 16))
   }
   
@@ -129,7 +133,7 @@ public struct ATGridImageView: View {
       smallSquareView(with: data[0])
       smallSquareView(with: data[1])
     }
-    .frame(width: geometry.size.width - 40)
+    .frame(width: geometryWidth)
     .clipShape(.rect(cornerRadius: 16))
   }
   
@@ -140,7 +144,7 @@ public struct ATGridImageView: View {
       smallRectangleView(with: data[1])
       smallRectangleView(with: data[2])
     }
-    .frame(width: geometry.size.width - 40)
+    .frame(width: geometryWidth)
     .clipShape(.rect(cornerRadius: 16))
   }
   
@@ -151,7 +155,7 @@ public struct ATGridImageView: View {
       smallSquareView(with: data[1])
       smallRectangleView(with: data[2])
     }
-    .frame(width: geometry.size.width - 40)
+    .frame(width: geometryWidth)
     .clipShape(.rect(cornerRadius: 16))
   }
   
@@ -162,9 +166,8 @@ public struct ATGridImageView: View {
       smallSquareView(with: data[1])
       smallSquareView(with: data[2])
     }
-    .frame(width: geometry.size.width - 40)
+    .frame(width: geometryWidth)
     .clipShape(.rect(cornerRadius: 16))
-    
   }
   
   @ViewBuilder
@@ -175,7 +178,7 @@ public struct ATGridImageView: View {
       smallRectangleView(with: data[2])
       smallRectangleView(with: data[3])
     }
-    .frame(width: geometry.size.width - 40)
+    .frame(width: geometryWidth)
     .clipShape(.rect(cornerRadius: 16))
   }
 
@@ -184,79 +187,61 @@ public struct ATGridImageView: View {
 
 extension ATGridImageView {
   @ViewBuilder
-  private func largeSqaureView(with data: [ATGridImageItem]) -> some View {
-    let gridItems = [GridItem(.flexible())]
-    LazyHGrid(rows: gridItems) {
+  private func gridView(
+    gridItems: [GridItem],
+    data: [ATGridImageItem],
+    size: CGSize
+  ) -> some View {
+    LazyHGrid(rows: gridItems, spacing: 2) {
       ForEach(data.indices, id: \.self) { index in
-        Rectangle()
-          .aspectRatio(1.0, contentMode: .fit)
-          .overlay {
-            ATUrlImage(url: data[index].url)
-              .aspectRatio(contentMode: .fill)
-          }
+        ATUrlImage(url: data[index].url)
+          .resizable()
+          .aspectRatio(contentMode: .fill)
+          .frame(width: size.width, height: size.height)
           .clipShape(.rect(cornerRadius: 2))
+          .contentShape(Rectangle())
           .onTapGesture {
             tapHandler(with: data[index])
           }
-        }
-    }.aspectRatio(1.0, contentMode: .fill)
+      }
+    }
+  }
+  
+  @ViewBuilder
+  private func largeSqaureView(with data: [ATGridImageItem]) -> some View {
+    let sqaureSize = geometryWidth
+    let itemSize = CGSize(width: sqaureSize, height: sqaureSize)
+    let gridItems = [GridItem(.fixed(sqaureSize))]
+
+    gridView(gridItems: gridItems, data: data, size: itemSize)
   }
   
   @ViewBuilder
   private func mediumSquareView(with data: [ATGridImageItem]) -> some View {
-    let gridItems = [GridItem(.flexible())]
-    LazyHGrid(rows: gridItems, spacing: 2) {
-      ForEach(data.indices, id: \.self) { index in
-        Rectangle()
-          .aspectRatio(1.0, contentMode: .fit)
-          .overlay {
-            ATUrlImage(url: data[index].url)
-              .aspectRatio(contentMode: .fill)
-          }
-          .clipShape(.rect(cornerRadius: 2))
-          .onTapGesture {
-            tapHandler(with: data[index])
-          }
-        }
-    }.aspectRatio(2.0, contentMode: .fill)
+    let sqaureSize = (geometryWidth - 2) / 2
+    let itemSize = CGSize(width: sqaureSize, height: sqaureSize)
+    let gridItems = [GridItem(.fixed(sqaureSize))]
+    
+    gridView(gridItems: gridItems, data: data, size: itemSize)
   }
   
   @ViewBuilder
   private func smallSquareView(with data: [ATGridImageItem]) -> some View {
-    let gridItems = [GridItem(.flexible())]
-    LazyHGrid(rows: gridItems, spacing: 2) {
-      ForEach(data.indices, id: \.self) { index in
-        Rectangle()
-          .aspectRatio(1.0, contentMode: .fit)
-          .overlay {
-            ATUrlImage(url: data[index].url)
-              .aspectRatio(contentMode: .fill)
-          }
-          .clipShape(.rect(cornerRadius: 2))
-          .onTapGesture {
-            tapHandler(with: data[index])
-          }
-        }
-    }.aspectRatio(3.0, contentMode: .fill)
+    let sqaureSize = (geometryWidth - 2 * 2) / 3
+    let itemSize = CGSize(width: sqaureSize, height: sqaureSize)
+    let gridItems = [GridItem(.fixed(sqaureSize))]
+
+    gridView(gridItems: gridItems, data: data, size: itemSize)
   }
   
   @ViewBuilder
   private func smallRectangleView(with data: [ATGridImageItem]) -> some View {
+    let width = (geometryWidth - 2) / 2
+    let height = (geometryWidth - 2 * 2) / 3
+    let itemSize = CGSize(width: width, height: height)
     let gridItems = [GridItem(.flexible())]
-    LazyHGrid(rows: gridItems, spacing: 2) {
-      ForEach(data.indices, id: \.self) { index in
-        Rectangle()
-          .aspectRatio(2.0, contentMode: .fill)
-          .overlay {
-            ATUrlImage(url: data[index].url)
-              .aspectRatio(contentMode: .fill)
-          }
-          .clipShape(.rect(cornerRadius: 2))
-          .onTapGesture {
-            tapHandler(with: data[index])
-          }
-        }
-    }.aspectRatio(3.0, contentMode: .fill)
+    
+    gridView(gridItems: gridItems, data: data, size: itemSize)
   }
 }
 
